@@ -6,25 +6,14 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1385ff7-f1ee-40ec-982f-72414b23a591" name="Default Changelist" comment="Начало MVC">
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/EMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/views/NewMessage.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/MailHandler_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/MailHandler_war_exploded.xml" afterDir="false" />
+    <list default="true" id="d1385ff7-f1ee-40ec-982f-72414b23a591" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/javax_servlet_javax_servlet_api_4_0_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/javax_servlet_javax_servlet_api_4_0_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_apache_tomcat_tomcat_jsp_api_9_0_16.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/org_apache_tomcat_tomcat_jsp_api_9_0_16.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MailHandler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MailHandler.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/Servlets/MainServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/Servlets/MainServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Servlets/MainServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Servlets/MainServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Servlets/MainServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Servlets/MainServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Servlets/MainServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/MainServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/EMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/EMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/WEB-INF/views/NewMessage.xhtml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/index.jsp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,8 +24,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="jsf" />
+        <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -62,9 +52,9 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="project.structure.side.proportion" value="0.37356323" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RunDashboard">
@@ -163,8 +153,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1569228606620</updated>
-      <workItem from="1569228610097" duration="2883000" />
+      <workItem from="1569228610097" duration="11517000" />
     </task>
+    <task id="LOCAL-00001" summary="Начало MVC">
+      <created>1569231552170</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1569231552170</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

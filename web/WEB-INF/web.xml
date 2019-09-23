@@ -6,11 +6,21 @@
     
     <servlet>
         <servlet-name>MainServlet</servlet-name>
-        <servlet-class>Servlets.MainServlet</servlet-class>
+        <servlet-class>servlets.MainServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>MessageServlet</servlet-name>
+        <servlet-class>servlets.MessageServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>MessageServlet</servlet-name>
+        <url-pattern>/message</url-pattern>
     </servlet-mapping>
 </web-app>
