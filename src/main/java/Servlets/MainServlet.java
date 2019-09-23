@@ -16,4 +16,12 @@ public class MainServlet extends HttpServlet {
         out.println("Сервлет заработал.");
 
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        req.setCharacterEncoding("UTF-8");
+
+
+    }
 }
