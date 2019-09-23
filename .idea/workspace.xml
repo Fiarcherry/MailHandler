@@ -6,10 +6,16 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1385ff7-f1ee-40ec-982f-72414b23a591" name="Default Changelist" comment="Отправка сообщений">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/META-INF/MANIFEST.MF" afterDir="false" />
+    <list default="true" id="d1385ff7-f1ee-40ec-982f-72414b23a591" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/activation-1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/javax.mail-1.6.2.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MailHandler.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controllers/MessageHandler$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controllers/MessageHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/EMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/servlets/MainServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/servlets/MessageServlet.class" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -164,7 +170,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1569228606620</updated>
-      <workItem from="1569228610097" duration="16808000" />
+      <workItem from="1569228610097" duration="17244000" />
     </task>
     <task id="LOCAL-00001" summary="Начало MVC">
       <created>1569231552170</created>
@@ -208,7 +214,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569247596959</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="очередная попытка пофиксить зависимости">
+      <created>1569249393284</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1569249393284</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -228,6 +241,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Начало MVC" />
     <MESSAGE value="Отправка сообщений" />
-    <option name="LAST_COMMIT_MESSAGE" value="Отправка сообщений" />
+    <MESSAGE value="очередная попытка пофиксить зависимости" />
+    <option name="LAST_COMMIT_MESSAGE" value="очередная попытка пофиксить зависимости" />
   </component>
 </project>

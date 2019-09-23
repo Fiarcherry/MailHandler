@@ -1,0 +1,5 @@
+controllers/MessageHandler.class
+models/EMessage.class
+servlets/MessageServlet.class
+servlets/MainServlet.class
+controllers/MessageHandler$1.class
