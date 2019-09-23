@@ -11,6 +11,6 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
+  <h1>Welcome home, Commander.</h1>
   </body>
 </html>
