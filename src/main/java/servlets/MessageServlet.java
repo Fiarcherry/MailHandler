@@ -1,5 +1,6 @@
 package servlets;
 
+import controllers.MessageHandler;
 import models.EMessage;
 
 import javax.servlet.ServletException;
@@ -25,14 +26,15 @@ public class MessageServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
 
 
         String action = req.getParameter("action");
         if ("send".equalsIgnoreCase(action)){
-            EMessage message = new EMessage(req.getParameter("to"), req.getParameter("password"));
-            message.sendMessage(req.getParameter("message"));
+            EMessage message = new EMessage(req.getParameter("to"), req.getParameter("password"), req.getParameter("message"));
+            MessageHandler messageHandler = new MessageHandler();
+            messageHandler.sendMessage(message);
         }
     }
 }
