@@ -12,5 +12,6 @@
   </head>
   <body>
   <h1>Welcome home, Commander.</h1>
+  <a href="message?action=create">Write new message</a>
   </body>
 </html>

@@ -29,6 +29,9 @@
                 </dl>
                 <button type="submit">Save</button>
             </form>
+            <form method="post" action="message?action=read">
+                <button type="submit">Read</button>
+            </form>
         </section>
     </div>
 </body>
