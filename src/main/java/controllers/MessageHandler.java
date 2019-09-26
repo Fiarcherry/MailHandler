@@ -8,6 +8,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class MessageHandler {
 
@@ -40,9 +41,11 @@ public class MessageHandler {
             if (inbox.getMessageCount() == 0)
                 return;
 
-            for (int i = 1; i < 11; i++){
-                Message message = inbox.getMessage(i);
-                System.out.println(message.getContent());
+            for (int i = 1; i < 3; i++){
+                MimeMessage message = (MimeMessage) inbox.getMessage(i);
+                System.out.println("Тема сообщения: " + message.getSubject());
+                System.out.println("Сообщение: " + message.getContent());
+                System.out.println("Отправитель: " + Arrays.toString(message.getFrom()));
             }
 
         } catch (MessagingException | IOException e) {

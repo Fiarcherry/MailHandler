@@ -1,16 +1,12 @@
 package controllers;
 
 import models.PaymentM;
-import org.sqlite.JDBC;
 import org.sqlite.SQLiteDataSource;
 
-import javax.print.attribute.standard.NumberUp;
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class DBHandler {
