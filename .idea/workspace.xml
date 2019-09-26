@@ -6,22 +6,41 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1385ff7-f1ee-40ec-982f-72414b23a591" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/activation-1.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/javax.mail-1.6.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MailHandler.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controllers/MessageHandler$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controllers/MessageHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/EMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlets/MainServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlets/MessageServlet.class" beforeDir="false" />
+    <list default="true" id="d1385ff7-f1ee-40ec-982f-72414b23a591" name="Default Changelist" comment="Чтение писем в консоль">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_sun_mail_javax_mail_1_6_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/com_sun_mail_javax_mail_1_6_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_sun_mail_smtp_1_6_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/com_sun_mail_smtp_1_6_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/META-INF/MailHandler.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/META-INF/MailHandler.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/views/Home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/views/Home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/views/NewMessage.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/views/NewMessage.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/MailHandler-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/MailHandler-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/MailHandler-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/MailHandler-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -54,6 +73,7 @@
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlite" />
     <property name="Downloaded.Files.Path" value="$PROJECT_DIR$/src/lib" />
     <property name="Downloaded.Files.Path.Enabled" value="true" />
     <property name="Repository.Attach.Annotations" value="false" />
@@ -62,7 +82,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/web" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.22330096" />
@@ -160,6 +180,26 @@
       </method>
     </configuration>
   </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <treeState>
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@47068c9d" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@47068c9d" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@d9d9fc2" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+          </expand>
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -171,6 +211,7 @@
       <option name="presentableId" value="Default" />
       <updated>1569228606620</updated>
       <workItem from="1569228610097" duration="17244000" />
+      <workItem from="1569487708011" duration="14791000" />
     </task>
     <task id="LOCAL-00001" summary="Начало MVC">
       <created>1569231552170</created>
@@ -221,7 +262,21 @@
       <option name="project" value="LOCAL" />
       <updated>1569249393284</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Чтение писем в консоль">
+      <created>1569506601705</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1569506601706</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Чтение писем в консоль (переделывание)">
+      <created>1569508056405</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1569508056405</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -232,7 +287,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -242,6 +299,8 @@
     <MESSAGE value="Начало MVC" />
     <MESSAGE value="Отправка сообщений" />
     <MESSAGE value="очередная попытка пофиксить зависимости" />
-    <option name="LAST_COMMIT_MESSAGE" value="очередная попытка пофиксить зависимости" />
+    <MESSAGE value="Чтение писем в консоль" />
+    <MESSAGE value="Чтение писем в консоль (переделывание)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Чтение писем в консоль (переделывание)" />
   </component>
 </project>
