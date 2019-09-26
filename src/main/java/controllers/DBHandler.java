@@ -2,6 +2,7 @@ package controllers;
 
 import models.PaymentM;
 import org.sqlite.JDBC;
+import org.sqlite.SQLiteDataSource;
 
 import javax.print.attribute.standard.NumberUp;
 import java.io.File;
@@ -36,8 +37,11 @@ public class DBHandler {
     private DBHandler() throws SQLException{
 
         Path dbPath = Paths.get("").toAbsolutePath().resolve(DB_FILE_NAME);
-        DriverManager.registerDriver(new JDBC());
-        this.connection = DriverManager.getConnection("jdbc:sqlite:"+dbPath);
+        SQLiteDataSource ds = new SQLiteDataSource();
+        String dbURL = "jdbc:sqlite:"+dbPath;
+
+        ds.setUrl(dbURL);
+        this.connection = ds.getConnection();
         ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
         boolean isDbEmpty = true;
         while (rs.next()){
