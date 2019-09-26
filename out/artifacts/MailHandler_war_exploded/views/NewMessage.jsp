@@ -23,11 +23,7 @@
                     <dt>Message: </dt>
                     <dd><textarea name="message" rows="10" cols="100"></textarea></dd>
                 </dl>
-                <dl>
-                    <dt>Pass: </dt>
-                    <dd><input type="password" name="password"/></dd>
-                </dl>
-                <button type="submit">Save</button>
+                <button type="submit">Send</button>
             </form>
         </section>
     </div>

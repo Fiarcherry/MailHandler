@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class MessageServlet extends HttpServlet {
 
@@ -29,12 +30,14 @@ public class MessageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
 
+        PrintWriter out = resp.getWriter();
 
         String action = req.getParameter("action");
+
         if ("send".equalsIgnoreCase(action)){
-            EMessage message = new EMessage(req.getParameter("to"), req.getParameter("password"), req.getParameter("message"));
+            EMessage message = new EMessage(req.getParameter("to"), req.getParameter("message"));
             MessageHandler messageHandler = new MessageHandler();
-            messageHandler.sendMessage(message);
+            out.println(messageHandler.sendMessage(message));
         }
     }
 }

@@ -9,11 +9,9 @@ public class EMessage {
 
     private String to;
     private String messageText;
-    private String password;
 
-    public EMessage(String to, String password, String messageText) {
+    public EMessage(String to,String messageText) {
         this.to = to;
-        this.password = password;
         this.messageText = messageText;
     }
 
@@ -23,9 +21,5 @@ public class EMessage {
 
     public String getMessageText() {
         return messageText;
-    }
-
-    public String getPassword() {
-        return password;
     }
 }
