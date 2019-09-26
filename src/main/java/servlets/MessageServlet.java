@@ -48,11 +48,12 @@ public class MessageServlet extends HttpServlet {
 
         PrintWriter out = resp.getWriter();
 
+        MessageHandler messageHandler = new MessageHandler();
+
         String action = req.getParameter("action");
 
         if ("send".equalsIgnoreCase(action)){
             EMessage message = new EMessage(req.getParameter("to"), req.getParameter("message"));
-            MessageHandler messageHandler = new MessageHandler();
             out.println(messageHandler.sendMessage(message));
         }
         else if ("read".equalsIgnoreCase(action)){
