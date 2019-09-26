@@ -22,10 +22,10 @@ public class MessageHandler {
             message.setSubject("Test theme");
 
             Transport.send(message);
+            return "Success.";
         }
         catch (MessagingException e){
             return e.getMessage();
         }
-        return "Success.";
     }
 }
