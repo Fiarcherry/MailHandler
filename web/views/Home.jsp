@@ -11,7 +11,9 @@
     <title>Title</title>
 </head>
 <body>
+<div>
     <h1>Welcome home, Commander.</h1>
     <a href="message?action=create">Write new message</a>
+</div>
 </body>
 </html>
