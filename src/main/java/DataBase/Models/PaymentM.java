@@ -1,4 +1,4 @@
-package models;
+package DataBase.Models;
 
 public class PaymentM {
 

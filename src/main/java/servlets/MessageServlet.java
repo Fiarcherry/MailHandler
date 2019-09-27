@@ -1,9 +1,9 @@
 package servlets;
 
-import controllers.DBHandler;
-import controllers.MessageHandler;
-import models.EMessage;
-import models.PaymentM;
+import DataBase.Controllers.DBHandler;
+import Mail.Controllers.MessageHandler;
+import Mail.Models.EMessage;
+import DataBase.Models.PaymentM;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
