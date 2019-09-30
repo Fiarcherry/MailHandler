@@ -6,6 +6,7 @@ import Mail.Models.EMessage;
 import DataBase.Models.PaymentM;
 import com.google.gson.Gson;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,15 @@ public class MessageServlet extends HttpServlet {
                     break;
                 case "show":
                     req.getRequestDispatcher("/AllPayments.jsp").forward(req, resp);
+                    break;
+                case "read":
+                    try {
+                        MessageHandler messageHandler = new MessageHandler();
+
+                        messageHandler.readEmail();
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case "create":
                 default:
@@ -58,7 +68,11 @@ public class MessageServlet extends HttpServlet {
             out.println(messageHandler.sendMessage(message));
         }
         else if ("read".equalsIgnoreCase(action)){
-            messageHandler.readEmail();
+            try {
+                messageHandler.readEmail();
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
