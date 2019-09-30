@@ -1,25 +1,36 @@
 package DataBase.Models;
 
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(name = "Operation")
 public class PaymentM {
 
-    public static final String TABLE_NAME = "'payments'";
+    public static final String TABLE_NAME = "payments";
 
-    public static final String UNI_DEF = "'Uni'";
-    public static final String NUMBER_DEF = "'Number'";
-    public static final String DATE_OPERATION_DEF = "'DateOperation'";
-    public static final String ACCOUNT_DEF = "'Account'";
-    public static final String AMOUNT_DEF = "'Amount'";
-    public static final String COMMISSION_DEF = "'Commission'";
+    public static final String UNI_DEF = "uni";
+    public static final String NUMBER_DEF = "number";
+    public static final String DATE_OPERATION_DEF = "dateoperation";
+    public static final String ACCOUNT_DEF = "Account";
+    public static final String AMOUNT_DEF = "Amount";
+    public static final String COMMISSION_DEF = "Commission";
 
-    private String uri;
+    @XmlAttribute(name = "Uni")
+    private String uni;
+    @XmlAttribute(name = "Number")
     private Integer number;
+    @XmlAttribute(name = "DateOperation")
     private String dateOperation;
+    @XmlAttribute(name = "Account")
     private Integer account;
+    @XmlAttribute(name = "Amount")
     private Float amount;
+    @XmlAttribute(name = "Commission")
     private Float commission;
 
-    public PaymentM(String uri, Integer number, String dateOperation, Integer account, Float amount, Float commission) {
-        this.uri = uri;
+    public PaymentM(String uni, Integer number, String dateOperation, Integer account, Float amount, Float commission) {
+        this.uni = uni;
         this.number = number;
         this.dateOperation = dateOperation;
         this.account = account;
@@ -27,8 +38,8 @@ public class PaymentM {
         this.commission = commission;
     }
 
-    public String getUri() {
-        return uri;
+    public String getUni() {
+        return uni;
     }
 
     public Integer getNumber() {

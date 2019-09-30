@@ -4,6 +4,7 @@ import DataBase.Controllers.DBHandler;
 import Mail.Controllers.MessageHandler;
 import Mail.Models.EMessage;
 import DataBase.Models.PaymentM;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +19,7 @@ public class MessageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=utf-8");
+        resp.setContentType("application/json;charset=utf-8");
 
         String action = req.getParameter("action");
 
@@ -26,8 +27,9 @@ public class MessageServlet extends HttpServlet {
             case "show":
                 try {
                     List<PaymentM> payments = DBHandler.getInstance().getAllPayments();
-                    req.setAttribute("payments", payments);
-                    req.getRequestDispatcher("/views/AllPayments.jsp").forward(req, resp);
+                    String json = new Gson().toJson(payments);
+                    resp.getWriter().write(json);
+                    req.getRequestDispatcher("/AllPayments.jsp").forward(req, resp);
                 }
                 catch (SQLException e){
                     PrintWriter out = resp.getWriter();
