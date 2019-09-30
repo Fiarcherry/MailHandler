@@ -22,25 +22,24 @@ public class MessageServlet extends HttpServlet {
         resp.setContentType("application/json;charset=utf-8");
 
         String action = req.getParameter("action");
-
-        switch (action == null? "create": action){
-            case "show":
-                try {
-                    List<PaymentM> payments = DBHandler.getInstance().getAllPayments();
-                    String json = new Gson().toJson(payments);
-                    resp.getWriter().write(json);
+        try {
+            switch (action == null ? "create" : action) {
+                case "json":
+                    resp.getWriter().println(new Gson().toJson(DBHandler.getInstance().getAllPayments()));
+                    break;
+                case "show":
                     req.getRequestDispatcher("/AllPayments.jsp").forward(req, resp);
-                }
-                catch (SQLException e){
-                    PrintWriter out = resp.getWriter();
-                    out.println(e.toString());
-                    e.printStackTrace();
-                }
-                break;
-            case "create":
-            default:
-                req.getRequestDispatcher("/views/NewMessage.jsp").forward(req, resp);
-                break;
+                    break;
+                case "create":
+                default:
+                    req.getRequestDispatcher("/views/NewMessage.jsp").forward(req, resp);
+                    break;
+            }
+        }
+        catch(SQLException e){
+            PrintWriter out = resp.getWriter();
+            out.println(e.toString());
+            e.printStackTrace();
         }
     }
 

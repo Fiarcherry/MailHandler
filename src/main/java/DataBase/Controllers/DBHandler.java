@@ -68,6 +68,10 @@ public class DBHandler {
 
     }
 
+    /**
+     * Заполнение таблиц первоначальными данными
+     * @throws SQLException
+     */
     private void writeData() throws SQLException{
 
     }

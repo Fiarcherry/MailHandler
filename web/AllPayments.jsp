@@ -1,4 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--<script src="/jQuery.js"></script>--%>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <html>
@@ -6,7 +5,7 @@
     <title>Payments</title>
 </head>
 <body>
-<table>
+<table id="table" border="1">
     <thead>
         <tr>
             <th>Uri</th>
@@ -17,16 +16,13 @@
             <th>Commission</th>
         </tr>
     </thead>
-    <tbody id="tableBody">
-        <script>
-            $(window).on("load", function () {
-                $.get("MessageServlet", function (resp) {
-                    alert("alert");
-                    alert(resp);
-                    var $tBody = $("<tbody>").appendTo($("#tableBody"));
-                    $.each(resp, function (index, payment) {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.getJSON("message?action=json", function (data) {
+                    var $tBody = $("<tbody>").appendTo($("#table"));
+                    $.each(data, function (index, payment) {
                         $("<tr>").appendTo($tBody)
-                            .append($("<td>").text(payment.uri))
+                            .append($("<td>").text(payment.uni))
                             .append($("<td>").text(payment.number))
                             .append($("<td>").text(payment.dateOperation))
                             .append($("<td>").text(payment.account))
@@ -36,7 +32,6 @@
                 });
             });
         </script>
-    </tbody>
 
 </table>
 
