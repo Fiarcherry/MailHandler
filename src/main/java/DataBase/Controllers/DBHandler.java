@@ -1,6 +1,6 @@
-package controllers;
+package DataBase.Controllers;
 
-import models.PaymentM;
+import DataBase.Models.PaymentM;
 import org.sqlite.SQLiteDataSource;
 
 import java.nio.file.Path;
@@ -53,7 +53,7 @@ public class DBHandler {
      * @throws SQLException
      */
     private void createTable() throws SQLException{
-        String createQuery = String.format("CREATE TABLE if not exists %s (%s TEXT PRIMARY KEY, %s INTEGER, %s TEXT, %s INTEGER, %s REAL, %s REAL);",
+        String createQuery = String.format("CREATE TABLE if not exists '%s' ('%s' TEXT PRIMARY KEY, '%s' INTEGER, '%s' TEXT, '%s' INTEGER, '%s' REAL, '%s' REAL);",
                 PaymentM.TABLE_NAME,
                 PaymentM.UNI_DEF,
                 PaymentM.NUMBER_DEF,
@@ -72,6 +72,11 @@ public class DBHandler {
 
     }
 
+    /**
+     * Добавление записи в таблицу Payments
+     * @param payment
+     * @throws SQLException
+     */
     public void addPayment(PaymentM payment) throws SQLException{
         String insertQuery = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?)",
                 PaymentM.TABLE_NAME,
@@ -82,7 +87,7 @@ public class DBHandler {
                 PaymentM.AMOUNT_DEF,
                 PaymentM.COMMISSION_DEF);
         try(PreparedStatement statement = connection.prepareStatement(insertQuery)){
-            statement.setObject(1, payment.getUri());
+            statement.setObject(1, payment.getUni());
             statement.setObject(2, payment.getNumber());
             statement.setObject(3, payment.getDateOperation());
             statement.setObject(4, payment.getAccount());
@@ -92,10 +97,14 @@ public class DBHandler {
         }
     }
 
+    /**
+     * Получение всех данных из таблицы Payments
+     * @return
+     */
     public List<PaymentM> getAllPayments(){
         try(Statement statement = connection.createStatement()){
             List<PaymentM> payments = new ArrayList<>();
-            ResultSet resultSet = statement.executeQuery(String.format("SELECT ALL FROM %s", PaymentM.TABLE_NAME));
+            ResultSet resultSet = statement.executeQuery(String.format("SELECT * FROM %s", PaymentM.TABLE_NAME));
             while(resultSet.next()){
                 payments.add(new PaymentM(resultSet.getString(PaymentM.UNI_DEF),
                         resultSet.getInt(PaymentM.NUMBER_DEF),

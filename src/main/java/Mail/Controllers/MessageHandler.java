@@ -1,8 +1,6 @@
-package controllers;
+package Mail.Controllers;
 
-import models.EMessage;
-import models.MailSessionIMAP;
-import models.MailSessionSMTP;
+import Mail.Models.EMessage;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -17,7 +15,7 @@ public class MessageHandler {
     public String sendMessage(EMessage messageData){
 
         try {
-            MimeMessage message = new MimeMessage(MailSessionSMTP.getSessionSMTP().getSession());
+            MimeMessage message = new MimeMessage(MailConnect.getInstance().getSessionSMTP());
             message.setText(messageData.getMessageText());
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(messageData.getTo()));
             message.setSubject("Test theme");
@@ -34,7 +32,7 @@ public class MessageHandler {
     {
         try {
 
-            Folder inbox = MailSessionIMAP.getInstance().getStore().getFolder("INBOX");
+            Folder inbox = MailConnect.getInstance().getStore().getFolder("INBOX");
             inbox.open(Folder.READ_ONLY);
 
             System.out.println("Количество сообщений : " + inbox.getMessageCount());
