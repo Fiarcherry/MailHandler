@@ -14,6 +14,7 @@
 <div>
     <h1>Welcome home, Commander.</h1>
     <a href="message?action=create">Write new message</a>
+    <a href="message?action=show">DB List</a>
 </div>
 </body>
 </html>
