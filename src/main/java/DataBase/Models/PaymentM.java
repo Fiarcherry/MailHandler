@@ -9,14 +9,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "Operation")
 public class PaymentM {
 
-    public static final String TABLE_NAME = "payments";
+    public static final String TABLE_NAME = "Payments";
 
-    public static final String UNI_DEF = "uni";
-    public static final String NUMBER_DEF = "number";
-    public static final String DATE_OPERATION_DEF = "dateoperation";
+    public static final String UNI_DEF = "Uni";
+    public static final String NUMBER_DEF = "Number";
+    public static final String DATE_OPERATION_DEF = "DateOperation";
     public static final String ACCOUNT_DEF = "Account";
     public static final String AMOUNT_DEF = "Amount";
     public static final String COMMISSION_DEF = "Commission";
+    public static final String EMAIL_DEF = "Email";
+    public static final String IS_PROCESSED_DEF = "IsProcessed";
 
     @XmlAttribute(name = "Uni")
     private String uni;
@@ -31,13 +33,22 @@ public class PaymentM {
     @XmlAttribute(name = "Commission")
     private Float commission;
 
-    public PaymentM(String uni, Integer number, String dateOperation, Integer account, Float amount, Float commission) {
+    private String email;
+
+    private Boolean isProcessed;
+
+    public PaymentM() {
+    }
+
+    public PaymentM(String uni, Integer number, String dateOperation, Integer account, Float amount, Float commission, String email, Boolean isProcessed) {
         this.uni = uni;
         this.number = number;
         this.dateOperation = dateOperation;
         this.account = account;
         this.amount = amount;
         this.commission = commission;
+        this.email = email;
+        this.isProcessed = isProcessed;
     }
 
     public String getUni() {
@@ -62,5 +73,22 @@ public class PaymentM {
 
     public Float getCommission() {
         return commission;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Boolean getProcessed() {
+        return isProcessed;
+    }
+
+    public void switchProcessed(){
+        this.isProcessed = !this.isProcessed;
+    }
+
+    @Override
+    public String toString() {
+        return uni+isProcessed.toString();
     }
 }

@@ -5,6 +5,7 @@ import Mail.Controllers.MessageHandler;
 import Mail.Models.EMessage;
 import DataBase.Models.PaymentM;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import javax.mail.MessagingException;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,16 +22,18 @@ public class MessageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("application/json;charset=utf-8");
 
         String action = req.getParameter("action");
-        try {
+
+        try (PrintWriter out = resp.getWriter()){
             switch (action == null ? "create" : action) {
                 case "json":
-                    resp.getWriter().println(new Gson().toJson(DBHandler.getInstance().getAllPayments()));
+                    resp.setContentType("application/json;charset=utf-8");
+                    out.println(new Gson().toJson(DBHandler.getInstance().getAllPayments()));
                     break;
                 case "show":
-                    req.getRequestDispatcher("/AllPayments.jsp").forward(req, resp);
+                    resp.setContentType("text/html;charset=utf-8");
+                    req.getRequestDispatcher("/views/AllPayments.jsp").forward(req, resp);
                     break;
                 case "read":
                     try {
@@ -42,13 +46,12 @@ public class MessageServlet extends HttpServlet {
                     break;
                 case "create":
                 default:
+                    resp.setContentType("text/html;charset=utf-8");
                     req.getRequestDispatcher("/views/NewMessage.jsp").forward(req, resp);
                     break;
             }
         }
         catch(SQLException e){
-            PrintWriter out = resp.getWriter();
-            out.println(e.toString());
             e.printStackTrace();
         }
     }
@@ -71,6 +74,14 @@ public class MessageServlet extends HttpServlet {
             try {
                 messageHandler.readEmail();
             } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }else if ("show".equalsIgnoreCase(action) || "json".equalsIgnoreCase(action)){
+            try {
+                DBHandler.getInstance().updateChecked(req.getParameter("json"));
+                out.println(new Gson().toJson(DBHandler.getInstance().getAllPayments()));
+            }
+            catch(SQLException e){
                 e.printStackTrace();
             }
         }

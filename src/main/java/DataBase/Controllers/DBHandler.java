@@ -1,8 +1,11 @@
 package DataBase.Controllers;
 
 import DataBase.Models.PaymentM;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.sqlite.SQLiteDataSource;
 
+import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
@@ -48,10 +51,6 @@ public class DBHandler {
             createTable();
     }
 
-    /**
-     * Создание таблиц и их заполнение первоначальными данными при отсутствии в базе
-     * @throws SQLException
-     */
     private void createTable() throws SQLException{
         String createQuery = String.format("CREATE TABLE if not exists '%s' ('%s' TEXT PRIMARY KEY, '%s' INTEGER, '%s' TEXT, '%s' INTEGER, '%s' REAL, '%s' REAL);",
                 PaymentM.TABLE_NAME,
@@ -68,28 +67,22 @@ public class DBHandler {
 
     }
 
-    /**
-     * Заполнение таблиц первоначальными данными
-     * @throws SQLException
-     */
     private void writeData() throws SQLException{
 
     }
 
-    /**
-     * Добавление записи в таблицу Payments
-     * @param payment
-     * @throws SQLException
-     */
+
     public void addPayment(PaymentM payment) throws SQLException{
-        String insertQuery = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?)",
+        String insertQuery = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 PaymentM.TABLE_NAME,
                 PaymentM.UNI_DEF,
                 PaymentM.NUMBER_DEF,
                 PaymentM.DATE_OPERATION_DEF,
                 PaymentM.ACCOUNT_DEF,
                 PaymentM.AMOUNT_DEF,
-                PaymentM.COMMISSION_DEF);
+                PaymentM.COMMISSION_DEF,
+                PaymentM.EMAIL_DEF,
+                PaymentM.IS_PROCESSED_DEF);
         try(PreparedStatement statement = connection.prepareStatement(insertQuery)){
             statement.setObject(1, payment.getUni());
             statement.setObject(2, payment.getNumber());
@@ -97,14 +90,84 @@ public class DBHandler {
             statement.setObject(4, payment.getAccount());
             statement.setObject(5, payment.getAmount());
             statement.setObject(6, payment.getCommission());
+            statement.setObject(7, payment.getEmail());
+            statement.setObject(8, payment.getProcessed()?1:0);
             statement.execute();
         }
     }
 
-    /**
-     * Получение всех данных из таблицы Payments
-     * @return
-     */
+    public void updatePayment(PaymentM payment) throws SQLException{
+        String updateQuery = String.format("update %s set %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? where %s = ?",
+                PaymentM.TABLE_NAME,
+                PaymentM.NUMBER_DEF,
+                PaymentM.DATE_OPERATION_DEF,
+                PaymentM.ACCOUNT_DEF,
+                PaymentM.AMOUNT_DEF,
+                PaymentM.COMMISSION_DEF,
+                PaymentM.EMAIL_DEF,
+                PaymentM.IS_PROCESSED_DEF);
+        System.out.println(updateQuery);
+        try(PreparedStatement statement = connection.prepareStatement(updateQuery)){
+            statement.setObject(1, payment.getNumber());
+            statement.setObject(2, payment.getDateOperation());
+            statement.setObject(3, payment.getAccount());
+            statement.setObject(4, payment.getAmount());
+            statement.setObject(5, payment.getCommission());
+            statement.setObject(6, payment.getEmail());
+            statement.setObject(7, payment.getProcessed()?1:0);
+            statement.setObject(8, payment.getUni());
+            statement.execute();
+        }
+    }
+
+    public void updatePaymentState(Boolean state, String uni) throws  SQLException{
+        try(Statement statement = connection.createStatement()) {
+            String updateQuery = String.format("update %s set %s = %s where %s = \"%s\"",
+                    PaymentM.TABLE_NAME,
+                    PaymentM.IS_PROCESSED_DEF,
+                    state ? 1 : 0,
+                    PaymentM.UNI_DEF,
+                    uni);
+            System.out.println(updateQuery);
+            statement.executeQuery(updateQuery);
+        }
+        catch (SQLException e){
+        }
+    }
+
+    public PaymentM selectByUniFromPayment(String uni) throws SQLException{
+        try(Statement statement = connection.createStatement()){
+            ResultSet resultSet = statement.executeQuery(String.format("SELECT * FROM %s WHERE %s = \"%s\"", PaymentM.TABLE_NAME, PaymentM.UNI_DEF, uni));
+            PaymentM payment = null;
+            while(resultSet.next()){
+                payment = new PaymentM(resultSet.getString(PaymentM.UNI_DEF),
+                        resultSet.getInt(PaymentM.NUMBER_DEF),
+                        resultSet.getString(PaymentM.DATE_OPERATION_DEF),
+                        resultSet.getInt(PaymentM.ACCOUNT_DEF),
+                        resultSet.getFloat(PaymentM.AMOUNT_DEF),
+                        resultSet.getFloat(PaymentM.COMMISSION_DEF),
+                        resultSet.getString(PaymentM.EMAIL_DEF),
+                        resultSet.getBoolean(PaymentM.IS_PROCESSED_DEF));
+            }
+            return payment;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void updateChecked(String json) throws SQLException{
+        Type itemsArrType = new TypeToken<String[]>() {}.getType();
+        String[] paymentsUniToProcess = new Gson().fromJson(json, itemsArrType);
+        for (String uni: paymentsUniToProcess) {
+            PaymentM payment = selectByUniFromPayment(uni);
+            payment.switchProcessed();
+            updatePaymentState(payment.getProcessed(), payment.getUni());
+        }
+    }
+
+
     public List<PaymentM> getAllPayments(){
         try(Statement statement = connection.createStatement()){
             List<PaymentM> payments = new ArrayList<>();
@@ -115,7 +178,9 @@ public class DBHandler {
                         resultSet.getString(PaymentM.DATE_OPERATION_DEF),
                         resultSet.getInt(PaymentM.ACCOUNT_DEF),
                         resultSet.getFloat(PaymentM.AMOUNT_DEF),
-                        resultSet.getFloat(PaymentM.COMMISSION_DEF)));
+                        resultSet.getFloat(PaymentM.COMMISSION_DEF),
+                        resultSet.getString(PaymentM.EMAIL_DEF),
+                        resultSet.getBoolean(PaymentM.IS_PROCESSED_DEF)));
             }
             return payments;
         }
