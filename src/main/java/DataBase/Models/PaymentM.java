@@ -37,6 +37,7 @@ public class PaymentM {
     public PaymentM() {
     }
 
+
     public PaymentM(String uni, String number, String dateOperation, String account, Float amount, Float commission, String email, Boolean isProcessed) {
         this.uni = uni;
         this.number = number;
@@ -56,6 +57,7 @@ public class PaymentM {
         this.amount = amount;
         this.commission = commission;
     }
+
 
     public String getUni() {
         return uni;

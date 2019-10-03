@@ -59,8 +59,8 @@
                 removeRows();
                 drawTBody(data);
             },
-            error: function(){
-                alert("Ajax error")
+            error: function(error){
+                alert(JSON.stringify(error));
             },
             data: {json: JSON.stringify(checked)}
         });

@@ -4,6 +4,7 @@ import DataBase.Models.PaymentM;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.sqlite.SQLiteDataSource;
+
 import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,9 +16,11 @@ public class DBHandler {
 
     private static final String DB_FILE_NAME = "mail_handler.db";
 
+
     private static DBHandler instance;
 
     private Connection connection;
+
 
     public static DBHandler getInstance() throws SQLException{
         DBHandler localInstance = instance;
@@ -50,6 +53,10 @@ public class DBHandler {
             createTable();
     }
 
+    /**
+     * Первоначальное создание таблицы
+     * @throws SQLException
+     */
     private void createTable() throws SQLException{
         String createQuery = String.format("CREATE TABLE if not exists '%s' ('%s' TEXT PRIMARY KEY, '%s' TEXT, '%s' TEXT, '%s' TEXT, '%s' REAL, '%s' REAL, '%s' TEXT DEFAULT \"test@bg.mail\", '%s' INTEGER DEFAULT 0);",
                 PaymentM.TABLE_NAME,
@@ -61,20 +68,26 @@ public class DBHandler {
                 PaymentM.COMMISSION_DEF,
                 PaymentM.EMAIL_DEF,
                 PaymentM.IS_PROCESSED_DEF);
-        try(Statement statement = connection.createStatement()){
-            statement.execute(createQuery);
-            writeData();
-        }
-
+        Statement statement = connection.createStatement();
+        statement.execute(createQuery);
+        writeData();
     }
 
+    /**
+     * Запись первичных данных
+     * @throws SQLException
+     */
     private void writeData() throws SQLException{
-        addPayment(new PaymentM("r6lpoptgkeki9l14zu24hiapw", "1197145776", "2019-09-25T00:18:59", "118469534609", 70478.14f, 204.39f));
+        addPayment(new PaymentM("r6lpoptgkeki9l14zu24hiapw", "1197145776", "2019-09-25T00:18:59", "118469534609", 70478.14f, 204.39f, "test@bg.market", false));
     }
 
-
+    /**
+     * Добавление нового платежа
+     * @param payment
+     * @throws SQLException
+     */
     public void addPayment(PaymentM payment) throws SQLException{
-        String insertQuery = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (\"?\", \"?\", \"?\", \"?\", ?, ?, \"?\", ?)",
+        String insertQuery = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\", \"%s\", %s, %s, \"%s\", %s)",
                 PaymentM.TABLE_NAME,
                 PaymentM.UNI_DEF,
                 PaymentM.NUMBER_DEF,
@@ -83,47 +96,52 @@ public class DBHandler {
                 PaymentM.AMOUNT_DEF,
                 PaymentM.COMMISSION_DEF,
                 PaymentM.EMAIL_DEF,
-                PaymentM.IS_PROCESSED_DEF);
-        try(PreparedStatement statement = connection.prepareStatement(insertQuery)){
-            statement.setObject(1, payment.getUni());
-            statement.setObject(2, payment.getNumber());
-            statement.setObject(3, payment.getDateOperation());
-            statement.setObject(4, payment.getAccount());
-            statement.setObject(5, payment.getAmount());
-            statement.setObject(6, payment.getCommission());
-            statement.setObject(7, payment.getEmail());
-            statement.setObject(8, payment.getProcessed()?1:0);
-            statement.execute();
-        }
+                PaymentM.IS_PROCESSED_DEF,
+                payment.getUni(),
+                payment.getNumber(),
+                payment.getDateOperation(),
+                payment.getAccount(),
+                payment.getAmount(),
+                payment.getCommission(),
+                payment.getEmail() == null?"test@bg.market":payment.getEmail(),
+                payment.getProcessed()?1:0);
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(insertQuery);
+        statement.close();
     }
 
+
+    /**
+     * Изменение платежа по Uni
+     * @param payment
+     * @throws SQLException
+     */
     public void updatePayment(PaymentM payment) throws SQLException{
-        String updateQuery = String.format("update %s set %s = \"?\", %s = \"?\", %s = \"?\", %s = ?, %s = ?, %s = \"?\", %s = ? where %s = \"?\"",
+        String updateQuery = String.format("update %s set %s = \"%s\", %s = \"%s\", %s = \"%s\", %s = %s, %s = %s, %s = \"%s\", %s = %s where %s = \"%s\"",
                 PaymentM.TABLE_NAME,
                 PaymentM.NUMBER_DEF,
+                payment.getNumber(),
                 PaymentM.DATE_OPERATION_DEF,
+                payment.getDateOperation(),
                 PaymentM.ACCOUNT_DEF,
+                payment.getAccount(),
                 PaymentM.AMOUNT_DEF,
+                payment.getAmount(),
                 PaymentM.COMMISSION_DEF,
+                payment.getCommission(),
                 PaymentM.EMAIL_DEF,
+                payment.getEmail() == null?"test@bg.market":payment.getEmail(),
                 PaymentM.IS_PROCESSED_DEF,
-                PaymentM.UNI_DEF);
-        System.out.println(updateQuery);
-        try(PreparedStatement statement = connection.prepareStatement(updateQuery)){
-            statement.setObject(1, payment.getNumber());
-            statement.setObject(2, payment.getDateOperation());
-            statement.setObject(3, payment.getAccount());
-            statement.setObject(4, payment.getAmount());
-            statement.setObject(5, payment.getCommission());
-            statement.setObject(6, payment.getEmail());
-            statement.setObject(7, payment.getProcessed()?1:0);
-            statement.setObject(8, payment.getUni());
-            statement.execute();
-        }
+                payment.getProcessed()?1:0,
+                PaymentM.UNI_DEF,
+                payment.getUni());
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(updateQuery);
+        statement.close();
     }
 
-    public void updatePaymentState(Boolean state, String uni) throws  SQLException{
-        try(Statement statement = connection.createStatement()) {
+    public void updatePayment(Boolean state, String uni) throws SQLException{
+            Statement statement = connection.createStatement();
             String updateQuery = String.format("update %s set %s = %s where %s = \"%s\"",
                     PaymentM.TABLE_NAME,
                     PaymentM.IS_PROCESSED_DEF,
@@ -131,13 +149,24 @@ public class DBHandler {
                     PaymentM.UNI_DEF,
                     uni);
             System.out.println(updateQuery);
-            statement.executeQuery(updateQuery);
+            statement.executeUpdate(updateQuery);
+            statement.close();
         }
-        catch (SQLException e){
+
+    public void updateChecked(PaymentM[] payments) throws SQLException{
+        for (PaymentM payment: payments) {
+            payment.switchProcessed();
+            updatePayment(payment.getProcessed(), payment.getUni());
         }
     }
 
-    public PaymentM selectByUniFromPayment(String uni) throws SQLException{
+
+    /**
+     * Получение платежа по Uni
+     * @param uni
+     * @return
+     */
+    public PaymentM getPayment(String uni){
         try(Statement statement = connection.createStatement()){
             ResultSet resultSet = statement.executeQuery(String.format("SELECT * FROM %s WHERE %s = \"%s\"", PaymentM.TABLE_NAME, PaymentM.UNI_DEF, uni));
             PaymentM payment = null;
@@ -159,18 +188,23 @@ public class DBHandler {
         }
     }
 
-    public void updateChecked(String json) throws SQLException{
-        Type itemsArrType = new TypeToken<String[]>() {}.getType();
-        String[] paymentsUniToProcess = new Gson().fromJson(json, itemsArrType);
-        for (String uni: paymentsUniToProcess) {
-            PaymentM payment = selectByUniFromPayment(uni);
-            payment.switchProcessed();
-            updatePaymentState(payment.getProcessed(), payment.getUni());
-        }
+    /**
+     * Получение платежей по Uni
+     * @param unis
+     * @return
+     */
+    public PaymentM[] getPayments(String[] unis){
+        PaymentM[] payments = new PaymentM[unis.length];
+        for(int i = 0; i < unis.length; i++)
+            payments[i] = getPayment(unis[i]);
+        return payments;
     }
 
-
-    public List<PaymentM> getAllPayments(){
+    /**
+     * Получение всех платежей
+     * @return
+     */
+    public List<PaymentM> getPayments(){
         try(Statement statement = connection.createStatement()){
             List<PaymentM> payments = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery(String.format("SELECT * FROM %s", PaymentM.TABLE_NAME));
@@ -189,5 +223,16 @@ public class DBHandler {
         catch (SQLException e){
             return null;
         }
+    }
+
+
+    /**
+     * Разбиение json строки на Uni
+     * @param json
+     * @return
+     */
+    public String[] parseUni(String json){
+        Type itemsArrType = new TypeToken<String[]>() {}.getType();
+        return new Gson().fromJson(json, itemsArrType);
     }
 }
