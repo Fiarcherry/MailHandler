@@ -1,5 +1,6 @@
 package Mail.Controllers;
 
+import DataBase.Models.PaymentM;
 import Mail.Models.EMessage;
 
 import javax.jnlp.DownloadService;
@@ -10,6 +11,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import com.sun.xml.internal.ws.message.MimeAttachmentSet;
@@ -31,7 +33,7 @@ public class MessageHandler {
             MimeMessage message = new MimeMessage(MailConnect.getInstance().getSessionSMTP());
             message.setText(messageData.getMessageText());
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(messageData.getTo()));
-            message.setSubject("Test theme");
+            message.setSubject(messageData.getSubject());
 
             Transport.send(message);
             return "Success.";
@@ -39,6 +41,32 @@ public class MessageHandler {
         catch (MessagingException e){
             return e.getMessage();
         }
+    }
+
+    public void sendMessages(EMessage[] messages) throws MessagingException{
+        Session session = MailConnect.getInstance().getSessionSMTP();
+        for (EMessage eMessage : messages){
+            MimeMessage message = new MimeMessage(session);
+            message.setSubject(eMessage.getSubject());
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(eMessage.getTo()));
+            message.setText(eMessage.getMessageText());
+
+            Transport.send(message);
+        }
+    }
+
+    public void sendPayments(PaymentM[] payments) throws MessagingException{
+        EMessage[] messages = new EMessage[payments.length];
+        for (int i = 0; i < payments.length; i++){
+            StringBuilder text = new StringBuilder();
+            text.append("Сообщаем вам о удачном платеже.")
+                    .append("\nНомер аккаунта: ").append(payments[i].getAccount())
+                    .append("\nДата проведения операции: ").append(payments[i].getDateOperation())
+                    .append("\nСумма платежа: ").append(payments[i].getAmount())
+                    .append("\nВ том числе комиссия: ").append(payments[i].getCommission());
+            messages[i] = new EMessage(payments[i].getEmail(), "Payments", text.toString());
+        }
+        sendMessages(messages);
     }
 
     public void readEmail() throws MessagingException, IOException {
@@ -102,7 +130,7 @@ public class MessageHandler {
                     "    <Amount>70478.14</Amount>\n" +
                     "    <Commission>204.39</Commission>\n" +
                     "</Payment>");
-            ByteArrayInputStream input = new ByteArrayInputStream(xmlStringBuilder.toString().getBytes("utf-8"));
+            ByteArrayInputStream input = new ByteArrayInputStream(xmlStringBuilder.toString().getBytes(StandardCharsets.UTF_8));
             Document doc = builder.parse(inputFile);
 
             Element root = doc.getDocumentElement();

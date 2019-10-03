@@ -68,7 +68,7 @@ public class MessageServlet extends HttpServlet {
         String action = req.getParameter("action");
 
         if ("send".equalsIgnoreCase(action)){
-            EMessage message = new EMessage(req.getParameter("to"), req.getParameter("message"));
+            EMessage message = new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"));
             out.println(messageHandler.sendMessage(message));
         }
         else if ("read".equalsIgnoreCase(action)){
@@ -83,12 +83,13 @@ public class MessageServlet extends HttpServlet {
                 DBHandler db = DBHandler.getInstance();
                 PaymentM[] payments = db.getPayments(db.parseUni(req.getParameter("json")));
                 db.updateChecked(payments);
+                MessageHandler mh = new MessageHandler();
+                mh.sendPayments(payments);
                 out.println(new Gson().toJson(db.getPayments()));
             }
-            catch(SQLException e){
+            catch(SQLException | MessagingException e){
                 e.printStackTrace();
                 out.println(e.toString());
-
             }
         }
         out.close();

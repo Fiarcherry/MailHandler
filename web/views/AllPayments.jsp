@@ -73,8 +73,9 @@
     function drawTBody(data) {
         var $tBody = $("#tableBody");
         $.each(data, function (index, payment) {
+            var isProcessed = payment.isProcessed.toString() == 'false';
             $("<tr class='drawable'>").appendTo($tBody)
-                .append($("<td>").append("<input type=\"checkbox\" id=\""+payment.uni+"\">"))
+                .append($("<td>").append(isProcessed?"<input type=\"checkbox\" id=\""+payment.uni+"\">":""))
                 .append($("<td>").text(payment.isProcessed.toString()))
                 .append($("<td>").text(payment.uni))
                 .append($("<td>").text(payment.number))

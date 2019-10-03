@@ -40,6 +40,7 @@ public class DBHandler {
         Path dbPath = Paths.get("").toAbsolutePath().resolve(DB_FILE_NAME);
         SQLiteDataSource ds = new SQLiteDataSource();
         String dbURL = "jdbc:sqlite:"+dbPath;
+        //String dbURL = "jdbc:sqlite:/var/lib/tomcat9/webapps/MailHandler/mail_handler.db";
 
         ds.setUrl(dbURL);
         this.connection = ds.getConnection();
@@ -78,7 +79,7 @@ public class DBHandler {
      * @throws SQLException
      */
     private void writeData() throws SQLException{
-        addPayment(new PaymentM("r6lpoptgkeki9l14zu24hiapw", "1197145776", "2019-09-25T00:18:59", "118469534609", 70478.14f, 204.39f, "test@bg.market", false));
+        addPayment(new PaymentM("r6lpoptgkeki9l14zu24hiapw", "1197145776", "2019-09-25T00:18:59", "118469534609", 70478.14f, 204.39f, "p_a.s.nosach@mpt.ru", false));
     }
 
     /**
@@ -148,7 +149,6 @@ public class DBHandler {
                     state ? 1 : 0,
                     PaymentM.UNI_DEF,
                     uni);
-            System.out.println(updateQuery);
             statement.executeUpdate(updateQuery);
             statement.close();
         }
