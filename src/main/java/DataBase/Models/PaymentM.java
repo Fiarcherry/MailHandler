@@ -1,8 +1,5 @@
 package DataBase.Models;
 
-
-import com.google.gson.annotations.Expose;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
@@ -23,11 +20,11 @@ public class PaymentM {
     @XmlAttribute(name = "Uni")
     private String uni;
     @XmlAttribute(name = "Number")
-    private Integer number;
+    private String number;
     @XmlAttribute(name = "DateOperation")
     private String dateOperation;
     @XmlAttribute(name = "Account")
-    private Integer account;
+    private String account;
     @XmlAttribute(name = "Amount")
     private Float amount;
     @XmlAttribute(name = "Commission")
@@ -40,7 +37,7 @@ public class PaymentM {
     public PaymentM() {
     }
 
-    public PaymentM(String uni, Integer number, String dateOperation, Integer account, Float amount, Float commission, String email, Boolean isProcessed) {
+    public PaymentM(String uni, String number, String dateOperation, String account, Float amount, Float commission, String email, Boolean isProcessed) {
         this.uni = uni;
         this.number = number;
         this.dateOperation = dateOperation;
@@ -51,11 +48,20 @@ public class PaymentM {
         this.isProcessed = isProcessed;
     }
 
+    public PaymentM(String uni, String number, String dateOperation, String account, Float amount, Float commission) {
+        this.uni = uni;
+        this.number = number;
+        this.dateOperation = dateOperation;
+        this.account = account;
+        this.amount = amount;
+        this.commission = commission;
+    }
+
     public String getUni() {
         return uni;
     }
 
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
     }
 
@@ -63,7 +69,7 @@ public class PaymentM {
         return dateOperation;
     }
 
-    public Integer getAccount() {
+    public String getAccount() {
         return account;
     }
 

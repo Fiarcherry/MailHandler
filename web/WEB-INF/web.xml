@@ -13,7 +13,7 @@
     
     <servlet>
         <servlet-name>MainServlet</servlet-name>
-        <servlet-class>servlets.MainServlet</servlet-class>
+        <servlet-class>Servlets.MainServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -28,7 +28,7 @@
     
     <servlet>
         <servlet-name>MessageServlet</servlet-name>
-        <servlet-class>servlets.MessageServlet</servlet-class>
+        <servlet-class>Servlets.MessageServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>

@@ -48,13 +48,15 @@
         $('input:checkbox:checked').each(function() {
             checked.push($(this).attr("id"));
         });
-        checked.splice(checked.indexOf("checkBoxMaster"), 1);
+        if (checked.includes("checkBoxMaster"))
+            checked.splice(checked.indexOf("checkBoxMaster"), 1);
 
         $.ajax({
             url: "message?action=json",
             type: "POST",
             dataType: 'json',
             success: function(data){
+                removeRows();
                 drawTBody(data);
             },
             error: function(){
@@ -64,10 +66,14 @@
         });
     }
 
+    function removeRows() {
+        $(".drawable").remove();
+    }
+
     function drawTBody(data) {
         var $tBody = $("#tableBody");
         $.each(data, function (index, payment) {
-            $("<tr>").appendTo($tBody)
+            $("<tr class='drawable'>").appendTo($tBody)
                 .append($("<td>").append("<input type=\"checkbox\" id=\""+payment.uni+"\">"))
                 .append($("<td>").text(payment.isProcessed.toString()))
                 .append($("<td>").text(payment.uni))

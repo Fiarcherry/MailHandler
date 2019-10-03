@@ -4,7 +4,6 @@ import DataBase.Models.PaymentM;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.sqlite.SQLiteDataSource;
-
 import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -52,14 +51,16 @@ public class DBHandler {
     }
 
     private void createTable() throws SQLException{
-        String createQuery = String.format("CREATE TABLE if not exists '%s' ('%s' TEXT PRIMARY KEY, '%s' INTEGER, '%s' TEXT, '%s' INTEGER, '%s' REAL, '%s' REAL);",
+        String createQuery = String.format("CREATE TABLE if not exists '%s' ('%s' TEXT PRIMARY KEY, '%s' TEXT, '%s' TEXT, '%s' TEXT, '%s' REAL, '%s' REAL, '%s' TEXT DEFAULT \"test@bg.mail\", '%s' INTEGER DEFAULT 0);",
                 PaymentM.TABLE_NAME,
                 PaymentM.UNI_DEF,
                 PaymentM.NUMBER_DEF,
                 PaymentM.DATE_OPERATION_DEF,
                 PaymentM.ACCOUNT_DEF,
                 PaymentM.AMOUNT_DEF,
-                PaymentM.COMMISSION_DEF);
+                PaymentM.COMMISSION_DEF,
+                PaymentM.EMAIL_DEF,
+                PaymentM.IS_PROCESSED_DEF);
         try(Statement statement = connection.createStatement()){
             statement.execute(createQuery);
             writeData();
@@ -68,12 +69,12 @@ public class DBHandler {
     }
 
     private void writeData() throws SQLException{
-
+        addPayment(new PaymentM("r6lpoptgkeki9l14zu24hiapw", "1197145776", "2019-09-25T00:18:59", "118469534609", 70478.14f, 204.39f));
     }
 
 
     public void addPayment(PaymentM payment) throws SQLException{
-        String insertQuery = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        String insertQuery = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (\"?\", \"?\", \"?\", \"?\", ?, ?, \"?\", ?)",
                 PaymentM.TABLE_NAME,
                 PaymentM.UNI_DEF,
                 PaymentM.NUMBER_DEF,
@@ -97,7 +98,7 @@ public class DBHandler {
     }
 
     public void updatePayment(PaymentM payment) throws SQLException{
-        String updateQuery = String.format("update %s set %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? where %s = ?",
+        String updateQuery = String.format("update %s set %s = \"?\", %s = \"?\", %s = \"?\", %s = ?, %s = ?, %s = \"?\", %s = ? where %s = \"?\"",
                 PaymentM.TABLE_NAME,
                 PaymentM.NUMBER_DEF,
                 PaymentM.DATE_OPERATION_DEF,
@@ -105,7 +106,8 @@ public class DBHandler {
                 PaymentM.AMOUNT_DEF,
                 PaymentM.COMMISSION_DEF,
                 PaymentM.EMAIL_DEF,
-                PaymentM.IS_PROCESSED_DEF);
+                PaymentM.IS_PROCESSED_DEF,
+                PaymentM.UNI_DEF);
         System.out.println(updateQuery);
         try(PreparedStatement statement = connection.prepareStatement(updateQuery)){
             statement.setObject(1, payment.getNumber());
@@ -141,9 +143,9 @@ public class DBHandler {
             PaymentM payment = null;
             while(resultSet.next()){
                 payment = new PaymentM(resultSet.getString(PaymentM.UNI_DEF),
-                        resultSet.getInt(PaymentM.NUMBER_DEF),
+                        resultSet.getString(PaymentM.NUMBER_DEF),
                         resultSet.getString(PaymentM.DATE_OPERATION_DEF),
-                        resultSet.getInt(PaymentM.ACCOUNT_DEF),
+                        resultSet.getString(PaymentM.ACCOUNT_DEF),
                         resultSet.getFloat(PaymentM.AMOUNT_DEF),
                         resultSet.getFloat(PaymentM.COMMISSION_DEF),
                         resultSet.getString(PaymentM.EMAIL_DEF),
@@ -174,9 +176,9 @@ public class DBHandler {
             ResultSet resultSet = statement.executeQuery(String.format("SELECT * FROM %s", PaymentM.TABLE_NAME));
             while(resultSet.next()){
                 payments.add(new PaymentM(resultSet.getString(PaymentM.UNI_DEF),
-                        resultSet.getInt(PaymentM.NUMBER_DEF),
+                        resultSet.getString(PaymentM.NUMBER_DEF),
                         resultSet.getString(PaymentM.DATE_OPERATION_DEF),
-                        resultSet.getInt(PaymentM.ACCOUNT_DEF),
+                        resultSet.getString(PaymentM.ACCOUNT_DEF),
                         resultSet.getFloat(PaymentM.AMOUNT_DEF),
                         resultSet.getFloat(PaymentM.COMMISSION_DEF),
                         resultSet.getString(PaymentM.EMAIL_DEF),
