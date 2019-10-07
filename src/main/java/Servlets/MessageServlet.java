@@ -1,6 +1,7 @@
 package Servlets;
 
 import DataBase.Controllers.DBHandler;
+import DataBase.Models.Model;
 import DataBase.Models.PaymentM;
 import Mail.Controllers.MessageHandler;
 import Mail.Models.EMessage;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageServlet extends HttpServlet {
 
@@ -62,8 +65,8 @@ public class MessageServlet extends HttpServlet {
                 messageHandler.readEmail();
             } else if ("show".equalsIgnoreCase(action) || "json".equalsIgnoreCase(action)) {
                 DBHandler db = DBHandler.getInstance();
-                PaymentM[] payments = db.getPayments(db.parseUni(req.getParameter("json")));
-                db.updateChecked(payments);
+                PaymentM[] payments = PaymentM.getPayments(db.parseUni(req.getParameter("json")));
+                PaymentM.updateChecked(payments);
                 MessageHandler mh = new MessageHandler();
                 mh.sendPayments(payments);
                 out.println(new Gson().toJson(db.getAll(new PaymentM())));

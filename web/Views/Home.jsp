@@ -16,6 +16,7 @@
     <a href="message?action=create">Write new message</a>
     <a href="message?action=read">Read message</a>
     <a href="message?action=show">DB List</a>
+    <a href="auth?action=login">Login</a>
 </div>
 </body>
 </html>

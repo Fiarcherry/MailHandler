@@ -1,5 +1,7 @@
 package DataBase.Models;
 
+import DataBase.Controllers.DBHandler;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -190,8 +192,8 @@ public class PaymentM implements Model {
 
 
     @Override
-    public List<Model> getResultList(ResultSet resultSet) throws SQLException {
-        List<Model> rows = new ArrayList<>();
+    public List<PaymentM> getResultList(ResultSet resultSet) throws SQLException {
+        List<PaymentM> rows = new ArrayList<>();
         while (resultSet.next()) {
             rows.add(new PaymentM(resultSet));
         }
@@ -209,5 +211,26 @@ public class PaymentM implements Model {
         this.email = resultSet.getString(PaymentM.EMAIL_DEF);
         this.isProcessed = resultSet.getBoolean(PaymentM.IS_PROCESSED_DEF);
         return this;
+    }
+
+
+    /**
+     * Получение платежей по Uni
+     *
+     * @param unis
+     * @return
+     */
+    public static PaymentM[] getPayments(String[] unis) throws SQLException{
+        PaymentM[] payments = new PaymentM[unis.length];
+        for (int i = 0; i < unis.length; i++)
+            payments[i] = (PaymentM) DBHandler.getInstance().getByPrimaryKey(new PaymentM(unis[i]));
+        return payments;
+    }
+
+    public static void updateChecked(PaymentM[] payments) throws SQLException {
+        for (PaymentM payment : payments) {
+            payment.setProcessedTrue();
+            DBHandler.getInstance().update(payment);
+        }
     }
 }

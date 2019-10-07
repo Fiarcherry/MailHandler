@@ -105,10 +105,10 @@ public class DBHandler {
      * @param model
      * @return
      */
-    public List<Model> getAll(Model model) {
+    public <T extends Model> List<T> getAll(T t) {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(model.getSelectAllQuery());
-            return model.getResultList(resultSet);
+            ResultSet resultSet = statement.executeQuery(t.getSelectAllQuery());
+            return t.getResultList(resultSet);
         } catch (SQLException e) {
             return null;
         }
@@ -133,20 +133,19 @@ public class DBHandler {
         }
     }
 
-
-    /**
-     * Получение платежей по Uni
-     *
-     * @param unis
-     * @return
-     */
-    public PaymentM[] getPayments(String[] unis) {
-        PaymentM[] payments = new PaymentM[unis.length];
-        for (int i = 0; i < unis.length; i++)
-            payments[i] = (PaymentM) getByPrimaryKey(new PaymentM(unis[i]));
-        return payments;
+    public UserM getLoginResult(String login, String password){
+        try (Statement statement = connection.createStatement()) {
+            UserM user = new UserM(login, password);
+            ResultSet resultSet = statement.executeQuery(user.getSelectLoginQuery());
+            if (resultSet.next())
+                return (UserM)user.getResult(resultSet);
+            else
+                return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-
 
     /**
      * Первоначальное создание таблиц
@@ -161,14 +160,6 @@ public class DBHandler {
         insert(firstPayment);
         insert(firstUser);
     }
-
-    public void updateChecked(PaymentM[] payments) throws SQLException {
-        for (PaymentM payment : payments) {
-            payment.setProcessedTrue();
-            update(payment);
-        }
-    }
-
 
     /**
      * Разбиение json строки на Uni

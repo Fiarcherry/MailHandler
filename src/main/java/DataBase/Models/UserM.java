@@ -2,6 +2,7 @@ package DataBase.Models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,11 @@ public class UserM implements Model{
 
     public UserM(Integer id) {
         this.id = id;
+    }
+
+    public UserM(String login, String password) {
+        this.login = login;
+        this.password = password;
     }
 
     public UserM(Integer id, String name, String login, String password, String email, Boolean active) {
@@ -147,10 +153,14 @@ public class UserM implements Model{
         return String.format("SELECT * FROM %s WHERE %s = %s", TABLE_NAME, ID_DEF, getPrimaryKey());
     }
 
+    public String getSelectLoginQuery(){
+        return "SELECT * FROM "+TABLE_NAME+" WHERE "+LOGIN_DEF+" = \""+login+"\" AND "+PASSWORD_DEF+" = \""+password+"\"";
+    }
+
 
     @Override
-    public List<Model> getResultList(ResultSet resultSet) throws SQLException {
-        List<Model> rows = new ArrayList<>();
+    public List<UserM> getResultList(ResultSet resultSet) throws SQLException {
+        List<UserM> rows = new ArrayList<>();
         while (resultSet.next()) {
             rows.add(new UserM(resultSet));
         }
@@ -167,4 +177,7 @@ public class UserM implements Model{
         active = resultSet.getBoolean(ACTIVE_DEF);
         return this;
     }
+
+
+
 }

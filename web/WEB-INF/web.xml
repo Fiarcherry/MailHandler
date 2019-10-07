@@ -37,12 +37,10 @@
         <servlet-name>MainServlet</servlet-name>
         <servlet-class>Servlets.MainServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern></url-pattern>
@@ -52,9 +50,17 @@
         <servlet-name>MessageServlet</servlet-name>
         <servlet-class>Servlets.MessageServlet</servlet-class>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>MessageServlet</servlet-name>
         <url-pattern>/message</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>Servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/auth</url-pattern>
     </servlet-mapping>
 </web-app>

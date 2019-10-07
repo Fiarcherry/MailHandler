@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface Model {
+public interface Model <T extends Model>{
     String getInsertQuery();
     String getCreateTableQuery();
     String getUpdateQuery();
@@ -13,7 +13,7 @@ public interface Model {
 
     String getPrimaryKey();
 
-    List<Model> getResultList(ResultSet resultSet) throws SQLException;
+    List<T> getResultList(ResultSet resultSet) throws SQLException;
     Model getResult(ResultSet resultSet) throws SQLException;
 
 }
