@@ -27,11 +27,11 @@ public class MessageServlet extends HttpServlet {
             switch (action == null ? "create" : action) {
                 case "json":
                     resp.setContentType("application/json;charset=utf-8");
-                    out.println(new Gson().toJson(DBHandler.getInstance().getPayments()));
+                    out.println(new Gson().toJson(DBHandler.getInstance().getAll(new PaymentM())));
                     break;
                 case "show":
                     resp.setContentType("text/jsp;charset=utf-8");
-                    req.getRequestDispatcher("/views/AllPayments.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/Views/AllPayments.jsp").forward(req, resp);
                     break;
                 case "read":
                     try {
@@ -45,7 +45,7 @@ public class MessageServlet extends HttpServlet {
                 case "create":
                 default:
                     resp.setContentType("text/jsp;charset=utf-8");
-                    req.getRequestDispatcher("/views/NewMessage.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/Views/NewMessage.jsp").forward(req, resp);
                     break;
             }
         }
@@ -85,7 +85,7 @@ public class MessageServlet extends HttpServlet {
                 db.updateChecked(payments);
                 MessageHandler mh = new MessageHandler();
                 mh.sendPayments(payments);
-                out.println(new Gson().toJson(db.getPayments()));
+                out.println(new Gson().toJson(db.getAll(new PaymentM())));
             }
             catch(SQLException | MessagingException e){
                 e.printStackTrace();

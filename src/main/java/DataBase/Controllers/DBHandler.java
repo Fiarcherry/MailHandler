@@ -1,6 +1,8 @@
 package DataBase.Controllers;
 
+import DataBase.Models.Model;
 import DataBase.Models.PaymentM;
+import DataBase.Models.UserM;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.sqlite.SQLiteDataSource;
@@ -9,7 +11,6 @@ import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DBHandler {
@@ -39,8 +40,8 @@ public class DBHandler {
 
         Path dbPath = Paths.get("").toAbsolutePath().resolve(DB_FILE_NAME);
         SQLiteDataSource ds = new SQLiteDataSource();
-        String dbURL = "jdbc:sqlite:"+dbPath;
-        //String dbURL = "jdbc:sqlite:/var/lib/tomcat9/webapps/MailHandler/mail_handler.db";
+        //String dbURL = "jdbc:sqlite:"+dbPath;
+        String dbURL = "jdbc:sqlite:/var/lib/tomcat9/webapps/MailHandler/mail_handler.db";
 
         ds.setUrl(dbURL);
         this.connection = ds.getConnection();
@@ -51,142 +52,81 @@ public class DBHandler {
                 isDbEmpty = false;
         }
         if (isDbEmpty)
-            createTable();
-    }
-
-    /**
-     * Первоначальное создание таблицы
-     * @throws SQLException
-     */
-    private void createTable() throws SQLException{
-        String createQuery = String.format("CREATE TABLE if not exists '%s' ('%s' TEXT PRIMARY KEY, '%s' TEXT, '%s' TEXT, '%s' TEXT, '%s' REAL, '%s' REAL, '%s' TEXT DEFAULT \"test@bg.mail\", '%s' INTEGER DEFAULT 0);",
-                PaymentM.TABLE_NAME,
-                PaymentM.UNI_DEF,
-                PaymentM.NUMBER_DEF,
-                PaymentM.DATE_OPERATION_DEF,
-                PaymentM.ACCOUNT_DEF,
-                PaymentM.AMOUNT_DEF,
-                PaymentM.COMMISSION_DEF,
-                PaymentM.EMAIL_DEF,
-                PaymentM.IS_PROCESSED_DEF);
-        Statement statement = connection.createStatement();
-        statement.execute(createQuery);
-        writeData();
-    }
-
-    /**
-     * Запись первичных данных
-     * @throws SQLException
-     */
-    private void writeData() throws SQLException{
-        addPayment(new PaymentM("r6lpoptgkeki9l14zu24hiapw", "1197145776", "2019-09-25T00:18:59", "118469534609", 70478.14f, 204.39f, "p_a.s.nosach@mpt.ru", false));
-    }
-
-    /**
-     * Добавление нового платежа
-     * @param payment
-     * @throws SQLException
-     */
-    public void addPayment(PaymentM payment) throws SQLException{
-        String insertQuery = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\", \"%s\", %s, %s, \"%s\", %s)",
-                PaymentM.TABLE_NAME,
-                PaymentM.UNI_DEF,
-                PaymentM.NUMBER_DEF,
-                PaymentM.DATE_OPERATION_DEF,
-                PaymentM.ACCOUNT_DEF,
-                PaymentM.AMOUNT_DEF,
-                PaymentM.COMMISSION_DEF,
-                PaymentM.EMAIL_DEF,
-                PaymentM.IS_PROCESSED_DEF,
-                payment.getUni(),
-                payment.getNumber(),
-                payment.getDateOperation(),
-                payment.getAccount(),
-                payment.getAmount(),
-                payment.getCommission(),
-                payment.getEmail() == null?"test@bg.market":payment.getEmail(),
-                payment.getProcessed()?1:0);
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(insertQuery);
-        statement.close();
+            createTables();
     }
 
 
     /**
-     * Изменение платежа по Uni
-     * @param payment
+     * Создание таблицы
      * @throws SQLException
      */
-    public void updatePayment(PaymentM payment) throws SQLException{
-        String updateQuery = String.format("update %s set %s = \"%s\", %s = \"%s\", %s = \"%s\", %s = %s, %s = %s, %s = \"%s\", %s = %s where %s = \"%s\"",
-                PaymentM.TABLE_NAME,
-                PaymentM.NUMBER_DEF,
-                payment.getNumber(),
-                PaymentM.DATE_OPERATION_DEF,
-                payment.getDateOperation(),
-                PaymentM.ACCOUNT_DEF,
-                payment.getAccount(),
-                PaymentM.AMOUNT_DEF,
-                payment.getAmount(),
-                PaymentM.COMMISSION_DEF,
-                payment.getCommission(),
-                PaymentM.EMAIL_DEF,
-                payment.getEmail() == null?"test@bg.market":payment.getEmail(),
-                PaymentM.IS_PROCESSED_DEF,
-                payment.getProcessed()?1:0,
-                PaymentM.UNI_DEF,
-                payment.getUni());
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(updateQuery);
-        statement.close();
-    }
-
-    public void updatePayment(Boolean state, String uni) throws SQLException{
-            Statement statement = connection.createStatement();
-            String updateQuery = String.format("update %s set %s = %s where %s = \"%s\"",
-                    PaymentM.TABLE_NAME,
-                    PaymentM.IS_PROCESSED_DEF,
-                    state ? 1 : 0,
-                    PaymentM.UNI_DEF,
-                    uni);
-            statement.executeUpdate(updateQuery);
-            statement.close();
-        }
-
-    public void updateChecked(PaymentM[] payments) throws SQLException{
-        for (PaymentM payment: payments) {
-            payment.switchProcessed();
-            updatePayment(payment.getProcessed(), payment.getUni());
+    private void createTable(Model model) throws SQLException{
+        try(Statement statement = connection.createStatement()){
+            statement.execute(model.getCreateTableQuery());
         }
     }
 
+    /**
+     * Добавление записи
+     * @param model
+     * @return
+     * @throws SQLException
+     */
+    public void insert(Model model) throws SQLException{
+        try(Statement statement = connection.createStatement()) {
+            int affectedRows = statement.executeUpdate(model.getInsertQuery());
+            if (affectedRows == 0)
+                throw new SQLException("Insert failed, no rows affected.");
+        }
+    }
 
     /**
-     * Получение платежа по Uni
-     * @param uni
+     * Изменение записи
+     * @param model
+     * @throws SQLException
+     */
+    public void update(Model model) throws SQLException{
+        try(Statement statement = connection.createStatement()) {
+            int affectedRows = statement.executeUpdate(model.getUpdateQuery());
+            if (affectedRows == 0)
+                throw new SQLException("Update failed, no rows affected.");
+        }
+    }
+
+    /**
+     * Получение всех записей из таблицы
+     * @param model
      * @return
      */
-    public PaymentM getPayment(String uni){
+    public List<Model> getAll(Model model){
         try(Statement statement = connection.createStatement()){
-            ResultSet resultSet = statement.executeQuery(String.format("SELECT * FROM %s WHERE %s = \"%s\"", PaymentM.TABLE_NAME, PaymentM.UNI_DEF, uni));
-            PaymentM payment = null;
-            while(resultSet.next()){
-                payment = new PaymentM(resultSet.getString(PaymentM.UNI_DEF),
-                        resultSet.getString(PaymentM.NUMBER_DEF),
-                        resultSet.getString(PaymentM.DATE_OPERATION_DEF),
-                        resultSet.getString(PaymentM.ACCOUNT_DEF),
-                        resultSet.getFloat(PaymentM.AMOUNT_DEF),
-                        resultSet.getFloat(PaymentM.COMMISSION_DEF),
-                        resultSet.getString(PaymentM.EMAIL_DEF),
-                        resultSet.getBoolean(PaymentM.IS_PROCESSED_DEF));
-            }
-            return payment;
+            ResultSet resultSet = statement.executeQuery(model.getSelectAllQuery());
+            return model.getResultList(resultSet);
+        }
+        catch (SQLException e){
+            return null;
+        }
+    }
+
+    /**
+     * Получение записи по первичному ключу объекта в параметре
+     * @param model
+     * @return Возвращается ссылка на объект, переданный в параметрах
+     */
+    public Model getByPrimaryKey(Model model){
+        try(Statement statement = connection.createStatement()){
+            ResultSet resultSet = statement.executeQuery(model.getSelectFirstQuery());
+            if (resultSet.next())
+                return model.getResult(resultSet);
+            else
+                return null;
         }
         catch (SQLException e){
             e.printStackTrace();
             return null;
         }
     }
+
 
     /**
      * Получение платежей по Uni
@@ -196,32 +136,30 @@ public class DBHandler {
     public PaymentM[] getPayments(String[] unis){
         PaymentM[] payments = new PaymentM[unis.length];
         for(int i = 0; i < unis.length; i++)
-            payments[i] = getPayment(unis[i]);
+            payments[i] = (PaymentM)getByPrimaryKey(new PaymentM(unis[i]));
         return payments;
     }
 
+
+
+
     /**
-     * Получение всех платежей
-     * @return
+     * Первоначальное создание таблиц
+     * @throws SQLException
      */
-    public List<PaymentM> getPayments(){
-        try(Statement statement = connection.createStatement()){
-            List<PaymentM> payments = new ArrayList<>();
-            ResultSet resultSet = statement.executeQuery(String.format("SELECT * FROM %s", PaymentM.TABLE_NAME));
-            while(resultSet.next()){
-                payments.add(new PaymentM(resultSet.getString(PaymentM.UNI_DEF),
-                        resultSet.getString(PaymentM.NUMBER_DEF),
-                        resultSet.getString(PaymentM.DATE_OPERATION_DEF),
-                        resultSet.getString(PaymentM.ACCOUNT_DEF),
-                        resultSet.getFloat(PaymentM.AMOUNT_DEF),
-                        resultSet.getFloat(PaymentM.COMMISSION_DEF),
-                        resultSet.getString(PaymentM.EMAIL_DEF),
-                        resultSet.getBoolean(PaymentM.IS_PROCESSED_DEF)));
-            }
-            return payments;
-        }
-        catch (SQLException e){
-            return null;
+    private void createTables() throws SQLException{
+        PaymentM firstPayment = new PaymentM("r6lpoptgkeki9l14zu24hiapw", "1197145776", "2019-09-25T00:18:59", "118469534609", 70478.14f, 204.39f, "p_a.s.nosach@mpt.ru", false);
+        UserM firstUser = new UserM("Админыч", "admin", "admin", "p_a.s.nosach@mtp.ru");
+        createTable(firstPayment);
+        createTable(firstUser);
+        insert(firstPayment);
+        insert(firstUser);
+    }
+
+    public void updateChecked(PaymentM[] payments) throws SQLException{
+        for (PaymentM payment: payments) {
+            payment.setProcessedTrue();
+            update(payment);
         }
     }
 
