@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 
 public class MessageServlet extends HttpServlet {
 
@@ -23,7 +22,7 @@ public class MessageServlet extends HttpServlet {
 
         String action = req.getParameter("action");
 
-        try (PrintWriter out = resp.getWriter()){
+        try (PrintWriter out = resp.getWriter()) {
             switch (action == null ? "create" : action) {
                 case "json":
                     resp.setContentType("application/json;charset=utf-8");
@@ -34,13 +33,8 @@ public class MessageServlet extends HttpServlet {
                     req.getRequestDispatcher("/Views/AllPayments.jsp").forward(req, resp);
                     break;
                 case "read":
-                    try {
-                        MessageHandler messageHandler = new MessageHandler();
-
-                        messageHandler.readEmail();
-                    } catch (MessagingException e) {
-                        e.printStackTrace();
-                    }
+                    MessageHandler messageHandler = new MessageHandler();
+                    messageHandler.readEmail();
                     break;
                 case "create":
                 default:
@@ -48,11 +42,7 @@ public class MessageServlet extends HttpServlet {
                     req.getRequestDispatcher("/Views/NewMessage.jsp").forward(req, resp);
                     break;
             }
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        }
-        catch (NullPointerException e){
+        } catch (SQLException | MessagingException e) {
             e.printStackTrace();
         }
     }
@@ -61,25 +51,16 @@ public class MessageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
 
-        PrintWriter out = resp.getWriter();
+        try (PrintWriter out = resp.getWriter()) {
+            MessageHandler messageHandler = new MessageHandler();
+            String action = req.getParameter("action");
 
-        MessageHandler messageHandler = new MessageHandler();
-
-        String action = req.getParameter("action");
-
-        if ("send".equalsIgnoreCase(action)){
-            EMessage message = new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"));
-            out.println(messageHandler.sendMessage(message));
-        }
-        else if ("read".equalsIgnoreCase(action)){
-            try {
+            if ("send".equalsIgnoreCase(action)) {
+                EMessage message = new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"));
+                out.println(messageHandler.sendMessage(message));
+            } else if ("read".equalsIgnoreCase(action)) {
                 messageHandler.readEmail();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-                out.println(e.getMessage());
-            }
-        }else if ("show".equalsIgnoreCase(action) || "json".equalsIgnoreCase(action)){
-            try {
+            } else if ("show".equalsIgnoreCase(action) || "json".equalsIgnoreCase(action)) {
                 DBHandler db = DBHandler.getInstance();
                 PaymentM[] payments = db.getPayments(db.parseUni(req.getParameter("json")));
                 db.updateChecked(payments);
@@ -87,11 +68,8 @@ public class MessageServlet extends HttpServlet {
                 mh.sendPayments(payments);
                 out.println(new Gson().toJson(db.getAll(new PaymentM())));
             }
-            catch(SQLException | MessagingException e){
-                e.printStackTrace();
-                out.println(e.toString());
-            }
+        } catch (SQLException | MessagingException e) {
+            e.printStackTrace();
         }
-        out.close();
     }
 }
