@@ -51,7 +51,7 @@ public class DBHandler {
         ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
         boolean isDbEmpty = true;
         while (rs.next()) {
-            if (PaymentM.TABLE_NAME.equals(rs.getString("TABLE_NAME")))
+            if (PaymentM.TABLE_NAME.equals(rs.getString("TABLE_NAME")) || UserM.TABLE_NAME.equals(rs.getString("TABLE_NAME")))
                 isDbEmpty = false;
         }
         if (isDbEmpty)
@@ -101,8 +101,8 @@ public class DBHandler {
 
     /**
      * Получение всех записей из таблицы
-     *
-     * @param model
+     * @param t
+     * @param <T>
      * @return
      */
     public <T extends Model> List<T> getAll(T t) {
@@ -117,14 +117,14 @@ public class DBHandler {
     /**
      * Получение записи по первичному ключу объекта в параметре
      *
-     * @param model
+     * @param t
      * @return Возвращается ссылка на объект, переданный в параметрах
      */
-    public Model getByPrimaryKey(Model model) {
+    public <T extends Model> T getByPrimaryKey(T t) {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(model.getSelectFirstQuery());
+            ResultSet resultSet = statement.executeQuery(t.getSelectFirstQuery());
             if (resultSet.next())
-                return model.getResult(resultSet);
+                return (T) t.getResult(resultSet);
             else
                 return null;
         } catch (SQLException e) {

@@ -201,7 +201,7 @@ public class PaymentM implements Model {
     }
 
     @Override
-    public Model getResult(ResultSet resultSet) throws SQLException {
+    public PaymentM getResult(ResultSet resultSet) throws SQLException {
         this.uni = resultSet.getString(PaymentM.UNI_DEF);
         this.number = resultSet.getString(PaymentM.NUMBER_DEF);
         this.dateOperation = resultSet.getString(PaymentM.DATE_OPERATION_DEF);

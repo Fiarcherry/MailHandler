@@ -168,7 +168,7 @@ public class UserM implements Model{
     }
 
     @Override
-    public Model getResult(ResultSet resultSet) throws SQLException {
+    public UserM getResult(ResultSet resultSet) throws SQLException {
         id = resultSet.getInt(ID_DEF);
         name = resultSet.getString(NAME_DEF);
         login = resultSet.getString(LOGIN_DEF);

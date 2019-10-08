@@ -14,6 +14,6 @@ public interface Model <T extends Model>{
     String getPrimaryKey();
 
     List<T> getResultList(ResultSet resultSet) throws SQLException;
-    Model getResult(ResultSet resultSet) throws SQLException;
+    T getResult(ResultSet resultSet) throws SQLException;
 
 }
