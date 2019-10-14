@@ -7,20 +7,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Payments</title>
+    <link rel="stylesheet" type="text/css" href="css/PaymentsTable.css">
 </head>
 <body>
-<table id="table" border="1">
+<table id="table" class="tg" border="1">
     <thead>
     <tr>
-        <th><input type="checkbox" id="checkBoxMaster"></th>
-        <th>State</th>
-        <th>Uni</th>
-        <th>Number</th>
-        <th>Operation Date</th>
-        <th>Account num</th>
-        <th>Amount</th>
-        <th>Commission</th>
-        <th>Email</th>
+        <th class="col1"><input type="checkbox" id="checkBoxMaster"></th>
+        <th class="col2">State</th>
+        <th class="col3">Uni</th>
+        <th class="col4">Number</th>
+        <th class="col5">Operation Date</th>
+        <th class="col6">Account num</th>
+        <th class="col7">Amount</th>
+        <th class="col8">Commission</th>
+        <th class="col9">Email</th>
     </tr>
     </thead>
     <tbody id='tableBody'>

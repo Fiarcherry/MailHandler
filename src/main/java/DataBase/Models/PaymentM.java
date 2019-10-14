@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaymentM implements Model {
+public class PaymentM extends Model {
 
     public static final String TABLE_NAME = "Payment";
 

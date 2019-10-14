@@ -38,6 +38,7 @@ public class MessageServlet extends HttpServlet {
                 case "read":
                     MessageHandler messageHandler = new MessageHandler();
                     messageHandler.readEmail();
+                    resp.sendRedirect("http://localhost:8080/MailHandler/message?action=show");
                     break;
                 case "create":
                 default:

@@ -41,23 +41,13 @@ public class LoginServlet extends HttpServlet {
             if ("loginResult".equalsIgnoreCase(action)){
                 DBHandler db = DBHandler.getInstance();
                 if (db.getLoginResult(req.getParameter("login"), req.getParameter("password")) != null){
-                    out.println("success");
+                    resp.sendRedirect(req.getContextPath()+"/MailHandler/auth?action=login");
                 }
                 else{
+                    resp.setContentType("text/html;charset=utf-8");
+                    resp.sendRedirect("/auth?action=login");
                     out.println("Invalid login or password");
                 }
-            }
-
-            switch (action == null ? "login" : action) {
-                case "registration":
-                    break;
-                case "loginResult":
-                    break;
-                case "login":
-                default:
-                    resp.setContentType("text/html;charset=utf-8");
-                    req.getRequestDispatcher("/Views/Login.html").forward(req, resp);
-                    break;
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();

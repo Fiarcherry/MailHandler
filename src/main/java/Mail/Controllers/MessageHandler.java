@@ -1,5 +1,7 @@
 package Mail.Controllers;
 
+import DataBase.Controllers.DBHandler;
+import DataBase.Controllers.XMLParser;
 import DataBase.Models.PaymentM;
 import Mail.Models.EMessage;
 
@@ -12,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.Arrays;
 
 import com.sun.xml.internal.ws.message.MimeAttachmentSet;
@@ -22,10 +25,11 @@ import javax.xml.parsers.*;
 import javax.xml.soap.Node;
 import java.io.*;
 import java.util.LinkedList;
+import java.util.List;
 
 public class MessageHandler {
 
-
+    public static int NEW_MESSAGES_COUNT;
 
     public String sendMessage(EMessage messageData){
 
@@ -69,84 +73,66 @@ public class MessageHandler {
         sendMessages(messages);
     }
 
-    public void readEmail() throws MessagingException, IOException {
+    public void readEmail() throws MessagingException, SQLException, IOException {
         Folder inbox = MailConnect.getInstance().getStore().getFolder("INBOX");
-        inbox.open(Folder.READ_ONLY);
+        inbox.open(Folder.READ_WRITE);
 
-        System.out.println("Количество сообщений : " + inbox.getMessageCount());
+        System.out.println("Количество сообщений на почте: " + inbox.getMessageCount());
         if (inbox.getMessageCount() == 0)
             return;
 
-        for (int i = 1; i < 2; i++){
-            //MimeMessage message = (MimeMessage) inbox.getMessage(i);
-            //System.out.println("Тема сообщения: " + message.getSubject());
-            //System.out.println("Сообщение: " + message.getContent());
-            //System.out.println("Отправитель: " + Arrays.toString(message.getFrom()));
+        Message messages[] = inbox.getMessages();
+        NEW_MESSAGES_COUNT = 0;
 
-            Message message = inbox.getMessage(inbox.getMessageCount());
-            String attachment = "";
-            Multipart mp = (Multipart) message.getContent();
+        for (int i = 0; i < inbox.getMessageCount(); i++){
+            Object content = messages[i].getContent();
 
-            for (int j = 0; j < mp.getCount(); j++){
-                Part part = mp.getBodyPart(j);
-//                saveFile("90926.10898", part.getInputStream());
+            System.out.println("Номер сообщения: " + i);
 
-                String disp = part.getDisposition();
-                if (disp != null) {
-                    MimeBodyPart mbp = (MimeBodyPart)part;
-                    if (!mbp.isMimeType("text/plain")) {
-                        File savedir = new File("/home/student/");
-                        savedir.mkdirs();
-                        File savefile = File.createTempFile("emailattach", ".atch", savedir );
-                        try {
-                            int path = saveFile(savefile, part);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+            if (!messages[i].getFlags().contains(Flags.Flag.SEEN)){
+                messages[i].setFlag(Flags.Flag.SEEN, true);
+
+                if (content instanceof Multipart){
+                    Multipart mp = (Multipart) content;
+
+                    for (int j = 0; j < mp.getCount(); j++){
+                        Part part = mp.getBodyPart(j);
+
+                        String disp = part.getDisposition();
+                        if (disp != null) {
+                            MimeBodyPart mbp = (MimeBodyPart)part;
+                            if (!mbp.isMimeType("text/plain")) {
+                                File savedir = new File(System.getProperty("user.home"));
+                                savedir.mkdirs();
+                                File savefile = File.createTempFile("emailattach", ".atch", savedir );
+                                try {
+                                    int path = saveFile(savefile, part);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                                PaymentM currentPayment = XMLParser.parsePayment(savefile);
+                                boolean repeatPayment = false;
+                                List<PaymentM> payments = DBHandler.getInstance().getAll(new PaymentM());
+
+                                for (PaymentM payment : payments) {
+                                    if (payment.getUni().equals(currentPayment.getUni())){
+                                        repeatPayment = true;
+                                    }
+                                }
+
+                                if (!repeatPayment){
+                                    DBHandler.getInstance().insert(currentPayment);
+                                    NEW_MESSAGES_COUNT ++;
+                                }
+                                savefile.delete();
+                            }
                         }
                     }
                 }
-                //findPayments();
             }
         }
-
         inbox.close();
-    }
-
-    public void findPayments(){
-
-        try {
-            File inputFile = new File("90926.10898");
-
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-
-            StringBuilder xmlStringBuilder = new StringBuilder();
-            xmlStringBuilder.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
-                    "<Payment Client=\"Cherry\">\n" +
-                    "    <Uni>r6lpoptgkeki9l14zu24hiapw</Uni>\n" +
-                    "    <Number>1197145776</Number>\n" +
-                    "    <DateOperation>2019-09-25T00:18:59</DateOperation>\n" +
-                    "    <Account>118469534609</Account>\n" +
-                    "    <Amount>70478.14</Amount>\n" +
-                    "    <Commission>204.39</Commission>\n" +
-                    "</Payment>");
-            ByteArrayInputStream input = new ByteArrayInputStream(xmlStringBuilder.toString().getBytes(StandardCharsets.UTF_8));
-            Document doc = builder.parse(inputFile);
-
-            Element root = doc.getDocumentElement();
-
-            System.out.println("---------------");
-            System.out.println("Client: " + root.getAttribute("Client"));
-            System.out.println("Uni: " + root.getElementsByTagName("Uni").item(0).getTextContent());
-            System.out.println("Number: " + root.getElementsByTagName("Number").item(0).getTextContent());
-            System.out.println("DateOperation: " + root.getElementsByTagName("DateOperation").item(0).getTextContent());
-            System.out.println("Account: " + root.getElementsByTagName("Account").item(0).getTextContent());
-            System.out.println("Amount: " + root.getElementsByTagName("Amount").item(0).getTextContent());
-            System.out.println("Commission: " + root.getElementsByTagName("Commission").item(0).getTextContent());
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
 protected int saveFile(File saveFile, Part part) throws Exception {

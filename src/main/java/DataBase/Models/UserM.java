@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserM implements Model{
+public class UserM extends Model{
 
     public static final String TABLE_NAME = "User";
 

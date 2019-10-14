@@ -10,8 +10,8 @@ public class MailConnect {
     private final static String HOST_IMAP= "imap.gmail.com";
     private final static String HOST_SMTP= "smtp.gmail.com";
 
-    private final static String USERNAME = "1spangls1";
-    private final static String PASSWORD = "uerjbsflkdrqkgcu";
+    private final static String USERNAME = "kubikiid";
+    private final static String PASSWORD = "rrcyjyfayqtpdysk";
 
     private final static String PORT_IMAP = "993";
     private final static String PORT_STMP = "465";

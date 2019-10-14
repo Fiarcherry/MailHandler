@@ -25,7 +25,6 @@ public class DBHandler {
 
     private Connection connection;
 
-
     public static DBHandler getInstance() throws SQLException {
         DBHandler localInstance = instance;
         if (localInstance == null) {
@@ -121,6 +120,19 @@ public class DBHandler {
      * @return Возвращается ссылка на объект, переданный в параметрах
      */
     public <T extends Model> T getByPrimaryKey(T t) {
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(t.getSelectFirstQuery());
+            if (resultSet.next())
+                return (T) t.getResult(resultSet);
+            else
+                return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public <T extends Model> T getByCondition(T t){
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(t.getSelectFirstQuery());
             if (resultSet.next())
