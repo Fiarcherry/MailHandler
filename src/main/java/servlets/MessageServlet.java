@@ -55,7 +55,6 @@ public class MessageServlet extends HttpServlet {
         try (PrintWriter out = resp.getWriter()) {
             MessageHandler messageHandler = new MessageHandler();
             String action = req.getParameter("action");
-
             if ("send".equalsIgnoreCase(action)) {
                 EMessage message = new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"));
                 out.println(messageHandler.sendMessage(message));
