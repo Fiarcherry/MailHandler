@@ -42,8 +42,8 @@ public class DBHandler {
 
         Path dbPath = Paths.get("").toAbsolutePath().resolve(DB_FILE_NAME);
         SQLiteDataSource ds = new SQLiteDataSource();
-        //String dbURL = "jdbc:sqlite:"+dbPath;
-        String dbURL = "jdbc:sqlite:/var/lib/tomcat9/webapps/MailHandler/mail_handler.db";
+        String dbURL = "jdbc:sqlite:"+dbPath;
+        //String dbURL = "jdbc:sqlite:/var/lib/tomcat9/webapps/MailHandler/mail_handler.db";
 
         ds.setUrl(dbURL);
         this.connection = ds.getConnection();

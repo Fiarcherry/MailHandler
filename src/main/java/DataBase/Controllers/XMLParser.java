@@ -18,7 +18,7 @@ public class XMLParser {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
 
-            File xmlFile = new File(System.getProperty("user.home") + System.getProperty("file.separator") + savefile.getName());
+            File xmlFile = new File(System.getProperty("user.home") + System.getProperty("file.separator") + "MessageTemp" + System.getProperty("file.separator") +savefile.getName());
             Document doc = builder.parse(xmlFile);
 
             Element root = doc.getDocumentElement();

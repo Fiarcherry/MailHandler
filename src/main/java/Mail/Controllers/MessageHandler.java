@@ -102,7 +102,7 @@ public class MessageHandler {
                         if (disp != null) {
                             MimeBodyPart mbp = (MimeBodyPart)part;
                             if (!mbp.isMimeType("text/plain")) {
-                                File savedir = new File(System.getProperty("user.home"));
+                                File savedir = new File(System.getProperty("user.home")+"/MessageTemp");
                                 savedir.mkdirs();
                                 File savefile = File.createTempFile("emailattach", ".atch", savedir );
                                 try {

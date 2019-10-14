@@ -46,7 +46,7 @@ public class MessageServlet extends HttpServlet {
                     req.getRequestDispatcher("/Views/NewMessage.jsp").forward(req, resp);
                     break;
             }
-        } catch (SQLException | MessagingException e) {
+        } catch (SQLException | MessagingException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -63,7 +63,7 @@ public class MessageServlet extends HttpServlet {
                 EMessage message = new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"));
                 out.println(messageHandler.sendMessage(message));
             } else if ("read".equalsIgnoreCase(action)) {
-                messageHandler.readEmail();
+                //messageHandler.readEmail();
             } else if ("show".equalsIgnoreCase(action) || "json".equalsIgnoreCase(action)) {
                 DBHandler db = DBHandler.getInstance();
                 PaymentM[] payments = PaymentM.getPayments(db.parseUni(req.getParameter("json")));
