@@ -117,11 +117,11 @@ public class PaymentM extends Model {
         return uni + isProcessed.toString();
     }
 
+
     @Override
     public String getPrimaryKey() {
         return this.uni;
     }
-
     @Override
     public String getCreateTableQuery() {
         return String.format("CREATE TABLE if not exists '%s' ('%s' TEXT PRIMARY KEY, '%s' TEXT, '%s' TEXT, '%s' TEXT, '%s' REAL, '%s' REAL, '%s' TEXT DEFAULT \"test@bg.mail\", '%s' INTEGER DEFAULT 0);",
@@ -135,7 +135,6 @@ public class PaymentM extends Model {
                 PaymentM.EMAIL_DEF,
                 PaymentM.IS_PROCESSED_DEF);
     }
-
     @Override
     public String getInsertQuery() {
         return String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\", \"%s\", %s, %s, \"%s\", %s)",
@@ -157,7 +156,6 @@ public class PaymentM extends Model {
                 this.getEmail() == null ? "test@bg.market" : this.getEmail(),
                 this.getProcessed() ? 1 : 0);
     }
-
     @Override
     public String getUpdateQuery() {
         return String.format("update %s set %s = \"%s\", %s = \"%s\", %s = \"%s\", %s = %s, %s = %s, %s = \"%s\", %s = %s where %s = \"%s\"",
@@ -179,12 +177,10 @@ public class PaymentM extends Model {
                 PaymentM.UNI_DEF,
                 this.getUni());
     }
-
     @Override
     public String getSelectFirstQuery() {
         return String.format("SELECT * FROM %s WHERE %s = \"%s\"", PaymentM.TABLE_NAME, PaymentM.UNI_DEF, getPrimaryKey());
     }
-
     @Override
     public String getSelectAllQuery() {
         return "SELECT * FROM " + TABLE_NAME;
@@ -199,7 +195,6 @@ public class PaymentM extends Model {
         }
         return rows;
     }
-
     @Override
     public PaymentM getResult(ResultSet resultSet) throws SQLException {
         this.uni = resultSet.getString(PaymentM.UNI_DEF);
@@ -213,6 +208,22 @@ public class PaymentM extends Model {
         return this;
     }
 
+
+    @Override
+    public PaymentM removeCondition(String key) {
+        super.removeCondition(key);
+        return this;
+    }
+    @Override
+    public PaymentM addCondition(String key, String value) {
+        super.addCondition(key, value);
+        return this;
+    }
+    @Override
+    public PaymentM removeAllConditions() {
+        super.removeAllConditions();
+        return this;
+    }
 
     /**
      * Получение платежей по Uni

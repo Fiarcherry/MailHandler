@@ -1,6 +1,9 @@
 package Servlets;
 
 import DataBase.Controllers.DBHandler;
+import DataBase.Models.Model;
+import DataBase.Models.UserM;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class LoginServlet extends HttpServlet {
 
@@ -28,8 +32,6 @@ public class LoginServlet extends HttpServlet {
                     req.getRequestDispatcher("/Views/Login.html").forward(req, resp);
                     break;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -39,17 +41,25 @@ public class LoginServlet extends HttpServlet {
             String action = req.getParameter("action");
 
             if ("loginResult".equalsIgnoreCase(action)){
+                System.out.println("8765r4e");
                 DBHandler db = DBHandler.getInstance();
-                if (db.getLoginResult(req.getParameter("login"), req.getParameter("password")) != null){
-                    resp.sendRedirect(req.getContextPath()+"/MailHandler/auth?action=login");
-                }
-                else{
-                    resp.setContentType("text/html;charset=utf-8");
-                    resp.sendRedirect("/auth?action=login");
-                    out.println("Invalid login or password");
+                String login = req.getParameter("login");
+                String password = req.getParameter("password");
+                if (login.length() > 0 && password.length() > 0){
+                    UserM user = db.getByCondition(new UserM(login, password)
+                            .addCondition(UserM.LOGIN_DEF, Model.toText(login))
+                            .addCondition(UserM.PASSWORD_DEF, Model.toText(password)));
+                    if (user!= null){
+                        resp.sendRedirect(req.getContextPath()+"/");
+                    }
+                    else{
+                        resp.setContentType("application/javascript;charset=utf-8");
+                        resp.sendRedirect(req.getContextPath()+"/auth?action=login");
+                        out.println("Invalid login or password");
+                    }
                 }
             }
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

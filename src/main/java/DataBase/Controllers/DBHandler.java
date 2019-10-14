@@ -134,23 +134,9 @@ public class DBHandler {
 
     public <T extends Model> T getByCondition(T t){
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(t.getSelectFirstQuery());
+            ResultSet resultSet = statement.executeQuery(t.getSelectAllQuery()+t.getWhere("AND")+";");
             if (resultSet.next())
                 return (T) t.getResult(resultSet);
-            else
-                return null;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public UserM getLoginResult(String login, String password){
-        try (Statement statement = connection.createStatement()) {
-            UserM user = new UserM(login, password);
-            ResultSet resultSet = statement.executeQuery(user.getSelectLoginQuery());
-            if (resultSet.next())
-                return (UserM)user.getResult(resultSet);
             else
                 return null;
         } catch (SQLException e) {

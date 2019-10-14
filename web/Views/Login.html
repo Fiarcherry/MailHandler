@@ -7,27 +7,36 @@
 </head>
 <body>
     <h1>Login</h1>
-    <form method="post" action="auth?action=loginResult" id="loginForm">
+    <form method="post" action="auth?action=loginResult" id="loginForm" >
         <input type="text" name="login"/>
         <input type="password" name="password"/>
         <input type="submit" name="submit" value="login"/>
     </form>
     <h2 id="result"></h2>
     <script type="text/javascript">
-        var form = $('#loginForm');
-        form.submit(function () {
-            $.ajax({
-                type: form.attr('method'),
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (data) {
-                    $('#result').attr('value', data);
-                },
-                error: function (data) {
-                    alert("Can`t login."+data);
-                }
-            })
-        });
+        // $(document).ready(function () {
+        //     $.post("auth?action=login", function (data) {
+        //         if (!data.empty()) alert(data);
+        //     });
+        // });
+        // var form = $('#loginForm');
+        // function login () {
+        //     $.ajax({
+        //         type: form.attr('method'),
+        //         url: "auth?action=login",
+        //         data: form.serialize(),
+        //         success: function (data) {
+        //             alert("success");
+        //             $('#result').attr('value', data);
+        //         },
+        //         error: function (data) {
+        //             alert("error");
+        //             $('#result').attr('value', "Can`t login."+data.toString());
+        //         }
+        //     })
+        // };
+
+
     </script>
 </body>
 </html>

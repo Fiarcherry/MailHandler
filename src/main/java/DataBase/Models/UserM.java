@@ -62,6 +62,11 @@ public class UserM extends Model{
         this.id = id;
     }
 
+    /**
+     *
+     * @param login login
+     * @param password password
+     */
     public UserM(String login, String password) {
         this.login = login;
         this.password = password;
@@ -98,7 +103,6 @@ public class UserM extends Model{
     public String getPrimaryKey() {
         return id.toString();
     }
-
     @Override
     public  String getCreateTableQuery(){
         return String.format("CREATE TABLE if not exists '%s' ('%s' INTEGER PRIMARY KEY, '%s' TEXT, '%s' TEXT, '%s' TEXT, '%s' TEXT, '%s' INTEGER DEFAULT 0);",
@@ -110,7 +114,6 @@ public class UserM extends Model{
                 EMAIL_DEF,
                 ACTIVE_DEF);
     }
-
     @Override
     public String getInsertQuery() {
         return String.format("INSERT INTO %s (%s, %s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\", \"%s\")",
@@ -124,7 +127,6 @@ public class UserM extends Model{
                 this.password,
                 this.email);
     }
-
     @Override
     public String getUpdateQuery() {
         return String.format("update %s set %s = \"%s\", %s = \"%s\", %s = \"%s\", %s = \"%s\", %s = %s where %s = %s",
@@ -142,15 +144,29 @@ public class UserM extends Model{
                 ID_DEF,
                 this.getId());
     }
-
     @Override
     public String getSelectAllQuery() {
         return  "SELECT * FROM " + TABLE_NAME;
     }
-
     @Override
     public String getSelectFirstQuery() {
         return String.format("SELECT * FROM %s WHERE %s = %s", TABLE_NAME, ID_DEF, getPrimaryKey());
+    }
+
+    @Override
+    public UserM removeCondition(String key) {
+        super.removeCondition(key);
+        return this;
+    }
+    @Override
+    public UserM addCondition(String key, String value) {
+        super.addCondition(key, value);
+        return this;
+    }
+    @Override
+    public UserM removeAllConditions() {
+        super.removeAllConditions();
+        return this;
     }
 
     public String getSelectLoginQuery(){
