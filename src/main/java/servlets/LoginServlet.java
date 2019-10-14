@@ -1,9 +1,10 @@
-package Servlets;
+package servlets;
 
 import DataBase.Controllers.DBHandler;
 import DataBase.Models.Model;
 import DataBase.Models.UserM;
 import com.google.gson.Gson;
+import database.controllers.DBHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

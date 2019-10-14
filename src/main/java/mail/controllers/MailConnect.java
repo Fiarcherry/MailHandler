@@ -1,6 +1,6 @@
-package Mail.Controllers;
+package mail.controllers;
 
-import Mail.Models.EmailAuthenticator;
+import mail.models.EmailAuthenticator;
 
 import javax.mail.*;
 import java.util.Properties;

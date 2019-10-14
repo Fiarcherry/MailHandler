@@ -1,8 +1,8 @@
-package DataBase.Controllers;
+package database.controllers;
 
-import DataBase.Models.Model;
-import DataBase.Models.PaymentM;
-import DataBase.Models.UserM;
+import database.models.Model;
+import database.models.PaymentM;
+import database.models.UserM;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.sqlite.SQLiteDataSource;
@@ -43,7 +43,6 @@ public class DBHandler {
         Path dbPath = Paths.get("").toAbsolutePath().resolve(DB_FILE_NAME);
         SQLiteDataSource ds = new SQLiteDataSource();
         String dbURL = "jdbc:sqlite:"+dbPath;
-        //String dbURL = "jdbc:sqlite:/var/lib/tomcat9/webapps/MailHandler/mail_handler.db";
 
         ds.setUrl(dbURL);
         this.connection = ds.getConnection();

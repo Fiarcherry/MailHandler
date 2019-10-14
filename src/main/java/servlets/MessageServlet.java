@@ -1,10 +1,9 @@
-package Servlets;
+package servlets;
 
-import DataBase.Controllers.DBHandler;
-import DataBase.Models.Model;
-import DataBase.Models.PaymentM;
-import Mail.Controllers.MessageHandler;
-import Mail.Models.EMessage;
+import database.controllers.DBHandler;
+import database.models.PaymentM;
+import mail.controllers.MessageHandler;
+import mail.models.EMessage;
 import com.google.gson.Gson;
 
 import javax.mail.MessagingException;
@@ -15,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MessageServlet extends HttpServlet {
 
