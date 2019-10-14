@@ -1,6 +1,6 @@
-package Servlets;
+package servlets;
 
-import DataBase.Controllers.DBHandler;
+import database.controllers.DBHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

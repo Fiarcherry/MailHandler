@@ -1,30 +1,16 @@
-package Mail.Controllers;
+package mail.controllers;
 
-import DataBase.Controllers.DBHandler;
-import DataBase.Controllers.XMLParser;
-import DataBase.Models.PaymentM;
-import Mail.Models.EMessage;
+import database.controllers.DBHandler;
+import database.controllers.XMLParser;
+import database.models.PaymentM;
+import mail.models.EMessage;
 
-import javax.jnlp.DownloadService;
-import javax.jnlp.DownloadServiceListener;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
-import java.util.Arrays;
-
-import com.sun.xml.internal.ws.message.MimeAttachmentSet;
-import org.w3c.dom.*;
-
-import javax.mail.internet.MimeMultipart;
-import javax.xml.parsers.*;
-import javax.xml.soap.Node;
 import java.io.*;
-import java.util.LinkedList;
+import java.sql.SQLException;
 import java.util.List;
 
 public class MessageHandler {

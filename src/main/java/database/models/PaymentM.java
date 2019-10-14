@@ -1,6 +1,6 @@
-package DataBase.Models;
+package database.models;
 
-import DataBase.Controllers.DBHandler;
+import database.controllers.DBHandler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
