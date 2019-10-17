@@ -16,9 +16,9 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try (PrintWriter out = resp.getWriter()) {
-            String action = req.getParameter("action");
+        String action = req.getParameter("action");
 
+        try (PrintWriter out = resp.getWriter()) {
             switch (action == null ? "login" : action) {
                 case "registration":
                     break;
@@ -34,12 +34,12 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try (PrintWriter out = resp.getWriter()) {
             String action = req.getParameter("action");
 
             if ("loginResult".equalsIgnoreCase(action)){
-                System.out.println("8765r4e");
+                System.out.println("loginResult");
                 DBHandler db = DBHandler.getInstance();
                 String login = req.getParameter("login");
                 String password = req.getParameter("password");
