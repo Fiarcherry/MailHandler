@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,12 +18,30 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
+        HttpSession session = req.getSession();
 
         try (PrintWriter out = resp.getWriter()) {
             switch (action == null ? "login" : action) {
                 case "registration":
                     break;
                 case "loginResult":
+                    UserM user = new UserM(req.getParameter("login"), req.getParameter("password"));
+                    if(user.getSelectLoginQuery() != null){
+                        session.setAttribute("login", user.getLogin());
+                        session.setAttribute("password", user.getPassword());
+                        session.setAttribute("name", user.getName());
+                        req.getRequestDispatcher("/Views/AllPayments.jsp").forward(req, resp);
+                    }
+                    else
+                    {
+                        req.getRequestDispatcher("/Views/Home.jsp");
+                    }
+                    break;
+                case "logout":
+                    req.getSession().setAttribute("login", null);
+                    req.getSession().setAttribute("password", null);
+                    req.getSession().setAttribute("name", null);
+                    req.getRequestDispatcher("/Views/Home.html");
                     break;
                 case "login":
                 default:

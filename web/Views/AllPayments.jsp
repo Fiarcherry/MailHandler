@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/PaymentsTable.css">
 </head>
 <body>
+<a href="auth?action=logout">Logout</a><br>
 <table id="table" class="tg" border="1">
     <thead>
     <tr>
