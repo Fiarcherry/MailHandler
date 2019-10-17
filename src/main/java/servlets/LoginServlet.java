@@ -1,10 +1,8 @@
 package servlets;
 
-import DataBase.Controllers.DBHandler;
-import DataBase.Models.Model;
-import DataBase.Models.UserM;
-import com.google.gson.Gson;
 import database.controllers.DBHandler;
+import database.models.Model;
+import database.models.UserM;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.HashMap;
 
 public class LoginServlet extends HttpServlet {
 
