@@ -25,6 +25,7 @@ public class LoginServlet extends HttpServlet {
                 case "registration":
                     break;
                 case "loginResult":
+                    System.out.println("getLR");
                     UserM user = new UserM(req.getParameter("login"), req.getParameter("password"));
                     if(user.getSelectLoginQuery() != null){
                         session.setAttribute("login", user.getLogin());
@@ -58,7 +59,7 @@ public class LoginServlet extends HttpServlet {
             String action = req.getParameter("action");
 
             if ("loginResult".equalsIgnoreCase(action)){
-                System.out.println("loginResult");
+                System.out.println("postLR");
                 DBHandler db = DBHandler.getInstance();
                 String login = req.getParameter("login");
                 String password = req.getParameter("password");
