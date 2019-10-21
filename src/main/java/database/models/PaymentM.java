@@ -5,7 +5,9 @@ import database.controllers.DBHandler;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PaymentM extends Model {
 
@@ -123,6 +125,12 @@ public class PaymentM extends Model {
         return this.uni;
     }
     @Override
+    public String getTableName() {
+        return TABLE_NAME;
+    }
+
+
+    @Override
     public String getCreateTableQuery() {
         return String.format("CREATE TABLE if not exists '%s' ('%s' TEXT PRIMARY KEY, '%s' TEXT, '%s' TEXT, '%s' TEXT, '%s' REAL, '%s' REAL, '%s' TEXT DEFAULT \"test@bg.mail\", '%s' INTEGER DEFAULT 0);",
                 PaymentM.TABLE_NAME,
@@ -222,6 +230,22 @@ public class PaymentM extends Model {
     @Override
     public PaymentM removeAllConditions() {
         super.removeAllConditions();
+        return this;
+    }
+
+    @Override
+    public PaymentM removeJoin(String key) {
+        super.removeJoin(key);
+        return this;
+    }
+    @Override
+    public PaymentM addJoin(String tableDef, String primaryKey, String foreignKey) {
+        super.addJoin(tableDef, primaryKey, foreignKey);
+        return this;
+    }
+    @Override
+    public PaymentM removeAllJoins() {
+        super.removeAllJoins();
         return this;
     }
 

@@ -5,7 +5,7 @@
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<div>
+<div id="divReferences">
     <h1 id="headerGreetings">Welcome home,</h1>
     <a href="message?action=create">Write new message</a>
     <a href="message?action=read">Read message</a>
@@ -21,8 +21,10 @@
             success: function(data){
                 if (data == "NULLLOGIN")
                     $("#headerGreetings").append(" Commander");
-                else
-                    $("#headerGreetings").append(" "+data);
+                else {
+                    $("#headerGreetings").append(" " + data);
+                    $("#divReferences").append("<a href=\"auth?action=registration\">Registration</a>")
+                }
             },
             error: function(error){
                 alert(JSON.stringify(error));

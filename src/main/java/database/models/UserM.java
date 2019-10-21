@@ -103,6 +103,12 @@ public class UserM extends Model{
         return id.toString();
     }
     @Override
+    public String getTableName() {
+        return TABLE_NAME;
+    }
+
+
+    @Override
     public  String getCreateTableQuery(){
         return String.format("CREATE TABLE if not exists '%s' ('%s' INTEGER PRIMARY KEY, '%s' TEXT, '%s' TEXT, '%s' TEXT, '%s' TEXT, '%s' INTEGER DEFAULT 0);",
                 TABLE_NAME,
@@ -165,6 +171,22 @@ public class UserM extends Model{
     @Override
     public UserM removeAllConditions() {
         super.removeAllConditions();
+        return this;
+    }
+
+    @Override
+    public UserM removeJoin(String key) {
+        super.removeJoin(key);
+        return this;
+    }
+    @Override
+    public UserM addJoin(String tableDef, String primaryKey, String foreignKey) {
+        super.addJoin(tableDef, primaryKey, foreignKey);
+        return this;
+    }
+    @Override
+    public UserM removeAllJoins() {
+        super.removeAllJoins();
         return this;
     }
 

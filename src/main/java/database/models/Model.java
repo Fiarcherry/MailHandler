@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 public abstract class Model <T extends Model>{
     private NavigableMap<String, String> conditions = new TreeMap<>();
+    private Map<String, String> joins = new TreeMap<>();
 
     public T removeCondition(String key){
         conditions.remove(key);
@@ -22,11 +23,25 @@ public abstract class Model <T extends Model>{
         conditions.clear();
         return null;
     }
+
+    public T removeJoin(String key){
+        conditions.remove(key);
+        return null;
+    }
+    public T addJoin(String tableDef, String primaryKey, String foreignKey){
+        joins.put(tableDef, tableDef+'.'+primaryKey+" = "+getTableName()+'.'+foreignKey);
+        return null;
+    }
+    public T removeAllJoins(){
+        joins.clear();
+        return null;
+    }
+
     public static String toText(String value){
         return "\""+value+"\"";
     }
 
-    public String getWhere(String AndOr) {
+    public final String getWhere(String AndOr) {
         StringBuilder query = new StringBuilder();
         if (conditions.isEmpty())
             return "";
@@ -40,6 +55,16 @@ public abstract class Model <T extends Model>{
         }
         return query.toString();
     }
+    public final String getJoin(){
+        StringBuilder query = new StringBuilder();
+        if (joins.isEmpty())
+            return "";
+        query.append(" INNER JOIN ");
+        for (Map.Entry<String, String> entry: joins.entrySet()) {
+            query.append(entry.getKey()).append(" ON ").append(entry.getValue());
+        }
+        return query.toString();
+    }
 
     public abstract String getInsertQuery();
     public abstract String getCreateTableQuery();
@@ -48,6 +73,7 @@ public abstract class Model <T extends Model>{
     public abstract String getSelectFirstQuery();
 
     public abstract String getPrimaryKey();
+    public abstract String getTableName();
 
     public abstract List<T> getResultList(ResultSet resultSet) throws SQLException;
     public abstract T getResult(ResultSet resultSet) throws SQLException;
