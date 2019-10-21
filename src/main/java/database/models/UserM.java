@@ -169,6 +169,11 @@ public class UserM extends Model{
         return this;
     }
     @Override
+    public UserM addCondition(String key, String value, boolean isText) {
+        super.addCondition(key, value, isText);
+        return this;
+    }
+    @Override
     public UserM removeAllConditions() {
         super.removeAllConditions();
         return this;

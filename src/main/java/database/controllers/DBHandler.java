@@ -97,6 +97,7 @@ public class DBHandler {
         }
     }
 
+
     /**
      * Получение всех записей из таблицы
      * @param t
@@ -105,7 +106,8 @@ public class DBHandler {
      */
     public <T extends Model> List<T> getAll(T t) {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(t.getSelectAllQuery());
+            String query = "SELECT "+t.getSelectors()+" FROM "+t.getTableName()+t.getJoin()+t.getWhere("AND");
+            ResultSet resultSet = statement.executeQuery(query);
             return t.getResultList(resultSet);
         } catch (SQLException e) {
             return null;
@@ -118,31 +120,19 @@ public class DBHandler {
      * @param t
      * @return Возвращается ссылка на объект, переданный в параметрах
      */
-    public <T extends Model> T getByPrimaryKey(T t) {
+    public <T extends Model> T getFirst(T t) {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(t.getSelectFirstQuery());
-            if (resultSet.next())
-                return (T) t.getResult(resultSet);
-            else
-                return null;
+            String query = "SELECT "+t.getSelectors()+" FROM "+t.getTableName()+t.getJoin()+t.getWhere("AND");
+            System.out.println(query);
+            ResultSet resultSet = statement.executeQuery(query);
+            return (T) t.getResult(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public <T extends Model> T getByCondition(T t){
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(t.getSelectAllQuery()+t.getWhere("AND")+";");
-            if (resultSet.next())
-                return (T) t.getResult(resultSet);
-            else
-                return null;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
 
     /**
      * Первоначальное создание таблиц

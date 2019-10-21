@@ -2,6 +2,7 @@ package servlets;
 
 import database.controllers.DBHandler;
 import database.models.Model;
+import database.models.PaymentM;
 import database.models.UserM;
 
 import javax.servlet.ServletException;
@@ -52,9 +53,9 @@ public class LoginServlet extends HttpServlet {
                 String login = req.getParameter("login");
                 String password = req.getParameter("password");
                 if (login.length() > 0 && password.length() > 0) {
-                    UserM user = db.getByCondition(new UserM(login, password)
+                    UserM user = db.getFirst(new UserM(login, password)
                             .addCondition(UserM.LOGIN_DEF, Model.toText(login))
-                            .addCondition(UserM.PASSWORD_DEF, Model.toText(password)));
+                            .addCondition(UserM.PASSWORD_DEF, Model.toText(password)))  ;
                     if (user != null) {
                         HttpSession session = req.getSession();
                         session.setAttribute("login", user.getLogin());

@@ -105,10 +105,6 @@ public class PaymentM extends Model {
     }
 
 
-    public void switchProcessed() {
-        this.isProcessed = !this.isProcessed;
-    }
-
     public void setProcessedTrue() {
         this.isProcessed = true;
     }
@@ -166,7 +162,7 @@ public class PaymentM extends Model {
     }
     @Override
     public String getUpdateQuery() {
-        return String.format("update %s set %s = \"%s\", %s = \"%s\", %s = \"%s\", %s = %s, %s = %s, %s = \"%s\", %s = %s where %s = \"%s\"",
+        String query = String.format("update %s set %s = \"%s\", %s = \"%s\", %s = \"%s\", %s = %s, %s = %s, %s = \"%s\", %s = %s where %s = \"%s\"",
                 PaymentM.TABLE_NAME,
                 PaymentM.NUMBER_DEF,
                 this.getNumber(),
@@ -184,6 +180,8 @@ public class PaymentM extends Model {
                 this.getProcessed() ? 1 : 0,
                 PaymentM.UNI_DEF,
                 this.getUni());
+        System.out.println(query);
+        return query;
     }
     @Override
     public String getSelectFirstQuery() {
@@ -228,6 +226,11 @@ public class PaymentM extends Model {
         return this;
     }
     @Override
+    public PaymentM addCondition(String key, String value, boolean isText) {
+        super.addCondition(key, value, isText);
+        return this;
+    }
+    @Override
     public PaymentM removeAllConditions() {
         super.removeAllConditions();
         return this;
@@ -249,6 +252,27 @@ public class PaymentM extends Model {
         return this;
     }
 
+    @Override
+    public PaymentM removeSelector(String tableName, String columnName) {
+        super.removeSelector(tableName, columnName);
+        return this;
+    }
+    @Override
+    public PaymentM addSelector(String tableName, String columnName) {
+        super.addSelector(tableName, columnName);
+        return this;
+    }
+    @Override
+    public PaymentM addSelector(String tableName, String columnName, String columnMask) {
+        super.addSelector(tableName, columnName, columnMask);
+        return this;
+    }
+    @Override
+    public PaymentM removeAllSelectors() {
+        super.removeAllSelectors();
+        return this;
+    }
+
     /**
      * Получение платежей по Uni
      *
@@ -258,7 +282,7 @@ public class PaymentM extends Model {
     public static PaymentM[] getPayments(String[] unis) throws SQLException{
         PaymentM[] payments = new PaymentM[unis.length];
         for (int i = 0; i < unis.length; i++)
-            payments[i] = (PaymentM) DBHandler.getInstance().getByPrimaryKey(new PaymentM(unis[i]));
+            payments[i] = (PaymentM) DBHandler.getInstance().getFirst(new PaymentM(unis[i]).addCondition(PaymentM.UNI_DEF, Model.toText(unis[i])));
         return payments;
     }
 
