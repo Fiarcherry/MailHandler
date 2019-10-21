@@ -5,6 +5,28 @@
     <title>Registration</title>
 </head>
 <body>
-
+    <h1>Registration</h1>
+    <input type="text" name="login" placeholder="Login"/>
+    <input type="password" name="password" placeholder="Password"/>
+    <input type="submit" name="submit" onclick="registration()"/>
+    <h2 id="result"></h2>
+    <script type="text/javascript">
+        function registration () {
+            $.ajax({
+                type: "POST",
+                url: "auth?action=registrationResult",
+                data: {login: $("input[name=login]").val(), password: $("input[name=password]").val()},
+                success: function (data) {
+                    if (data.includes("MailHandler"))
+                        window.location.replace(data);
+                    else
+                        $('#result').append(JSON.stringify(data));
+                },
+                error: function (data) {
+                    $('#result').append("Error: "+data);
+                }
+            })
+        };
+    </script>
 </body>
 </html>

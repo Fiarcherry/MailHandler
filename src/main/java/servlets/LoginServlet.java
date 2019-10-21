@@ -48,24 +48,43 @@ public class LoginServlet extends HttpServlet {
         try (PrintWriter out = resp.getWriter()) {
             String action = req.getParameter("action");
 
-            if ("loginResult".equalsIgnoreCase(action)) {
-                DBHandler db = DBHandler.getInstance();
-                String login = req.getParameter("login");
-                String password = req.getParameter("password");
-                if (login.length() > 0 && password.length() > 0) {
-                    UserM user = db.getFirst(new UserM(login, password)
-                            .addCondition(UserM.LOGIN_DEF, Model.toText(login))
-                            .addCondition(UserM.PASSWORD_DEF, Model.toText(password)))  ;
-                    if (user != null) {
-                        HttpSession session = req.getSession();
-                        session.setAttribute("login", user.getLogin());
-                        session.setAttribute("name", user.getName());
-                        out.write(req.getContextPath() + "/home");
-                    } else {
-                        resp.setContentType("text/html;charset=utf-8");
-                        out.write("Invalid login or password");
+            DBHandler db = DBHandler.getInstance();
+            String login = req.getParameter("login");
+            String password = req.getParameter("password");
+            HttpSession session = req.getSession();
+
+            switch(action){
+                case "registrationResult":
+                    if (login.length() > 0 && password.length() > 0) {
+                        if (session.getAttribute("name") != null) {
+                            UserM user = new UserM(login, password);
+                            db.insert(user);
+                            session.setAttribute("login", user.getLogin());
+                            session.setAttribute("name", user.getName());
+                            out.write(req.getContextPath() + "/home");
+                        } else {
+                            resp.setContentType("text/html;charset=utf-8");
+                            out.write("You need to authorize");
+                        }
                     }
-                }
+                    break;
+                case "loginResult":
+                    if (login.length() > 0 && password.length() > 0) {
+                        UserM user = db.getFirst(new UserM(login, password)
+                                .addCondition(UserM.LOGIN_DEF, Model.toText(login))
+                                .addCondition(UserM.PASSWORD_DEF, Model.toText(password)))  ;
+                        if (user != null) {
+                            session.setAttribute("login", user.getLogin());
+                            session.setAttribute("name", user.getName());
+                            out.write(req.getContextPath() + "/home");
+                        } else {
+                            resp.setContentType("text/html;charset=utf-8");
+                            out.write("Invalid login or password");
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
         } catch (SQLException e) {
             e.printStackTrace();
