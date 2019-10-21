@@ -7,34 +7,27 @@
 </head>
 <body>
     <h1>Login</h1>
-    <form method="post" action="auth?action=loginResult" id="loginForm" >
         <input type="text" name="login" placeholder="Login"/>
         <input type="password" name="password" placeholder="Password"/>
-        <input type="submit" name="submit"/>
-    </form>
+        <input type="submit" name="submit" onclick="login()"/>
     <h2 id="result"></h2>
     <script type="text/javascript">
-        // $(document).ready(function () {
-        //     $.post("auth?action=login", function (data) {
-        //         if (!data.empty()) alert(data);
-        //     });
-        // });
-        // var form = $('#loginForm');
-        // function login () {
-        //     $.ajax({
-        //         type: form.attr('method'),
-        //         url: "auth?action=login",
-        //         data: form.serialize(),
-        //         success: function (data) {
-        //             alert("success");
-        //             $('#result').attr('value', data);
-        //         },
-        //         error: function (data) {
-        //             alert("error");
-        //             $('#result').attr('value', "Can`t login."+data.toString());
-        //         }
-        //     })
-        // };
+        function login () {
+            $.ajax({
+                type: "POST",
+                url: "auth?action=loginResult",
+                data: {login: $("input[name=login]").val(), password: $("input[name=password]").val()},
+                success: function (data) {
+                    if (data.includes("MailHandler"))
+                        window.location.replace(data);
+                    else
+                        $('#result').append(JSON.stringify(data));
+                },
+                error: function (data) {
+                    $('#result').append("Error: "+data);
+                }
+            })
+        };
 
 
     </script>

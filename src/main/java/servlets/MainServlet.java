@@ -28,10 +28,7 @@ public class MainServlet extends HttpServlet {
                 case "json":
                     resp.setContentType("application/json;charset=utf-8");
                     HttpSession session = req.getSession();
-                    //String login = session.getAttribute("login").toString();
                     String name = session.getAttribute("name") == null ? "NULLLOGIN" : session.getAttribute("name").toString();
-
-                    System.out.println(name);
                     out.println(new Gson().toJson(new String[]{name}));
                     break;
                 default:
