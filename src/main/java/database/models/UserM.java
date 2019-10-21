@@ -168,10 +168,6 @@ public class UserM extends Model{
         return this;
     }
 
-    public String getSelectLoginQuery(){
-        return "SELECT * FROM "+TABLE_NAME+" WHERE "+LOGIN_DEF+" = \""+login+"\" AND "+PASSWORD_DEF+" = \""+password+"\"";
-    }
-
 
     @Override
     public List<UserM> getResultList(ResultSet resultSet) throws SQLException {

@@ -18,31 +18,14 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        HttpSession session = req.getSession();
-
         try (PrintWriter out = resp.getWriter()) {
             switch (action == null ? "login" : action) {
                 case "registration":
                     break;
-                case "loginResult":
-                    System.out.println("getLR");
-                    UserM user = new UserM(req.getParameter("login"), req.getParameter("password"));
-                    if(user.getSelectLoginQuery() != null){
-                        session.setAttribute("login", user.getLogin());
-                        session.setAttribute("password", user.getPassword());
-                        session.setAttribute("name", user.getName());
-                        req.getRequestDispatcher("/Views/AllPayments.jsp").forward(req, resp);
-                    }
-                    else
-                    {
-                        req.getRequestDispatcher("/Views/Home.jsp");
-                    }
-                    break;
                 case "logout":
-                    req.getSession().setAttribute("login", null);
-                    req.getSession().setAttribute("password", null);
-                    req.getSession().setAttribute("name", null);
-                    req.getRequestDispatcher("/Views/Home.html");
+                    req.getSession().removeAttribute("login");
+                    req.getSession().removeAttribute("name");
+                    resp.sendRedirect(req.getContextPath()+"/home");
                     break;
                 case "login":
                 default:
@@ -68,12 +51,15 @@ public class LoginServlet extends HttpServlet {
                             .addCondition(UserM.LOGIN_DEF, Model.toText(login))
                             .addCondition(UserM.PASSWORD_DEF, Model.toText(password)));
                     if (user!= null){
-                        resp.sendRedirect(req.getContextPath()+"/");
+                        HttpSession session = req.getSession();
+                        session.setAttribute("login", user.getLogin());
+                        session.setAttribute("name", user.getName());
+                        resp.sendRedirect(req.getContextPath()+"/home");
                     }
                     else{
                         resp.setContentType("application/javascript;charset=utf-8");
-                        resp.sendRedirect(req.getContextPath()+"/auth?action=login");
                         out.println("Invalid login or password");
+                        resp.sendRedirect(req.getContextPath()+"/auth?action=login");
                     }
                 }
             }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<div>
+    <h1 id="headerGreetings">Welcome home,</h1>
+    <a href="message?action=create">Write new message</a>
+    <a href="message?action=read">Read message</a>
+    <a href="message?action=show">DB List</a>
+    <a href="auth?action=login">Login</a>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: "home?action=json",
+            type: "POST",
+            dataType: 'json',
+            success: function(data){
+                if (data == "NULLLOGIN")
+                    $("#headerGreetings").append(" Commander");
+                else
+                    $("#headerGreetings").append(" "+data);
+            },
+            error: function(error){
+                alert(JSON.stringify(error));
+            }
+        });
+    });
+</script>
+</body>
+</html>
