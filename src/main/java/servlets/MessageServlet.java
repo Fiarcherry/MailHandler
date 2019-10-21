@@ -58,17 +58,15 @@ public class MessageServlet extends HttpServlet {
             if ("send".equalsIgnoreCase(action)) {
                 EMessage message = new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"));
                 out.println(messageHandler.sendMessage(message));
-            } else if ("read".equalsIgnoreCase(action)) {
-                //messageHandler.readEmail();
             } else if ("show".equalsIgnoreCase(action) || "json".equalsIgnoreCase(action)) {
                 DBHandler db = DBHandler.getInstance();
                 PaymentM[] payments = PaymentM.getPayments(db.parseUni(req.getParameter("json")));
                 PaymentM.updateChecked(payments);
                 MessageHandler mh = new MessageHandler();
-                mh.sendPayments(payments);
+                //TODO Начать с этого mh.sendPayments(payments);
                 out.println(new Gson().toJson(db.getAll(new PaymentM())));
             }
-        } catch (SQLException | MessagingException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

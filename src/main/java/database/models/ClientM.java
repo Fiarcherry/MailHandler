@@ -35,8 +35,8 @@ public class ClientM extends Model {
         return email;
     }
 
-    public ClientM(){
 
+    public ClientM(){
     }
 
     public ClientM(String id){
@@ -57,6 +57,7 @@ public class ClientM extends Model {
                 resultSet.getString(ClientM.EMAIL_DEF));
     }
 
+
     @Override
     public String getInsertQuery() {
         String query = String.format("INSERT INTO %s (%s, %s, %s, %s) " +
@@ -71,6 +72,7 @@ public class ClientM extends Model {
                 this.getSecondName(),
                 this.getEmail());
 
+        System.out.println(query);
         return query;
     }
 
@@ -87,6 +89,7 @@ public class ClientM extends Model {
                 ClientM.SECOND_NAME_DEF,
                 ClientM.EMAIL_DEF);
 
+        System.out.println(query);
         return query;
     }
 
@@ -107,6 +110,7 @@ public class ClientM extends Model {
                 ClientM.ID_DEF,
                 this.getId());
 
+        System.out.println(query);
         return query;
     }
 
@@ -114,20 +118,30 @@ public class ClientM extends Model {
     public String getSelectAllQuery() {
         String query = "SELECT * FROM " + ClientM.TABLE_NAME;
 
+        System.out.println(query);
         return query;
     }
 
     @Override
     public String getSelectFirstQuery() {
-        String query = String.format("SELECT * FROM %s WHERE %s = \"%s\"", ClientM.TABLE_NAME, ClientM.ID_DEF, this.getPrimaryKey());
+        String query = String.format("SELECT * FROM %s " +
+                "WHERE %s = \"%s\"", ClientM.TABLE_NAME, ClientM.ID_DEF, this.getPrimaryKey());
 
+        System.out.println(query);
         return query;
     }
+
 
     @Override
     public String getPrimaryKey() {
         return this.id;
     }
+
+    @Override
+    public String getTableName() {
+        return ClientM.TABLE_NAME;
+    }
+
 
     @Override
     public List getResultList(ResultSet resultSet) throws SQLException {
@@ -147,6 +161,7 @@ public class ClientM extends Model {
         return this;
     }
 
+
     @Override
     public ClientM removeCondition(String key) {
         super.removeCondition(key);
@@ -158,8 +173,50 @@ public class ClientM extends Model {
         return this;
     }
     @Override
+    public ClientM addCondition(String key, String value, boolean isText) {
+        super.addCondition(key, value, isText);
+        return this;
+    }
+    @Override
     public ClientM removeAllConditions() {
         super.removeAllConditions();
+        return this;
+    }
+
+    @Override
+    public ClientM removeJoin(String key) {
+        super.removeJoin(key);
+        return this;
+    }
+    @Override
+    public ClientM addJoin(String tableDef, String primaryKey, String foreignKey) {
+        super.addJoin(tableDef, primaryKey, foreignKey);
+        return this;
+    }
+    @Override
+    public ClientM removeAllJoins() {
+        super.removeAllJoins();
+        return this;
+    }
+
+    @Override
+    public ClientM removeSelector(String tableName, String columnName) {
+        super.removeSelector(tableName, columnName);
+        return this;
+    }
+    @Override
+    public ClientM addSelector(String tableName, String columnName) {
+        super.addSelector(tableName, columnName);
+        return this;
+    }
+    @Override
+    public ClientM addSelector(String tableName, String columnName, String columnMask) {
+        super.addSelector(tableName, columnName, columnMask);
+        return this;
+    }
+    @Override
+    public ClientM removeAllSelectors() {
+        super.removeAllSelectors();
         return this;
     }
 }

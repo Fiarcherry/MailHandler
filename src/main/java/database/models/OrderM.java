@@ -47,6 +47,7 @@ public class OrderM extends Model {
         return data;
     }
 
+
     public OrderM(){
 
     }
@@ -73,10 +74,11 @@ public class OrderM extends Model {
                 resultSet.getString(OrderM.DATA_DEF));
     }
 
+
     @Override
     public String getInsertQuery() {
         String query = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s) " +
-                        "VALUES (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")",
+                        "VALUES (\"%s\", \"%s\", \"%s\", %s, %s, \"%s\")",
                 OrderM.TABLE_NAME,
                 OrderM.ID_DEF,
                 OrderM.ID_CLIENT_DEF,
@@ -91,6 +93,7 @@ public class OrderM extends Model {
                 this.getOurCommission(),
                 this.getData());
 
+        System.out.println(query);
         return query;
     }
 
@@ -113,6 +116,7 @@ public class OrderM extends Model {
                 OrderM.OUR_COMMISSION_DEF,
                 OrderM.DATA_DEF);
 
+        System.out.println(query);
         return query;
     }
 
@@ -139,6 +143,7 @@ public class OrderM extends Model {
                 OrderM.ID_DEF,
                 this.getId());
 
+        System.out.println(query);
         return query;
     }
 
@@ -146,19 +151,27 @@ public class OrderM extends Model {
     public String getSelectAllQuery() {
         String query = "SELECT * FROM " + OrderM.TABLE_NAME;
 
+        System.out.println(query);
         return query;
     }
 
     @Override
     public String getSelectFirstQuery() {
-        String query = String.format("SELECT * FROM %s WHERE %s = \"%s\"", OrderM.TABLE_NAME, OrderM.ID_DEF, this.getPrimaryKey());
+        String query = String.format("SELECT * FROM %s " +
+                "WHERE %s = \"%s\"", OrderM.TABLE_NAME, OrderM.ID_DEF, this.getPrimaryKey());
 
+        System.out.println(query);
         return query;
     }
 
     @Override
     public String getPrimaryKey() {
         return this.id;
+    }
+
+    @Override
+    public String getTableName() {
+        return OrderM.TABLE_NAME;
     }
 
     @Override
@@ -192,8 +205,50 @@ public class OrderM extends Model {
         return this;
     }
     @Override
+    public OrderM addCondition(String key, String value, boolean isText) {
+        super.addCondition(key, value, isText);
+        return this;
+    }
+    @Override
     public OrderM removeAllConditions() {
         super.removeAllConditions();
+        return this;
+    }
+
+    @Override
+    public OrderM removeJoin(String key) {
+        super.removeJoin(key);
+        return this;
+    }
+    @Override
+    public OrderM addJoin(String tableDef, String primaryKey, String foreignKey) {
+        super.addJoin(tableDef, primaryKey, foreignKey);
+        return this;
+    }
+    @Override
+    public OrderM removeAllJoins() {
+        super.removeAllJoins();
+        return this;
+    }
+
+    @Override
+    public OrderM removeSelector(String tableName, String columnName) {
+        super.removeSelector(tableName, columnName);
+        return this;
+    }
+    @Override
+    public OrderM addSelector(String tableName, String columnName) {
+        super.addSelector(tableName, columnName);
+        return this;
+    }
+    @Override
+    public OrderM addSelector(String tableName, String columnName, String columnMask) {
+        super.addSelector(tableName, columnName, columnMask);
+        return this;
+    }
+    @Override
+    public OrderM removeAllSelectors() {
+        super.removeAllSelectors();
         return this;
     }
 }
