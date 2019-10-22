@@ -27,10 +27,8 @@ public class XMLParser {
                     root.getElementsByTagName("Uni").item(0).getTextContent(),
                     root.getElementsByTagName("Number").item(0).getTextContent(),
                     root.getElementsByTagName("DateOperation").item(0).getTextContent(),
-                    root.getElementsByTagName("Account").item(0).getTextContent(),
                     Float.valueOf(root.getElementsByTagName("Amount").item(0).getTextContent()),
                     Float.valueOf(root.getElementsByTagName("Commission").item(0).getTextContent()),
-                    root.getAttribute("Email"),
                     false);
         }
         catch (ParserConfigurationException | IOException | org.xml.sax.SAXException e){

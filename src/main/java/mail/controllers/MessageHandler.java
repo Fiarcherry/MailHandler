@@ -45,19 +45,20 @@ public class MessageHandler {
         }
     }
 
-    public void sendPayments(PaymentM[] payments) throws MessagingException{
-        EMessage[] messages = new EMessage[payments.length];
-        for (int i = 0; i < payments.length; i++){
-            StringBuilder text = new StringBuilder();
-            text.append("Сообщаем вам о удачном платеже.")
-                    .append("\nНомер аккаунта: ").append(payments[i].getAccount())
-                    .append("\nДата проведения операции: ").append(payments[i].getDateOperation())
-                    .append("\nСумма платежа: ").append(payments[i].getAmount())
-                    .append("\nВ том числе комиссия: ").append(payments[i].getCommission());
-            messages[i] = new EMessage(payments[i].getEmail(), "Payments", text.toString());
-        }
-        sendMessages(messages);
-    }
+//TODO Начать с этого
+//    public void sendPayments(PaymentM[] payments) throws MessagingException{
+//        EMessage[] messages = new EMessage[payments.length];
+//        for (int i = 0; i < payments.length; i++){
+//            StringBuilder text = new StringBuilder();
+//            text.append("Сообщаем вам о удачном платеже.")
+//                    .append("\nНомер аккаунта: ").append(payments[i].getAccount(payments[i].getId()))
+//                    .append("\nДата проведения операции: ").append(payments[i].getDateOperation())
+//                    .append("\nСумма платежа: ").append(payments[i].getAmount())
+//                    .append("\nВ том числе комиссия: ").append(payments[i].getBankCommission());
+//            messages[i] = new EMessage(payments[i].getEmail(), "Payments", text.toString());
+//        }
+//        sendMessages(messages);
+//    }
 
     public void readEmail() throws MessagingException, SQLException, IOException {
         Folder inbox = MailConnect.getInstance().getStore().getFolder("INBOX");
@@ -102,7 +103,7 @@ public class MessageHandler {
                                 List<PaymentM> payments = DBHandler.getInstance().getObjects(new PaymentM());
 
                                 for (PaymentM payment : payments) {
-                                    if (payment.getUni().equals(currentPayment.getUni())){
+                                    if (payment.getId().equals(currentPayment.getId())){
                                         repeatPayment = true;
                                     }
                                 }
