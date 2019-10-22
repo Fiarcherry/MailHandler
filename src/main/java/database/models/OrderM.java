@@ -143,17 +143,8 @@ public class OrderM extends Model {
     }
 
     @Override
-    public String getSelectAllQuery() {
-        String query = "SELECT * FROM " + OrderM.TABLE_NAME;
-
-        return query;
-    }
-
-    @Override
-    public String getSelectFirstQuery() {
-        String query = String.format("SELECT * FROM %s WHERE %s = \"%s\"", OrderM.TABLE_NAME, OrderM.ID_DEF, this.getPrimaryKey());
-
-        return query;
+    public String getTableName() {
+        return TABLE_NAME;
     }
 
     @Override

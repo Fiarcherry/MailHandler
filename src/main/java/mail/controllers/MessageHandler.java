@@ -99,7 +99,7 @@ public class MessageHandler {
 
                                 PaymentM currentPayment = XMLParser.parsePayment(savefile);
                                 boolean repeatPayment = false;
-                                List<PaymentM> payments = DBHandler.getInstance().getAll(new PaymentM());
+                                List<PaymentM> payments = DBHandler.getInstance().getObjects(new PaymentM());
 
                                 for (PaymentM payment : payments) {
                                     if (payment.getUni().equals(currentPayment.getUni())){

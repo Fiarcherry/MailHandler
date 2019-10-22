@@ -111,17 +111,8 @@ public class ClientM extends Model {
     }
 
     @Override
-    public String getSelectAllQuery() {
-        String query = "SELECT * FROM " + ClientM.TABLE_NAME;
-
-        return query;
-    }
-
-    @Override
-    public String getSelectFirstQuery() {
-        String query = String.format("SELECT * FROM %s WHERE %s = \"%s\"", ClientM.TABLE_NAME, ClientM.ID_DEF, this.getPrimaryKey());
-
-        return query;
+    public String getTableName() {
+        return TABLE_NAME;
     }
 
     @Override

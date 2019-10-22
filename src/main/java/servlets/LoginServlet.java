@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 public class LoginServlet extends HttpServlet {
 
@@ -53,6 +55,8 @@ public class LoginServlet extends HttpServlet {
                 String login = req.getParameter("login");
                 String password = req.getParameter("password");
                 if (login.length() > 0 && password.length() > 0) {
+                    List<Map<String, String>> result = db.get(new UserM().addSelector(UserM.TABLE_NAME, UserM.LOGIN_DEF).addSelector(UserM.TABLE_NAME, UserM.EMAIL_DEF));
+                    System.out.println(result);
                     UserM user = db.getFirst(new UserM(login, password)
                             .addCondition(UserM.LOGIN_DEF, Model.toText(login))
                             .addCondition(UserM.PASSWORD_DEF, Model.toText(password)))  ;

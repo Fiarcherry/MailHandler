@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="eu">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <head>
     <meta charset="UTF-8">
@@ -20,8 +20,9 @@
                 success: function (data) {
                     if (data.includes("MailHandler"))
                         window.location.replace(data);
-                    else
+                    else {
                         $('#result').append(JSON.stringify(data));
+                    }
                 },
                 error: function (data) {
                     $('#result').append("Error: "+data);

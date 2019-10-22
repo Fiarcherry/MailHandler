@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 
 public class DBHandler {
 
@@ -104,11 +105,15 @@ public class DBHandler {
      * @param <T>
      * @return
      */
-    public <T extends Model> List<T> getAll(T t) {
+    public <T extends Model> List<Map<String, String>> get(T t) {
         try (Statement statement = connection.createStatement()) {
             String query = "SELECT "+t.getSelectors()+" FROM "+t.getTableName()+t.getJoin()+t.getWhere("AND");
+            System.out.println(query);
             ResultSet resultSet = statement.executeQuery(query);
-            return t.getResultList(resultSet);
+            if (resultSet.next())
+                return t.getResultMapList(resultSet);
+            else
+                return null;
         } catch (SQLException e) {
             return null;
         }
@@ -125,9 +130,25 @@ public class DBHandler {
             String query = "SELECT "+t.getSelectors()+" FROM "+t.getTableName()+t.getJoin()+t.getWhere("AND");
             System.out.println(query);
             ResultSet resultSet = statement.executeQuery(query);
-            return (T) t.getResult(resultSet);
+            if (resultSet.next())
+                return (T) t.getResult(resultSet);
+            else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    public <T extends Model> List<T> getObjects(T t) {
+        try (Statement statement = connection.createStatement()) {
+            String query = "SELECT * FROM "+t.getTableName()+t.getWhere("AND");
+            ResultSet resultSet = statement.executeQuery(query);
+            if (resultSet.next())
+                return t.getResultList(resultSet);
+            else
+                return null;
+        } catch (SQLException e) {
             return null;
         }
     }

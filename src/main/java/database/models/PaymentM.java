@@ -183,14 +183,6 @@ public class PaymentM extends Model {
         System.out.println(query);
         return query;
     }
-    @Override
-    public String getSelectFirstQuery() {
-        return String.format("SELECT * FROM %s WHERE %s = \"%s\"", PaymentM.TABLE_NAME, PaymentM.UNI_DEF, getPrimaryKey());
-    }
-    @Override
-    public String getSelectAllQuery() {
-        return "SELECT * FROM " + TABLE_NAME;
-    }
 
 
     @Override
@@ -203,7 +195,7 @@ public class PaymentM extends Model {
     }
     @Override
     public PaymentM getResult(ResultSet resultSet) throws SQLException {
-        this.uni = resultSet.getString(PaymentM.UNI_DEF);
+        this.uni = resultSet.getObject(PaymentM.UNI_DEF).toString();
         this.number = resultSet.getString(PaymentM.NUMBER_DEF);
         this.dateOperation = resultSet.getString(PaymentM.DATE_OPERATION_DEF);
         this.account = resultSet.getString(PaymentM.ACCOUNT_DEF);
