@@ -1,6 +1,7 @@
 package database.models;
 
 import database.controllers.DBHandler;
+import database.query.Selector;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -103,7 +104,6 @@ public class PaymentM extends Model {
                 this.getBankCommission(),
                 this.getProcessed() ? 1 : 0);
     }
-
     @Override
     public String getCreateTableQuery() {
         return String.format("CREATE TABLE if not exists `%s` (" +
@@ -123,7 +123,6 @@ public class PaymentM extends Model {
                 PaymentM.BANK_COMMISSION_DEF,
                 PaymentM.IS_PROCESSED_DEF);
     }
-
     @Override
     public String getUpdateQuery() {
         String query = String.format("update `%s` set " +
@@ -170,7 +169,6 @@ public class PaymentM extends Model {
         }
         return rows;
     }
-
     @Override
     public PaymentM getResult(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getString(PaymentM.ID_DEF);
@@ -210,8 +208,13 @@ public class PaymentM extends Model {
         return this;
     }
     @Override
-    public PaymentM addJoin(String tableDef, String primaryKey, String foreignKey) {
-        super.addJoin(tableDef, primaryKey, foreignKey);
+    public PaymentM addJoin(String tableDef, String primaryKey, String foreignTableName, String foreignKey) {
+        super.addJoin(tableDef, primaryKey, foreignTableName, foreignKey);
+        return this;
+    }
+    @Override
+    public PaymentM addJoin(String connectableTableName, String primaryKey, String foreignKey) {
+        super.addJoin(connectableTableName, primaryKey, foreignKey);
         return this;
     }
     @Override
@@ -223,6 +226,11 @@ public class PaymentM extends Model {
     @Override
     public PaymentM removeSelector(String tableName, String columnName) {
         super.removeSelector(tableName, columnName);
+        return this;
+    }
+    @Override
+    public PaymentM addSelector(Selector selector) {
+        super.addSelector(selector);
         return this;
     }
     @Override
@@ -272,7 +280,7 @@ public class PaymentM extends Model {
 
     public String getAccount(String id) throws SQLException {
         Selector selector = new Selector(ClientM.TABLE_NAME, ClientM.ID_DEF);
-        String idClient = DBHandler.getInstance().getFirst(new PaymentM(id).addJoin(OrderM.TABLE_NAME, OrderM.ID_DEF, PaymentM.ID_ORDER_DEF).addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.ID_CLIENT_DEF).addSelector(selector).addCondition(PaymentM.ID_DEF, id, true)).get(selector);
+        String idClient = DBHandler.getInstance().getFirst(new PaymentM(id).addJoin(OrderM.TABLE_NAME, OrderM.ID_DEF, PaymentM.ID_ORDER_DEF, getTableName()).addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.ID_CLIENT_DEF, getTableName()).addSelector(selector).addCondition(PaymentM.ID_DEF, id, true)).get(selector);
 
         return idClient;
     }

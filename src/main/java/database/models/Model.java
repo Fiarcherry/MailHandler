@@ -1,12 +1,14 @@
 package database.models;
 
+import database.query.Selector;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
 public abstract class Model <T extends Model>{
     private NavigableMap<String, String> conditions = new TreeMap<>();
-    private Map<String, String> joins = new TreeMap<>();
+    private Map<String, String> joins = new HashMap<>();
     private List<Selector> selectors = new ArrayList<>();
 
     public T removeCondition(String key){
@@ -33,8 +35,12 @@ public abstract class Model <T extends Model>{
         conditions.remove(key);
         return null;
     }
-    public T addJoin(String tableName, String primaryKey, String foreignKey){
-        joins.put('\"'+tableName+"\" "+tableName, '\"'+tableName+"\".\""+primaryKey+"\" = \""+getTableName()+"\".\""+foreignKey+'\"');
+    public T addJoin(String connectableTableName, String primaryKey, String foreignTableName, String foreignKey){
+        joins.put('\"'+ connectableTableName +"\" `"+ connectableTableName+"`", "\""+ connectableTableName +"\".\""+primaryKey+"\" = \""+foreignTableName+"\".\""+foreignKey+'\"');
+        return null;
+    }
+    public T addJoin(String connectableTableName, String primaryKey, String foreignKey){
+        joins.put('\"'+ connectableTableName +"\" "+ connectableTableName, '\"'+ connectableTableName +"\".\""+primaryKey+"\" = \""+getTableName()+"\".\""+foreignKey+'\"');
         return null;
     }
     public T removeAllJoins(){
@@ -119,22 +125,17 @@ public abstract class Model <T extends Model>{
     public abstract List<T> getResultList(ResultSet resultSet) throws SQLException;
     public abstract T getResult(ResultSet resultSet) throws SQLException;
 
-    public final Map<Selector, String> getResultMap(ResultSet resultSet) throws SQLException{
-        System.out.println("Column 1 label: "+resultSet.getMetaData().getColumnLabel(1));
-
-        Map<Selector, String> result = new HashMap<>();
+    public final Map<String, String> getResultMap(ResultSet resultSet) throws SQLException{
+        Map<String, String> result = new HashMap<>();
         for (Selector selector: selectors) {
-            System.out.println(selector.getColumnName());
-            String answer = resultSet.getString(selector.getColumnName());
-            System.out.println("answer: "+answer);
-            result.put(selector, answer);
+            result.put(selector.getColumnName(), resultSet.getString(selector.getColumnName()));
         }
         return result;
     }
-    public final List<Map<Selector, String>> getResultMapList(ResultSet resultSet) throws SQLException{
-        List<Map<Selector, String>> result = new ArrayList<>();
+    public final List<Map<String, String>> getResultMapList(ResultSet resultSet) throws SQLException{
+        List<Map<String, String>> result = new ArrayList<>();
         while (resultSet.next()) {
-            Map<Selector, String> row = getResultMap(resultSet);
+            Map<String, String> row = getResultMap(resultSet);
             if (!row.isEmpty())
                 result.add(row);
         }

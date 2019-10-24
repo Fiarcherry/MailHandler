@@ -3,6 +3,7 @@ package database.controllers;
 import database.models.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import database.query.Selector;
 import org.sqlite.SQLiteDataSource;
 
 import java.lang.reflect.Type;
@@ -12,6 +13,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,7 +110,7 @@ public class DBHandler {
      * @param <T>
      * @return
      */
-    public <T extends Model> List<Map<Selector, String>> get(T t) {
+    public <T extends Model> List<Map<String, String>> get(T t) {
         try (Statement statement = connection.createStatement()) {
             String query = "SELECT "+t.getSelectors()+" FROM "+t.getTableNameFix()+t.getJoin()+t.getWhere("AND");
             System.out.println(query);
@@ -125,7 +128,7 @@ public class DBHandler {
      * @param t
      * @return Возвращается ссылка на объект, переданный в параметрах
      */
-    public <T extends Model> Map<Selector, String> getFirst(T t) {
+    public <T extends Model> Map<String, String> getFirst(T t) {
         try (Statement statement = connection.createStatement()) {
             String query = "SELECT "+t.getSelectors()+" FROM "+t.getTableNameFix()+t.getJoin()+t.getWhere("AND");
             System.out.println(query);
@@ -158,7 +161,6 @@ public class DBHandler {
             return null;
         }
     }
-
 
 
     /**

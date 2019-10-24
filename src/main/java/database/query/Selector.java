@@ -1,4 +1,4 @@
-package database.models;
+package database.query;
 
 public class Selector {
     private String tableTitle;
@@ -37,10 +37,10 @@ public class Selector {
         return '\"'+tableTitle+"\".\""+columnTitle+'\"';
     }
 
-    String getSelector(){
+    public String getSelector(){
         return hasMask()?getSelectorWithMask():getSelectorWithOutMask();
     }
-    String getColumnName(){
+    public String getColumnName(){
         return !hasMask()?getColumnTitle():getMask();
     }
 

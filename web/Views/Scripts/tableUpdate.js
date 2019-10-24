@@ -32,15 +32,15 @@ function removeRows() {
 function drawTBody(data) {
     var $tBody = $("#tableBody");
     $.each(data, function (index, payment) {
-        var isProcessed = payment.isProcessed.toString() == 'false';
+        var isProcessed = payment.isProcessed == '0';
         $("<tr class='drawable'>").appendTo($tBody)
             .append($("<td>").append(isProcessed?"<input type=\"checkbox\" id=\""+payment.id+"\">":""))
-            .append($("<td>").text(payment.isProcessed.toString()))
-            .append($("<td>").text(payment.id))
-            .append($("<td>").text(payment.idOrder))
-            .append($("<td>").text(payment.date))
-            .append($("<td>").text(payment.amount))
-            .append($("<td>").text(payment.bankCommission))
+            .append($("<td>").text(payment.isProcessed == '1'? "true" : "false"))
+            .append($("<td>").text(payment.Email))
+            .append($("<td>").text(payment.FirstName))
+            .append($("<td>").text(payment.SecondName))
+            .append($("<td>").text(payment.DatePayment))
+            .append($("<td>").text(payment.AmountPayment))
     });
     $("#table td").each(function() {
         if ($(this).text() == 'false') {

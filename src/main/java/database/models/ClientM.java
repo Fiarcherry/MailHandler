@@ -1,5 +1,7 @@
 package database.models;
 
+import database.query.Selector;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -75,7 +77,6 @@ public class ClientM extends Model {
         System.out.println(query);
         return query;
     }
-
     @Override
     public String getCreateTableQuery() {
         String query = String.format("CREATE TABLE if not exists `%s` (" +
@@ -92,7 +93,6 @@ public class ClientM extends Model {
         System.out.println(query);
         return query;
     }
-
     @Override
     public String getUpdateQuery() {
         String query = String.format("update `%s` set " +
@@ -114,28 +114,27 @@ public class ClientM extends Model {
         return query;
     }
 
+
     @Override
     public String getTableName() {
         return TABLE_NAME;
     }
-
-
     @Override
     public String getPrimaryKey() {
         return this.id;
     }
 
+
     @Override
-    public List getResultList(ResultSet resultSet) throws SQLException {
+    public List<ClientM> getResultList(ResultSet resultSet) throws SQLException {
         List<ClientM> rows = new ArrayList<>();
         while (resultSet.next()) {
             rows.add(new ClientM(resultSet));
         }
         return rows;
     }
-
     @Override
-    public Model getResult(ResultSet resultSet) throws SQLException {
+    public ClientM getResult(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getString(ClientM.ID_DEF);
         this.firstName = resultSet.getString(ClientM.FIRST_NAME_DEF);
         this.secondName = resultSet.getString(ClientM.SECOND_NAME_DEF);
@@ -171,8 +170,13 @@ public class ClientM extends Model {
         return this;
     }
     @Override
-    public ClientM addJoin(String tableDef, String primaryKey, String foreignKey) {
-        super.addJoin(tableDef, primaryKey, foreignKey);
+    public ClientM addJoin(String tableDef, String primaryKey, String foreignTableName, String foreignKey) {
+        super.addJoin(tableDef, primaryKey, foreignTableName, foreignKey);
+        return this;
+    }
+    @Override
+    public ClientM addJoin(String connectableTableName, String primaryKey, String foreignKey) {
+        super.addJoin(connectableTableName, primaryKey, foreignKey);
         return this;
     }
     @Override
@@ -184,6 +188,11 @@ public class ClientM extends Model {
     @Override
     public ClientM removeSelector(String tableName, String columnName) {
         super.removeSelector(tableName, columnName);
+        return this;
+    }
+    @Override
+    public ClientM addSelector(Selector selector) {
+        super.addSelector(selector);
         return this;
     }
     @Override

@@ -1,5 +1,7 @@
 package database.models;
 
+import database.query.Selector;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -97,19 +99,8 @@ public class UserM extends Model{
                 resultSet.getBoolean(ACTIVE_DEF));
     }
 
-
     @Override
-    public String getPrimaryKey() {
-        return id.toString();
-    }
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
-    }
-
-
-    @Override
-    public  String getCreateTableQuery(){
+    public String getCreateTableQuery(){
         return String.format("CREATE TABLE if not exists `%s` (" +
                         "`%s` INTEGER PRIMARY KEY, " +
                         "`%s` TEXT, " +
@@ -164,6 +155,34 @@ public class UserM extends Model{
     }
 
     @Override
+    public String getPrimaryKey() {
+        return id.toString();
+    }
+    @Override
+    public String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    public List<UserM> getResultList(ResultSet resultSet) throws SQLException {
+        List<UserM> rows = new ArrayList<>();
+        while (resultSet.next()) {
+            rows.add(new UserM(resultSet));
+        }
+        return rows;
+    }
+    @Override
+    public UserM getResult(ResultSet resultSet) throws SQLException {
+        id = resultSet.getInt(ID_DEF);
+        name = resultSet.getString(NAME_DEF);
+        login = resultSet.getString(LOGIN_DEF);
+        password = resultSet.getString(PASSWORD_DEF);
+        email = resultSet.getString(EMAIL_DEF);
+        active = resultSet.getBoolean(ACTIVE_DEF);
+        return this;
+    }
+
+    @Override
     public UserM removeCondition(String key) {
         super.removeCondition(key);
         return this;
@@ -190,8 +209,13 @@ public class UserM extends Model{
         return this;
     }
     @Override
-    public UserM addJoin(String tableDef, String primaryKey, String foreignKey) {
-        super.addJoin(tableDef, primaryKey, foreignKey);
+    public UserM addJoin(String tableDef, String primaryKey, String foreignTableName, String foreignKey) {
+        super.addJoin(tableDef, primaryKey, foreignTableName, foreignKey);
+        return this;
+    }
+    @Override
+    public UserM addJoin(String connectableTableName, String primaryKey, String foreignKey) {
+        super.addJoin(connectableTableName, primaryKey, foreignKey);
         return this;
     }
     @Override
@@ -205,44 +229,28 @@ public class UserM extends Model{
         super.removeSelector(tableName, columnName);
         return this;
     }
-
+    @Override
+    public UserM addSelector(Selector selector) {
+        super.addSelector(selector);
+        return this;
+    }
     @Override
     public UserM addSelector(String tableName, String columnName) {
         super.addSelector(tableName, columnName);
         return this;
     }
-
     @Override
     public UserM addSelector(String tableName, String columnName, String columnMask) {
         super.addSelector(tableName, columnName, columnMask);
         return this;
     }
-
     @Override
     public UserM removeAllSelectors() {
         super.removeAllSelectors();
         return this;
     }
 
-    @Override
-    public List<UserM> getResultList(ResultSet resultSet) throws SQLException {
-        List<UserM> rows = new ArrayList<>();
-        while (resultSet.next()) {
-            rows.add(new UserM(resultSet));
-        }
-        return rows;
-    }
 
-    @Override
-    public UserM getResult(ResultSet resultSet) throws SQLException {
-        id = resultSet.getInt(ID_DEF);
-        name = resultSet.getString(NAME_DEF);
-        login = resultSet.getString(LOGIN_DEF);
-        password = resultSet.getString(PASSWORD_DEF);
-        email = resultSet.getString(EMAIL_DEF);
-        active = resultSet.getBoolean(ACTIVE_DEF);
-        return this;
-    }
 
 
 

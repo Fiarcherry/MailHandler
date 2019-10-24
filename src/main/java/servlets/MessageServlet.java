@@ -1,6 +1,8 @@
 package servlets;
 
 import database.controllers.DBHandler;
+import database.models.ClientM;
+import database.models.OrderM;
 import database.models.PaymentM;
 import mail.controllers.MessageHandler;
 import mail.models.EMessage;
@@ -26,7 +28,8 @@ public class MessageServlet extends HttpServlet {
             switch (action == null ? "create" : action) {
                 case "json":
                     resp.setContentType("application/json;charset=utf-8");
-                    String json = new Gson().toJson(DBHandler.getInstance().getObjects(new PaymentM()));
+                    DBHandler db = DBHandler.getInstance();
+                    String json = getPaymentsJson();
                     System.out.println(json);
                     out.println(json);
                     break;
@@ -67,12 +70,24 @@ public class MessageServlet extends HttpServlet {
                 MessageHandler mh = new MessageHandler();
                 //TODO Начать с этого mh.sendPayments(payments);
                 //mh.sendPayments(payments);
-                String json = new Gson().toJson(db.getObjects(new PaymentM()));
+                String json = getPaymentsJson();
                 System.out.println(json);
                 out.println(json);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getPaymentsJson() throws SQLException{
+        return new Gson().toJson(DBHandler.getInstance().get(new PaymentM()
+                .addJoin(OrderM.TABLE_NAME, OrderM.ID_DEF, PaymentM.TABLE_NAME, PaymentM.ID_ORDER_DEF)
+                .addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.TABLE_NAME, OrderM.ID_CLIENT_DEF)
+                .addSelector(ClientM.TABLE_NAME, ClientM.FIRST_NAME_DEF)
+                .addSelector(ClientM.TABLE_NAME, ClientM.SECOND_NAME_DEF)
+                .addSelector(ClientM.TABLE_NAME, ClientM.EMAIL_DEF)
+                .addSelector(PaymentM.TABLE_NAME, PaymentM.DATE_DEF)
+                .addSelector(PaymentM.TABLE_NAME, PaymentM.AMOUNT_DEF)
+                .addSelector(PaymentM.TABLE_NAME, PaymentM.IS_PROCESSED_DEF)));
     }
 }

@@ -2,6 +2,7 @@ package servlets;
 
 import database.controllers.DBHandler;
 import database.models.*;
+import database.query.Selector;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,15 +37,12 @@ public class LoginServlet extends HttpServlet {
                     break;
                 case "login":
                 default:
-                    DBHandler db = DBHandler.getInstance();
-                    List<Map<Selector, String>> result = db.get(new OrderM().addSelector(OrderM.TABLE_NAME, OrderM.AMOUNT_DEF).addSelector(ClientM.TABLE_NAME, ClientM.EMAIL_DEF).addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.ID_CLIENT_DEF));
-                    System.out.println(result);
                     resp.setContentType("text/html;charset=utf-8");
                     req.getRequestDispatcher("/Views/Login.html").forward(req, resp);
                     break;
             }
         }
-        catch (SQLException e){
+        catch (IOException e){
             e.printStackTrace();
         }
     }
