@@ -19,10 +19,8 @@
         <th class="col3">Uni</th>
         <th class="col4">Number</th>
         <th class="col5">Operation Date</th>
-        <th class="col6">Account num</th>
         <th class="col7">Amount</th>
         <th class="col8">Commission</th>
-        <th class="col9">Email</th>
     </tr>
     </thead>
     <tbody id='tableBody'>
