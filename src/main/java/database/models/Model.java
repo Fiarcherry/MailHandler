@@ -7,7 +7,7 @@ import java.util.*;
 public abstract class Model <T extends Model>{
     private NavigableMap<String, String> conditions = new TreeMap<>();
     private Map<String, String> joins = new TreeMap<>();
-    private NavigableMap<String, String> selectors = new TreeMap<>();
+    private List<Selector> selectors = new ArrayList<>();
 
     public T removeCondition(String key){
         conditions.remove(key);
@@ -43,15 +43,16 @@ public abstract class Model <T extends Model>{
     }
 
     public T removeSelector(String tableName, String columnName){
-        selectors.remove(tableName, columnName);
+        selectors.remove(new Selector(tableName, columnName));
         return null;
     }
     public T addSelector(String tableName, String columnName){
-        selectors.put(tableName, columnName);
+        selectors.add(new Selector(tableName, columnName));
+        System.out.println("add selector: "+tableName+"->"+columnName);
         return null;
     }
     public T addSelector(String tableName, String columnName, String columnMask){
-        selectors.put(tableName, columnName+" AS "+columnMask);
+        selectors.add(new Selector(tableName, columnName, columnMask));
         return null;
     }
     public T removeAllSelectors(){
@@ -67,10 +68,10 @@ public abstract class Model <T extends Model>{
         StringBuilder query = new StringBuilder();
         if (selectors.isEmpty())
             return " * ";
-        Map.Entry lastEntry = selectors.lastEntry();
-        for (Map.Entry<String, String> entry: selectors.entrySet()) {
-            query.append(entry.getKey()).append('.').append(entry.getValue());
-            if (!lastEntry.equals(entry)){
+        Selector last = selectors.get(selectors.size()-1);
+        for (Selector entry: selectors) {
+            query.append(entry.getSelector());
+            if (!last.equals(entry)){
                 query.append(',');
             }
         }
@@ -110,19 +111,17 @@ public abstract class Model <T extends Model>{
     public abstract List<T> getResultList(ResultSet resultSet) throws SQLException;
     public abstract T getResult(ResultSet resultSet) throws SQLException;
 
-    public final Map<String, String> getResultMap(ResultSet resultSet) throws SQLException{
-        Map<String, String> result = new HashMap<>();
-        for (Map.Entry<String, String> entry: selectors.entrySet()) {
-            String key = entry.getKey()+'.'+entry.getValue();
-            result.put(key, resultSet.getString(entry.getValue()));
+    public final Map<Selector, String> getResultMap(ResultSet resultSet) throws SQLException{
+        Map<Selector, String> result = new HashMap<>();
+        for (Selector selector: selectors) {
+            result.put(selector, resultSet.getString(selector.getColumnName()));
         }
         return result;
     }
-    public final List<Map<String, String>> getResultMapList(ResultSet resultSet) throws SQLException{
-        List<Map<String, String>> result = new ArrayList<>();
-        Map<String, String> row = new HashMap<>();
+    public final List<Map<Selector, String>> getResultMapList(ResultSet resultSet) throws SQLException{
+        List<Map<Selector, String>> result = new ArrayList<>();
         while (resultSet.next()) {
-            getResultMap(resultSet);
+            result.add(getResultMap(resultSet));
         }
         return result;
     }

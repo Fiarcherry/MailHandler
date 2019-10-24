@@ -107,7 +107,7 @@ public class DBHandler {
      * @param <T>
      * @return
      */
-    public <T extends Model> List<Map<String, String>> get(T t) {
+    public <T extends Model> List<Map<Selector, String>> get(T t) {
         try (Statement statement = connection.createStatement()) {
             String query = "SELECT "+t.getSelectors()+" FROM "+t.getTableName()+t.getJoin()+t.getWhere("AND");
             System.out.println(query);
