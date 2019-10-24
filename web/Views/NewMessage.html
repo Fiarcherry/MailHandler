@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>New message</title>
 </head>
 <body>
@@ -9,11 +10,11 @@
             <form method="post" action="message?action=send">
                 <dl>
                     <dt>TO: </dt>
-                    <dd><input type="text" name="to" placeholder="Получатель" /></dd>
+                    <dd><input type="text" name="to" placeholder="Receiver" /></dd>
                 </dl>
                 <dl>
                     <dt>Message: </dt>
-                    <dd><textarea name="message" rows="10" cols="100"></textarea></dd>
+                    <dd><textarea name="message" placeholder="Message" rows="10" cols="100"></textarea></dd>
                 </dl>
                 <button type="submit">Send</button>
             </form>
