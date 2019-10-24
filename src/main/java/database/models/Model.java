@@ -34,7 +34,7 @@ public abstract class Model <T extends Model>{
         return null;
     }
     public T addJoin(String tableName, String primaryKey, String foreignKey){
-        joins.put(tableName, tableName+'.'+primaryKey+" = "+getTableName()+'.'+foreignKey);
+        joins.put('\"'+tableName+"\" "+tableName, '\"'+tableName+"\".\""+primaryKey+"\" = \""+getTableName()+"\".\""+foreignKey+'\"');
         return null;
     }
     public T removeAllJoins(){
@@ -49,6 +49,11 @@ public abstract class Model <T extends Model>{
     public T addSelector(String tableName, String columnName){
         selectors.add(new Selector(tableName, columnName));
         System.out.println("add selector: "+tableName+"->"+columnName);
+        return null;
+    }
+    public T addSelector(Selector selector){
+        selectors.add(selector);
+        System.out.println("add selector: "+selector.toString());
         return null;
     }
     public T addSelector(String tableName, String columnName, String columnMask){
@@ -72,7 +77,7 @@ public abstract class Model <T extends Model>{
         for (Selector entry: selectors) {
             query.append(entry.getSelector());
             if (!last.equals(entry)){
-                query.append(',');
+                query.append(", ");
             }
         }
         return query.toString();
@@ -107,21 +112,31 @@ public abstract class Model <T extends Model>{
 
     public abstract String getPrimaryKey();
     public abstract String getTableName();
+    public String getTableNameFix(){
+        return '\"'+getTableName()+'\"';
+    }
 
     public abstract List<T> getResultList(ResultSet resultSet) throws SQLException;
     public abstract T getResult(ResultSet resultSet) throws SQLException;
 
     public final Map<Selector, String> getResultMap(ResultSet resultSet) throws SQLException{
+        System.out.println("Column 1 label: "+resultSet.getMetaData().getColumnLabel(1));
+
         Map<Selector, String> result = new HashMap<>();
         for (Selector selector: selectors) {
-            result.put(selector, resultSet.getString(selector.getColumnName()));
+            System.out.println(selector.getColumnName());
+            String answer = resultSet.getString(selector.getColumnName());
+            System.out.println("answer: "+answer);
+            result.put(selector, answer);
         }
         return result;
     }
     public final List<Map<Selector, String>> getResultMapList(ResultSet resultSet) throws SQLException{
         List<Map<Selector, String>> result = new ArrayList<>();
         while (resultSet.next()) {
-            result.add(getResultMap(resultSet));
+            Map<Selector, String> row = getResultMap(resultSet);
+            if (!row.isEmpty())
+                result.add(row);
         }
         return result;
     }

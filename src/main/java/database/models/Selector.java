@@ -31,17 +31,17 @@ public class Selector {
 
 
     String getSelectorWithMask(){
-        return tableTitle+'.'+columnTitle+" AS "+mask;
+        return '\"'+tableTitle+"\".\""+columnTitle+"\" AS \""+mask+'\"';
     }
     String getSelectorWithOutMask(){
-        return tableTitle+'.'+columnTitle;
+        return '\"'+tableTitle+"\".\""+columnTitle+'\"';
     }
 
     String getSelector(){
         return hasMask()?getSelectorWithMask():getSelectorWithOutMask();
     }
     String getColumnName(){
-        return hasMask()?getColumnTitle():getMask();
+        return !hasMask()?getColumnTitle():getMask();
     }
 
 

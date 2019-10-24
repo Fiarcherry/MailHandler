@@ -112,7 +112,7 @@ public class PaymentM extends Model {
                         "`%s` TEXT, " +
                         "`%s` REAL, " +
                         "`%s` REAL, " +
-                        "`%s` INTEGER DEFAULT 0)" +
+                        "`%s` INTEGER DEFAULT 0, " +
                         "FOREIGN KEY (`" + PaymentM.ID_ORDER_DEF + "`) " +
                         "REFERENCES `" + OrderM.TABLE_NAME + "` (`" + OrderM.ID_DEF +"`));",
                 PaymentM.TABLE_NAME,
@@ -271,7 +271,8 @@ public class PaymentM extends Model {
     }
 
     public String getAccount(String id) throws SQLException {
-        String idClient = DBHandler.getInstance().getFirst(new PaymentM(id).addJoin(OrderM.TABLE_NAME, OrderM.ID_DEF, PaymentM.ID_ORDER_DEF).addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.ID_CLIENT_DEF).addSelector(ClientM.TABLE_NAME, ClientM.ID_DEF).addCondition(PaymentM.ID_DEF, id, true));
+        Selector selector = new Selector(ClientM.TABLE_NAME, ClientM.ID_DEF);
+        String idClient = DBHandler.getInstance().getFirst(new PaymentM(id).addJoin(OrderM.TABLE_NAME, OrderM.ID_DEF, PaymentM.ID_ORDER_DEF).addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.ID_CLIENT_DEF).addSelector(selector).addCondition(PaymentM.ID_DEF, id, true)).get(selector);
 
         return idClient;
     }

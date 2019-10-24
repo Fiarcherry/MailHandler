@@ -26,7 +26,9 @@ public class MessageServlet extends HttpServlet {
             switch (action == null ? "create" : action) {
                 case "json":
                     resp.setContentType("application/json;charset=utf-8");
-                    out.println(new Gson().toJson(DBHandler.getInstance().getObjects(new PaymentM())));
+                    String json = new Gson().toJson(DBHandler.getInstance().getObjects(new PaymentM()));
+                    System.out.println(json);
+                    out.println(json);
                     break;
                 case "show":
                     resp.setContentType("text/jsp;charset=utf-8");
@@ -65,7 +67,9 @@ public class MessageServlet extends HttpServlet {
                 MessageHandler mh = new MessageHandler();
                 //TODO Начать с этого mh.sendPayments(payments);
                 //mh.sendPayments(payments);
-                out.println(new Gson().toJson(db.getObjects(new PaymentM())));
+                String json = new Gson().toJson(db.getObjects(new PaymentM()));
+                System.out.println(json);
+                out.println(json);
             }
         } catch (SQLException e) {
             e.printStackTrace();

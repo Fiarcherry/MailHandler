@@ -14,13 +14,13 @@
 <table id="table" class="tg" border="1">
     <thead>
     <tr>
-        <th class="col1"><input type="checkbox" id="checkBoxMaster"></th>
-        <th class="col2">State</th>
-        <th class="col3">Uni</th>
-        <th class="col4">Number</th>
-        <th class="col5">Operation Date</th>
-        <th class="col7">Amount</th>
-        <th class="col8">Commission</th>
+        <th><input type="checkbox" id="checkBoxMaster"></th>
+        <th>State</th>
+        <th>Uni</th>
+        <th>Number</th>
+        <th>Operation Date</th>
+        <th>Amount</th>
+        <th>Commission</th>
     </tr>
     </thead>
     <tbody id='tableBody'>
