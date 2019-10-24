@@ -1,17 +1,16 @@
-<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/Views/Scripts/jquery.simple-checkbox-table.js"></script>
-<script src="${pageContext.request.contextPath}/Views/Scripts/tableUpdate.js"></script>
+<script src="Scripts/jquery.simple-checkbox-table.js"></script>
+<script src="Views/Scripts/tableUpdate.js"></script>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Payments</title>
-    <link rel="stylesheet" type="text/css" href="css/PaymentsTable.css">
 </head>
 <body>
 <a href="auth?action=logout">Logout</a><br>
-<table id="table" class="tg" border="1">
+<table id="table" border="1">
     <thead>
     <tr>
         <th><input type="checkbox" id="checkBoxMaster"></th>
@@ -42,6 +41,6 @@
     </script>
     </tbody>
 </table>
-<button id="sendCheckedButton" onclick="callAjax()">Send</button>
+<button onclick="callAjax()">Send</button>
 </body>
 </html>

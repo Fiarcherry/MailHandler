@@ -36,8 +36,8 @@ public class MessageServlet extends HttpServlet {
                     out.println(json);
                     break;
                 case "show":
-                    resp.setContentType("text/jsp;charset=utf-8");
-                    req.getRequestDispatcher("/Views/AllPayments.jsp").forward(req, resp);
+                    resp.setContentType("text/html;charset=utf-8");
+                    req.getRequestDispatcher("/Views/AllPayments.html").forward(req, resp);
                     break;
                 case "read":
                     MessageHandler messageHandler = new MessageHandler();
@@ -46,8 +46,8 @@ public class MessageServlet extends HttpServlet {
                     break;
                 case "create":
                 default:
-                    resp.setContentType("text/jsp;charset=utf-8");
-                    req.getRequestDispatcher("/Views/NewMessage.jsp").forward(req, resp);
+                    resp.setContentType("text/html;charset=utf-8");
+                    req.getRequestDispatcher("/Views/NewMessage.html").forward(req, resp);
                     break;
             }
         } catch (SQLException | MessagingException | IOException e) {
