@@ -3,6 +3,7 @@ package servlets;
 import database.controllers.DBHandler;
 import database.models.Model;
 import database.models.PaymentM;
+import database.models.Selector;
 import database.models.UserM;
 
 import javax.servlet.ServletException;
@@ -39,7 +40,7 @@ public class LoginServlet extends HttpServlet {
                 case "login":
                 default:
                     DBHandler db = DBHandler.getInstance();
-                    List<Map<String, String>> result = db.get(new UserM().addSelector(UserM.TABLE_NAME, UserM.LOGIN_DEF).addSelector(UserM.TABLE_NAME, UserM.EMAIL_DEF));
+                    List<Map<Selector, String>> result = db.get(new UserM().addSelector(UserM.TABLE_NAME, UserM.LOGIN_DEF).addSelector(UserM.TABLE_NAME, UserM.EMAIL_DEF));
                     resp.setContentType("text/html;charset=utf-8");
                     req.getRequestDispatcher("/Views/Login.html").forward(req, resp);
                     break;

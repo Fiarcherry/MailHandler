@@ -34,13 +34,13 @@ function drawTBody(data) {
     $.each(data, function (index, payment) {
         var isProcessed = payment.isProcessed.toString() == 'false';
         $("<tr class='drawable'>").appendTo($tBody)
-            .append($("<td class=\"col1\">").append(isProcessed?"<input type=\"checkbox\" id=\""+payment.uni+"\">":""))
+            .append($("<td class=\"col1\">").append(isProcessed?"<input type=\"checkbox\" id=\""+payment.id+"\">":""))
             .append($("<td class=\"col2\">").text(payment.isProcessed.toString()))
-            .append($("<td class=\"col3\">").text(payment.uni))
-            .append($("<td class=\"col4\">").text(payment.number))
-            .append($("<td class=\"col5\">").text(payment.dateOperation))
+            .append($("<td class=\"col3\">").text(payment.id))
+            .append($("<td class=\"col4\">").text(payment.idOrder))
+            .append($("<td class=\"col5\">").text(payment.date))
             .append($("<td class=\"col6\">").text(payment.amount))
-            .append($("<td class=\"col7\">").text(payment.commission))
+            .append($("<td class=\"col7\">").text(payment.bankCommission))
     });
     $("#table td").each(function() {
         if ($(this).text() == 'false') {
