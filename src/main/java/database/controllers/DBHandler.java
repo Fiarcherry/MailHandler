@@ -127,13 +127,13 @@ public class DBHandler {
      * @param t
      * @return Возвращается ссылка на объект, переданный в параметрах
      */
-    public <T extends Model> T getFirst(T t) {
+    public <T extends Model> Map<Selector, String> getFirst(T t) {
         try (Statement statement = connection.createStatement()) {
             String query = "SELECT "+t.getSelectors()+" FROM "+t.getTableName()+t.getJoin()+t.getWhere("AND");
             System.out.println(query);
             ResultSet resultSet = statement.executeQuery(query);
             if (resultSet.next())
-                return (T) t.getResult(resultSet);
+                return t.getResultMap(resultSet);
             else
                 return null;
         } catch (SQLException e) {
@@ -145,9 +145,24 @@ public class DBHandler {
     public <T extends Model> List<T> getObjects(T t) {
         try (Statement statement = connection.createStatement()) {
             String query = "SELECT * FROM "+t.getTableName()+t.getWhere("AND");
+            System.out.println(query);
             ResultSet resultSet = statement.executeQuery(query);
             if (resultSet.next())
                 return t.getResultList(resultSet);
+            else
+                return null;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public <T extends Model> T getObject(T t) {
+        try (Statement statement = connection.createStatement()) {
+            String query = "SELECT * FROM "+t.getTableName()+t.getWhere("AND");
+            System.out.println(query);
+            ResultSet resultSet = statement.executeQuery(query);
+            if (resultSet.next())
+                return (T)t.getResult(resultSet);
             else
                 return null;
         } catch (SQLException e) {

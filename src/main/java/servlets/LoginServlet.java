@@ -78,7 +78,7 @@ public class LoginServlet extends HttpServlet {
                     break;
                 case "loginResult":
                     if (login.length() > 0 && password.length() > 0) {
-                        UserM user = db.getFirst(new UserM(login, password)
+                        UserM user = db.getObject(new UserM(login, password)
                                 .addCondition(UserM.LOGIN_DEF, Model.toText(login))
                                 .addCondition(UserM.PASSWORD_DEF, Model.toText(password)))  ;
                         if (user != null) {

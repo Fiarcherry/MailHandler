@@ -250,7 +250,7 @@ public class PaymentM extends Model {
     public static PaymentM[] getPayments(String[] unis) throws SQLException{
         PaymentM[] payments = new PaymentM[unis.length];
         for (int i = 0; i < unis.length; i++)
-            payments[i] = DBHandler.getInstance().getFirst(new PaymentM(unis[i]).addCondition(PaymentM.ID_DEF, unis[i], true));
+            payments[i] = DBHandler.getInstance().getObject(new PaymentM(unis[i]).addCondition(PaymentM.ID_DEF, unis[i], true));
         return payments;
     }
 
