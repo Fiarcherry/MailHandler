@@ -104,6 +104,7 @@ public class PaymentM extends Model {
                 this.getBankCommission(),
                 this.getProcessed() ? 1 : 0);
     }
+
     @Override
     public String getCreateTableQuery() {
         return String.format("CREATE TABLE if not exists `%s` (" +
@@ -114,7 +115,7 @@ public class PaymentM extends Model {
                         "`%s` REAL, " +
                         "`%s` INTEGER DEFAULT 0, " +
                         "FOREIGN KEY (`" + PaymentM.ID_ORDER_DEF + "`) " +
-                        "REFERENCES `" + OrderM.TABLE_NAME + "` (`" + OrderM.ID_DEF +"`));",
+                        "REFERENCES `" + OrderM.TABLE_NAME + "` (`" + OrderM.ID_DEF + "`));",
                 PaymentM.TABLE_NAME,
                 PaymentM.ID_DEF,
                 PaymentM.ID_ORDER_DEF,
@@ -123,6 +124,7 @@ public class PaymentM extends Model {
                 PaymentM.BANK_COMMISSION_DEF,
                 PaymentM.IS_PROCESSED_DEF);
     }
+
     @Override
     public String getUpdateQuery() {
         String query = String.format("update `%s` set " +
@@ -155,6 +157,7 @@ public class PaymentM extends Model {
     public String getPrimaryKey() {
         return this.id;
     }
+
     @Override
     public String getTableName() {
         return PaymentM.TABLE_NAME;
@@ -169,6 +172,7 @@ public class PaymentM extends Model {
         }
         return rows;
     }
+
     @Override
     public PaymentM getResult(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getString(PaymentM.ID_DEF);
@@ -186,16 +190,19 @@ public class PaymentM extends Model {
         super.removeCondition(key);
         return this;
     }
+
     @Override
     public PaymentM addCondition(String key, String value) {
         super.addCondition(key, value);
         return this;
     }
+
     @Override
     public PaymentM addCondition(String key, String value, boolean isText) {
         super.addCondition(key, value, isText);
         return this;
     }
+
     @Override
     public PaymentM removeAllConditions() {
         super.removeAllConditions();
@@ -207,16 +214,19 @@ public class PaymentM extends Model {
         super.removeJoin(key);
         return this;
     }
+
     @Override
     public PaymentM addJoin(String tableDef, String primaryKey, String foreignTableName, String foreignKey) {
         super.addJoin(tableDef, primaryKey, foreignTableName, foreignKey);
         return this;
     }
+
     @Override
     public PaymentM addJoin(String connectableTableName, String primaryKey, String foreignKey) {
         super.addJoin(connectableTableName, primaryKey, foreignKey);
         return this;
     }
+
     @Override
     public PaymentM removeAllJoins() {
         super.removeAllJoins();
@@ -228,45 +238,39 @@ public class PaymentM extends Model {
         super.removeSelector(tableName, columnName);
         return this;
     }
+
     @Override
     public PaymentM addSelector(Selector selector) {
         super.addSelector(selector);
         return this;
     }
+
     @Override
     public PaymentM addSelector(String tableName, String columnName) {
         super.addSelector(tableName, columnName);
         return this;
     }
+
     @Override
     public PaymentM addSelector(String tableName, String columnName, String columnMask) {
         super.addSelector(tableName, columnName, columnMask);
         return this;
     }
+
     @Override
     public PaymentM removeAllSelectors() {
         super.removeAllSelectors();
         return this;
     }
 
-    /**
-     * Получение платежей по Uni
-     *
-     * @param unis
-     * @return
-     */
-    public static PaymentM[] getPayments(String[] unis) throws SQLException{
-        PaymentM[] payments = new PaymentM[unis.length];
-        for (int i = 0; i < unis.length; i++)
-            payments[i] = DBHandler.getInstance().getObject(new PaymentM(unis[i]).addCondition(PaymentM.ID_DEF, unis[i], true));
-        return payments;
+    public static PaymentM getPayment(String uni) throws SQLException {
+        return DBHandler.getInstance().getObject(new PaymentM().addCondition(PaymentM.ID_DEF, uni, true));
+
     }
 
-    public static void updateChecked(PaymentM[] payments) throws SQLException {
-        for (PaymentM payment : payments) {
-            payment.setProcessedTrue();
-            DBHandler.getInstance().update(payment);
-        }
+    public static void updateChecked(PaymentM payment) throws SQLException {
+        payment.setProcessedTrue();
+        DBHandler.getInstance().update(payment);
     }
 
     public void setProcessedTrue() {
@@ -276,12 +280,5 @@ public class PaymentM extends Model {
     @Override
     public String toString() {
         return id + isProcessed.toString();
-    }
-
-    public String getAccount(String id) throws SQLException {
-        Selector selector = new Selector(ClientM.TABLE_NAME, ClientM.ID_DEF);
-        String idClient = DBHandler.getInstance().getFirst(new PaymentM(id).addJoin(OrderM.TABLE_NAME, OrderM.ID_DEF, PaymentM.ID_ORDER_DEF, getTableName()).addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.ID_CLIENT_DEF, getTableName()).addSelector(selector).addCondition(PaymentM.ID_DEF, id, true)).get(selector);
-
-        return idClient;
     }
 }

@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 public class MessageServlet extends HttpServlet {
 
@@ -64,12 +66,8 @@ public class MessageServlet extends HttpServlet {
                 EMessage message = new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"));
                 out.println(messageHandler.sendMessage(message));
             } else if ("show".equalsIgnoreCase(action) || "json".equalsIgnoreCase(action)) {
-                DBHandler db = DBHandler.getInstance();
-                PaymentM[] payments = PaymentM.getPayments(db.parseUni(req.getParameter("json")));
-                PaymentM.updateChecked(payments);
                 MessageHandler mh = new MessageHandler();
-                //TODO Начать с этого mh.sendPayments(payments);
-                //mh.sendPayments(payments);
+                mh.sendPayments(getSendPayments());
                 String json = getPaymentsJson();
                 System.out.println(json);
                 out.println(json);
@@ -89,5 +87,18 @@ public class MessageServlet extends HttpServlet {
                 .addSelector(PaymentM.TABLE_NAME, PaymentM.DATE_DEF)
                 .addSelector(PaymentM.TABLE_NAME, PaymentM.AMOUNT_DEF)
                 .addSelector(PaymentM.TABLE_NAME, PaymentM.IS_PROCESSED_DEF)));
+    }
+
+    private List<Map<String, String>> getSendPayments() throws SQLException {
+        return DBHandler.getInstance().get(new PaymentM()
+                .addJoin(OrderM.TABLE_NAME, OrderM.ID_DEF, PaymentM.TABLE_NAME, PaymentM.ID_ORDER_DEF)
+                .addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.TABLE_NAME, OrderM.ID_CLIENT_DEF)
+                .addSelector(ClientM.TABLE_NAME, ClientM.ID_DEF)
+                .addSelector(ClientM.TABLE_NAME, ClientM.EMAIL_DEF)
+                .addSelector(PaymentM.TABLE_NAME, PaymentM.DATE_DEF)
+                .addSelector(PaymentM.TABLE_NAME, PaymentM.AMOUNT_DEF)
+                .addSelector(PaymentM.TABLE_NAME, PaymentM.BANK_COMMISSION_DEF)
+                .addSelector(PaymentM.TABLE_NAME, PaymentM.ID_DEF, "paymentID"));
+
     }
 }

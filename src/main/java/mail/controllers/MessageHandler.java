@@ -2,6 +2,7 @@ package mail.controllers;
 
 import database.controllers.DBHandler;
 import database.controllers.XMLParser;
+import database.models.ClientM;
 import database.models.PaymentM;
 import mail.models.EMessage;
 
@@ -12,6 +13,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class MessageHandler {
 
@@ -45,20 +47,18 @@ public class MessageHandler {
         }
     }
 
-//TODO Начать с этого
-//    public void sendPayments(PaymentM[] payments) throws MessagingException{
-//        EMessage[] messages = new EMessage[payments.length];
-//        for (int i = 0; i < payments.length; i++){
-//            StringBuilder text = new StringBuilder();
-//            text.append("Сообщаем вам о удачном платеже.")
-//                    .append("\nНомер аккаунта: ").append(payments[i].getAccount(payments[i].getId()))
-//                    .append("\nДата проведения операции: ").append(payments[i].getDateOperation())
-//                    .append("\nСумма платежа: ").append(payments[i].getAmount())
-//                    .append("\nВ том числе комиссия: ").append(payments[i].getBankCommission());
-//            messages[i] = new EMessage(payments[i].getEmail(), "Payments", text.toString());
-//        }
-//        sendMessages(messages);
-//    }
+    public void sendPayments(List<Map<String, String>> payments) throws SQLException{
+        for (Map<String, String> paymentData: payments){
+            StringBuilder text = new StringBuilder();
+            text.append("Сообщаем вам о удачном платеже.")
+                    .append("\nНомер аккаунта: ").append(paymentData.get(ClientM.ID_DEF))
+                    .append("\nДата проведения операции: ").append(paymentData.get(PaymentM.DATE_DEF))
+                    .append("\nСумма платежа: ").append(paymentData.get(PaymentM.AMOUNT_DEF))
+                    .append("\nВ том числе комиссия: ").append(paymentData.get(PaymentM.BANK_COMMISSION_DEF));
+            sendMessage(new EMessage(paymentData.get(ClientM.EMAIL_DEF), "Payments", text.toString()));
+            PaymentM.updateChecked(PaymentM.getPayment(paymentData.get("paymentID")));
+        }
+    }
 
     public void readEmail() throws MessagingException, SQLException, IOException {
         Folder inbox = MailConnect.getInstance().getStore().getFolder("INBOX");
