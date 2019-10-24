@@ -14,7 +14,7 @@ public class UserM extends Model{
     public static final String LOGIN_DEF = "login";
     public static final String PASSWORD_DEF = "password";
     public static final String EMAIL_DEF = "email";
-    public static final String ACTIVE_DEF = "isActive";
+    public static final String ACTIVE_DEF = "isactive";
 
     private Integer id;
     private String name;

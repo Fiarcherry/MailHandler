@@ -1,8 +1,6 @@
 package database.controllers;
 
-import database.models.Model;
-import database.models.PaymentM;
-import database.models.UserM;
+import database.models.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.sqlite.SQLiteDataSource;
@@ -50,7 +48,10 @@ public class DBHandler {
         ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
         boolean isDbEmpty = true;
         while (rs.next()) {
-            if (PaymentM.TABLE_NAME.equals(rs.getString("TABLE_NAME")) || UserM.TABLE_NAME.equals(rs.getString("TABLE_NAME")))
+            if (PaymentM.TABLE_NAME.equals(rs.getString("TABLE_NAME"))
+                    || UserM.TABLE_NAME.equals(rs.getString("TABLE_NAME"))
+                    || ClientM.TABLE_NAME.equals(rs.getString("TABLE_NAME"))
+                    || OrderM.TABLE_NAME.equals(rs.getString("TABLE_NAME")))
                 isDbEmpty = false;
         }
         if (isDbEmpty)
@@ -65,6 +66,7 @@ public class DBHandler {
      */
     private void createTable(Model model) throws SQLException {
         try (Statement statement = connection.createStatement()) {
+            System.out.println(model.getCreateTableQuery());
             statement.execute(model.getCreateTableQuery());
         }
     }
@@ -163,10 +165,18 @@ public class DBHandler {
     private void createTables() throws SQLException {
         PaymentM firstPayment = new PaymentM("r6lpoptgkeki9l14zu24hiapw", "1197145776", "2019-09-25T00:18:59", 70478.14f, 204.39f, false);
         UserM firstUser = new UserM("AAAAAAdmin", "admin", "admin", "p_a.s.nosach@mtp.ru");
-        createTable(firstPayment);
+        OrderM firstOrder = new OrderM("order1", "client1", "2019-09-25T00:18:59", 70478.14f, 204.39f, "bjhwbfkqwhffhjksdjhfgwjhdfugw");
+        ClientM firstClient = new ClientM("client1", "eryu", "kowjf", "p_a.s.nosach@mpt.ru");
+
         createTable(firstUser);
-        insert(firstPayment);
         insert(firstUser);
+        createTable(firstClient);
+        insert(firstClient);
+        createTable(firstOrder);
+        insert(firstOrder);
+        createTable(firstPayment);
+        insert(firstPayment);
+
     }
 
     /**
