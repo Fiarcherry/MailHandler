@@ -9,14 +9,14 @@ import java.util.List;
 
 public class PaymentM extends Model {
 
-    public static final String TABLE_NAME = "Payment";
+    public static final String TABLE_NAME = "`Payment`";
 
-    public static final String ID_DEF = "Id";
-    public static final String ID_ORDER_DEF = "IdOrder";
-    public static final String DATE_DEF = "DatePayment";
-    public static final String AMOUNT_DEF = "AmountPayment";
-    public static final String BANK_COMMISSION_DEF = "BankCommission";
-    public static final String IS_PROCESSED_DEF = "IsProcessed";
+    public static final String ID_DEF = "`Id`";
+    public static final String ID_ORDER_DEF = "`IdOrder`";
+    public static final String DATE_DEF = "`DatePayment`";
+    public static final String AMOUNT_DEF = "`AmountPayment`";
+    public static final String BANK_COMMISSION_DEF = "`BankCommission`";
+    public static final String IS_PROCESSED_DEF = "`IsProcessed`";
 
     private String id;
     private String idOrder;
@@ -106,13 +106,13 @@ public class PaymentM extends Model {
 
     @Override
     public String getCreateTableQuery() {
-        return String.format("CREATE TABLE if not exists '%s' (" +
-                        "'%s' TEXT PRIMARY KEY, " +
-                        "'%s' TEXT, " +
-                        "'%s' TEXT, " +
-                        "'%s' REAL, " +
-                        "'%s' REAL, " +
-                        "'%s' INTEGER DEFAULT 0)" +
+        return String.format("CREATE TABLE if not exists %s (" +
+                        "%s TEXT PRIMARY KEY, " +
+                        "%s TEXT, " +
+                        "%s TEXT, " +
+                        "%s REAL, " +
+                        "%s REAL, " +
+                        "%s INTEGER DEFAULT 0, " +
                         "FOREIGN KEY (" + PaymentM.ID_ORDER_DEF + ") " +
                         "REFERENCES " + OrderM.TABLE_NAME + " (" + OrderM.ID_DEF +"));",
                 PaymentM.TABLE_NAME,

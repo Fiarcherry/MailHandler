@@ -7,12 +7,12 @@ import java.util.List;
 
 public class ClientM extends Model {
 
-    public static final String TABLE_NAME = "Client";
+    public static final String TABLE_NAME = "`Client`";
 
-    public static final String ID_DEF = "Id";
-    public static final String FIRST_NAME_DEF = "FirstName";
-    public static final String SECOND_NAME_DEF = "SecondName";
-    public static final String EMAIL_DEF = "Email";
+    public static final String ID_DEF = "`Id`";
+    public static final String FIRST_NAME_DEF = "`FirstName`";
+    public static final String SECOND_NAME_DEF = "`SecondName`";
+    public static final String EMAIL_DEF = "`Email`";
 
     private String id;
     private String firstName;
@@ -78,11 +78,11 @@ public class ClientM extends Model {
 
     @Override
     public String getCreateTableQuery() {
-        String query = String.format("CREATE TABLE if not exists '%s' (" +
-                        "'%s' TEXT PRIMARY KEY, " +
-                        "'%s' TEXT, " +
-                        "'%s' TEXT, " +
-                        "'%s' TEXT DEFAULT \"testClient@bg.mail\");",
+        String query = String.format("CREATE TABLE if not exists %s (" +
+                        "%s TEXT PRIMARY KEY, " +
+                        "%s TEXT, " +
+                        "%s TEXT, " +
+                        "%s TEXT DEFAULT \"testClient@bg.mail\");",
                 ClientM.TABLE_NAME,
                 ClientM.ID_DEF,
                 ClientM.FIRST_NAME_DEF,

@@ -7,14 +7,14 @@ import java.util.List;
 
 public class UserM extends Model{
 
-    public static final String TABLE_NAME = "User";
+    public static final String TABLE_NAME = "`User`";
 
-    public static final String ID_DEF = "id";
-    public static final String NAME_DEF = "name";
-    public static final String LOGIN_DEF = "login";
-    public static final String PASSWORD_DEF = "password";
-    public static final String EMAIL_DEF = "email";
-    public static final String ACTIVE_DEF = "isactive";
+    public static final String ID_DEF = "`id`";
+    public static final String NAME_DEF = "`name`";
+    public static final String LOGIN_DEF = "`login`";
+    public static final String PASSWORD_DEF = "`password`";
+    public static final String EMAIL_DEF = "`email`";
+    public static final String ACTIVE_DEF = "`isactive`";
 
     private Integer id;
     private String name;
@@ -110,7 +110,7 @@ public class UserM extends Model{
 
     @Override
     public  String getCreateTableQuery(){
-        return String.format("CREATE TABLE if not exists '%s' ('%s' INTEGER PRIMARY KEY, '%s' TEXT, '%s' TEXT, '%s' TEXT, '%s' TEXT, '%s' INTEGER DEFAULT 0);",
+        return String.format("CREATE TABLE if not exists %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s INTEGER DEFAULT 0);",
                 TABLE_NAME,
                 ID_DEF,
                 NAME_DEF,
