@@ -169,7 +169,7 @@ public class DBHandler {
      * @throws SQLException
      */
     private void createTables() throws SQLException {
-        PaymentM firstPayment = new PaymentM("r6lpoptgkeki9l14zu24hiapw", "1197145776", "2019-09-25T00:18:59", 70478.14f, 204.39f, false);
+        PaymentM firstPayment = new PaymentM("r6lpoptgkeki9l14zu24hiapw", "order1", "2019-09-25T00:18:59", 70478.14f, 204.39f, false);
         UserM firstUser = new UserM("AAAAAAdmin", "admin", "admin", "p_a.s.nosach@mtp.ru");
         OrderM firstOrder = new OrderM("order1", "client1", "2019-09-25T00:18:59", 70478.14f, 204.39f, "bjhwbfkqwhffhjksdjhfgwjhdfugw");
         ClientM firstClient = new ClientM("client1", "eryu", "kowjf", "p_a.s.nosach@mpt.ru");
