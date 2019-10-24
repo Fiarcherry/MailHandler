@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 public class LoginServlet extends HttpServlet {
 
@@ -36,10 +38,15 @@ public class LoginServlet extends HttpServlet {
                     break;
                 case "login":
                 default:
+                    DBHandler db = DBHandler.getInstance();
+                    List<Map<String, String>> result = db.get(new UserM().addSelector(UserM.TABLE_NAME, UserM.LOGIN_DEF).addSelector(UserM.TABLE_NAME, UserM.EMAIL_DEF));
                     resp.setContentType("text/html;charset=utf-8");
                     req.getRequestDispatcher("/Views/Login.html").forward(req, resp);
                     break;
             }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
         }
     }
 

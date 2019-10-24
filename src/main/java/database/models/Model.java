@@ -103,8 +103,6 @@ public abstract class Model <T extends Model>{
     public abstract String getInsertQuery();
     public abstract String getCreateTableQuery();
     public abstract String getUpdateQuery();
-    public abstract String getSelectAllQuery();
-    public abstract String getSelectFirstQuery();
 
     public abstract String getPrimaryKey();
     public abstract String getTableName();
@@ -112,4 +110,20 @@ public abstract class Model <T extends Model>{
     public abstract List<T> getResultList(ResultSet resultSet) throws SQLException;
     public abstract T getResult(ResultSet resultSet) throws SQLException;
 
+    public final Map<String, String> getResultMap(ResultSet resultSet) throws SQLException{
+        Map<String, String> result = new HashMap<>();
+        for (Map.Entry<String, String> entry: selectors.entrySet()) {
+            String key = entry.getKey()+'.'+entry.getValue();
+            result.put(key, resultSet.getString(entry.getValue()));
+        }
+        return result;
+    }
+    public final List<Map<String, String>> getResultMapList(ResultSet resultSet) throws SQLException{
+        List<Map<String, String>> result = new ArrayList<>();
+        Map<String, String> row = new HashMap<>();
+        while (resultSet.next()) {
+            getResultMap(resultSet);
+        }
+        return result;
+    }
 }

@@ -151,20 +151,6 @@ public class PaymentM extends Model {
         return query;
     }
 
-    @Override
-    public String getSelectAllQuery() {
-        return "SELECT * FROM " + TABLE_NAME;
-    }
-
-    @Override
-    public String getSelectFirstQuery() {
-        String query = String.format("SELECT * FROM %s " +
-                "WHERE %s = \"%s\"", PaymentM.TABLE_NAME, PaymentM.ID_DEF, getPrimaryKey());
-
-        System.out.println(query);
-        return query;
-    }
-
 
     @Override
     public String getPrimaryKey() {

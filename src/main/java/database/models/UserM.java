@@ -149,14 +149,6 @@ public class UserM extends Model{
                 ID_DEF,
                 this.getId());
     }
-    @Override
-    public String getSelectAllQuery() {
-        return  "SELECT * FROM " + TABLE_NAME;
-    }
-    @Override
-    public String getSelectFirstQuery() {
-        return String.format("SELECT * FROM %s WHERE %s = %s", TABLE_NAME, ID_DEF, getPrimaryKey());
-    }
 
     @Override
     public UserM removeCondition(String key) {
@@ -195,6 +187,29 @@ public class UserM extends Model{
         return this;
     }
 
+    @Override
+    public UserM removeSelector(String tableName, String columnName) {
+        super.removeSelector(tableName, columnName);
+        return this;
+    }
+
+    @Override
+    public UserM addSelector(String tableName, String columnName) {
+        super.addSelector(tableName, columnName);
+        return this;
+    }
+
+    @Override
+    public UserM addSelector(String tableName, String columnName, String columnMask) {
+        super.addSelector(tableName, columnName, columnMask);
+        return this;
+    }
+
+    @Override
+    public UserM removeAllSelectors() {
+        super.removeAllSelectors();
+        return this;
+    }
 
     @Override
     public List<UserM> getResultList(ResultSet resultSet) throws SQLException {
