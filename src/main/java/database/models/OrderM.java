@@ -7,14 +7,14 @@ import java.util.List;
 
 public class OrderM extends Model {
 
-    public static final String TABLE_NAME = "`Order`";
+    public static final String TABLE_NAME = "Order";
 
-    public static final String ID_DEF = "`Id`";
-    public static final String ID_CLIENT_DEF = "`IdClient`";
-    public static final String DATE_DEF = "`Date`";
-    public static final String AMOUNT_DEF = "`Amount`";
-    public static final String OUR_COMMISSION_DEF = "`OurCommission`";
-    public static final String DATA_DEF = "`Data`";
+    public static final String ID_DEF = "Id";
+    public static final String ID_CLIENT_DEF = "IdClient";
+    public static final String DATE_DEF = "Date";
+    public static final String AMOUNT_DEF = "Amount";
+    public static final String OUR_COMMISSION_DEF = "OurCommission";
+    public static final String DATA_DEF = "Data";
 
     private String id;
     private String idClient;
@@ -77,7 +77,7 @@ public class OrderM extends Model {
 
     @Override
     public String getInsertQuery() {
-        String query = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s) " +
+        String query = String.format("INSERT INTO `%s` (`%s`, `%s`, `%s`, `%s`, `%s`, `%s`) " +
                         "VALUES (\"%s\", \"%s\", \"%s\", %s, %s, \"%s\")",
                 OrderM.TABLE_NAME,
                 OrderM.ID_DEF,
@@ -99,15 +99,15 @@ public class OrderM extends Model {
 
     @Override
     public String getCreateTableQuery() {
-        String query = String.format("CREATE TABLE if not exists %s (" +
-                        "%s TEXT PRIMARY KEY, " +
-                        "%s TEXT, " +
-                        "%s TEXT, " +
-                        "%s REAL, " +
-                        "%s REAL, " +
-                        "%s TEXT, " +
-                        "FOREIGN KEY (" + OrderM.ID_CLIENT_DEF + ") " +
-                        "REFERENCES " + ClientM.TABLE_NAME + " (" + ClientM.ID_DEF +"));",
+        String query = String.format("CREATE TABLE if not exists `%s` (" +
+                        "`%s` TEXT PRIMARY KEY, " +
+                        "`%s` TEXT, " +
+                        "`%s` TEXT, " +
+                        "`%s` REAL, " +
+                        "`%s` REAL, " +
+                        "`%s` TEXT, " +
+                        "FOREIGN KEY (`" + OrderM.ID_CLIENT_DEF + "`) " +
+                        "REFERENCES `" + ClientM.TABLE_NAME + "` (`" + ClientM.ID_DEF +"`));",
                 OrderM.TABLE_NAME,
                 OrderM.ID_DEF,
                 OrderM.ID_CLIENT_DEF,
@@ -122,13 +122,13 @@ public class OrderM extends Model {
 
     @Override
     public String getUpdateQuery() {
-        String query = String.format("update %s set " +
-                        "%s = \"%s\", " +
-                        "%s = \"%s\", " +
-                        "%s = \"%s\", " +
-                        "%s = \"%s\", " +
-                        "%s = \"%s\" " +
-                        "where %s = \"%s\"",
+        String query = String.format("update `%s` set " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = \"%s\" " +
+                        "where `%s` = \"%s\"",
                 OrderM.TABLE_NAME,
                 OrderM.ID_CLIENT_DEF,
                 this.getIdClient(),
