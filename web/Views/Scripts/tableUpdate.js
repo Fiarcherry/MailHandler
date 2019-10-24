@@ -39,10 +39,8 @@ function drawTBody(data) {
             .append($("<td class=\"col3\">").text(payment.uni))
             .append($("<td class=\"col4\">").text(payment.number))
             .append($("<td class=\"col5\">").text(payment.dateOperation))
-            .append($("<td class=\"col6\">").text(payment.account))
-            .append($("<td class=\"col7\">").text(payment.amount))
-            .append($("<td class=\"col8\">").text(payment.commission))
-            .append($("<td class=\"col9\">").text(payment.email))
+            .append($("<td class=\"col6\">").text(payment.amount))
+            .append($("<td class=\"col7\">").text(payment.commission))
     });
     $("#table td").each(function() {
         if ($(this).text() == 'false') {
