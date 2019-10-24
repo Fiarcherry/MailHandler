@@ -106,7 +106,7 @@ public class PaymentM extends Model {
 
     @Override
     public String getCreateTableQuery() {
-        return String.format("CREATE TABLE if not exists '%s' (" +
+        return String.format("CREATE TABLE if not exists `%s` (" +
                         "`%s` TEXT PRIMARY KEY, " +
                         "`%s` TEXT, " +
                         "`%s` TEXT, " +

@@ -77,7 +77,7 @@ public class OrderM extends Model {
 
     @Override
     public String getInsertQuery() {
-        String query = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s) " +
+        String query = String.format("INSERT INTO `%s` (`%s`, `%s`, `%s`, `%s`, `%s`, `%s`) " +
                         "VALUES (\"%s\", \"%s\", \"%s\", %s, %s, \"%s\")",
                 OrderM.TABLE_NAME,
                 OrderM.ID_DEF,
