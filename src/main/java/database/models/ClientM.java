@@ -60,7 +60,7 @@ public class ClientM extends Model {
 
     @Override
     public String getInsertQuery() {
-        String query = String.format("INSERT INTO %s (%s, %s, %s, %s) " +
+        String query = String.format("INSERT INTO `%s` (`%s`, `%s`, `%s`, `%s`) " +
                         "VALUES (\"%s\", \"%s\", \"%s\", \"%s\")",
                 ClientM.TABLE_NAME,
                 ClientM.ID_DEF,
@@ -78,11 +78,11 @@ public class ClientM extends Model {
 
     @Override
     public String getCreateTableQuery() {
-        String query = String.format("CREATE TABLE if not exists '%s' (" +
-                        "'%s' TEXT PRIMARY KEY, " +
-                        "'%s' TEXT, " +
-                        "'%s' TEXT, " +
-                        "'%s' TEXT DEFAULT \"testClient@bg.mail\");",
+        String query = String.format("CREATE TABLE if not exists `%s` (" +
+                        "`%s` TEXT PRIMARY KEY, " +
+                        "`%s` TEXT, " +
+                        "`%s` TEXT, " +
+                        "`%s` TEXT DEFAULT \"testClient@bg.mail\");",
                 ClientM.TABLE_NAME,
                 ClientM.ID_DEF,
                 ClientM.FIRST_NAME_DEF,
@@ -95,11 +95,11 @@ public class ClientM extends Model {
 
     @Override
     public String getUpdateQuery() {
-        String query = String.format("update %s set " +
-                        "%s = \"%s\", " +
-                        "%s = \"%s\", " +
-                        "%s = \"%s\" " +
-                        "where %s = \"%s\"",
+        String query = String.format("update `%s` set " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = \"%s\" " +
+                        "where `%s` = \"%s\"",
                 ClientM.TABLE_NAME,
                 ClientM.FIRST_NAME_DEF,
                 this.getFirstName(),

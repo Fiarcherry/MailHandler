@@ -99,15 +99,15 @@ public class OrderM extends Model {
 
     @Override
     public String getCreateTableQuery() {
-        String query = String.format("CREATE TABLE if not exists '%s' (" +
-                        "'%s' TEXT PRIMARY KEY, " +
-                        "'%s' TEXT, " +
-                        "'%s' TEXT, " +
-                        "'%s' REAL, " +
-                        "'%s' REAL, " +
-                        "'%s' TEXT, " +
-                        "FOREIGN KEY (" + OrderM.ID_CLIENT_DEF + ") " +
-                        "REFERENCES " + ClientM.TABLE_NAME + " (" + ClientM.ID_DEF +"));",
+        String query = String.format("CREATE TABLE if not exists `%s` (" +
+                        "`%s` TEXT PRIMARY KEY, " +
+                        "`%s` TEXT, " +
+                        "`%s` TEXT, " +
+                        "`%s` REAL, " +
+                        "`%s` REAL, " +
+                        "`%s` TEXT, " +
+                        "FOREIGN KEY (`" + OrderM.ID_CLIENT_DEF + "`) " +
+                        "REFERENCES `" + ClientM.TABLE_NAME + "` (`" + ClientM.ID_DEF +"`));",
                 OrderM.TABLE_NAME,
                 OrderM.ID_DEF,
                 OrderM.ID_CLIENT_DEF,
@@ -122,13 +122,13 @@ public class OrderM extends Model {
 
     @Override
     public String getUpdateQuery() {
-        String query = String.format("update %s set " +
-                        "%s = \"%s\", " +
-                        "%s = \"%s\", " +
-                        "%s = \"%s\", " +
-                        "%s = \"%s\", " +
-                        "%s = \"%s\" " +
-                        "where %s = \"%s\"",
+        String query = String.format("update `%s` set " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = \"%s\" " +
+                        "where `%s` = \"%s\"",
                 OrderM.TABLE_NAME,
                 OrderM.ID_CLIENT_DEF,
                 this.getIdClient(),

@@ -87,7 +87,7 @@ public class PaymentM extends Model {
 
     @Override
     public String getInsertQuery() {
-        return String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s) " +
+        return String.format("INSERT INTO `%s` (`%s`, `%s`, `%s`, `%s`, `%s`, `%s`) " +
                         "VALUES (\"%s\", \"%s\", \"%s\", %s, %s, %s)",
                 PaymentM.TABLE_NAME,
                 PaymentM.ID_DEF,
@@ -107,14 +107,14 @@ public class PaymentM extends Model {
     @Override
     public String getCreateTableQuery() {
         return String.format("CREATE TABLE if not exists '%s' (" +
-                        "'%s' TEXT PRIMARY KEY, " +
-                        "'%s' TEXT, " +
-                        "'%s' TEXT, " +
-                        "'%s' REAL, " +
-                        "'%s' REAL, " +
-                        "'%s' INTEGER DEFAULT 0)" +
-                        "FOREIGN KEY (" + PaymentM.ID_ORDER_DEF + ") " +
-                        "REFERENCES " + OrderM.TABLE_NAME + " (" + OrderM.ID_DEF +"));",
+                        "`%s` TEXT PRIMARY KEY, " +
+                        "`%s` TEXT, " +
+                        "`%s` TEXT, " +
+                        "`%s` REAL, " +
+                        "`%s` REAL, " +
+                        "`%s` INTEGER DEFAULT 0)" +
+                        "FOREIGN KEY (`" + PaymentM.ID_ORDER_DEF + "`) " +
+                        "REFERENCES `" + OrderM.TABLE_NAME + "` (`" + OrderM.ID_DEF +"`));",
                 PaymentM.TABLE_NAME,
                 PaymentM.ID_DEF,
                 PaymentM.ID_ORDER_DEF,
@@ -126,13 +126,13 @@ public class PaymentM extends Model {
 
     @Override
     public String getUpdateQuery() {
-        String query = String.format("update %s set " +
-                        "%s = \"%s\", " +
-                        "%s = \"%s\", " +
-                        "%s = %s, " +
-                        "%s = %s, " +
-                        "%s = %s " +
-                        "where %s = \"%s\"",
+        String query = String.format("update `%s` set " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = \"%s\", " +
+                        "`%s` = %s, " +
+                        "`%s` = %s, " +
+                        "`%s` = %s " +
+                        "where `%s` = \"%s\"",
                 PaymentM.TABLE_NAME,
                 PaymentM.ID_ORDER_DEF,
                 this.getIdOrder(),
@@ -270,10 +270,9 @@ public class PaymentM extends Model {
         return id + isProcessed.toString();
     }
 
-//TODO Начать с этого
-//    public String getAccount(String id) throws SQLException {
-//        String idClient = DBHandler.getInstance().getFirst(new PaymentM().addJoin(OrderM.TABLE_NAME, OrderM.ID_DEF, PaymentM.ID_ORDER_DEF).addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.ID_CLIENT_DEF).addSelector(ClientM.TABLE_NAME, ClientM.ID_DEF).addCondition(PaymentM.ID_DEF, id, true));
-//
-//        return idClient;
-//    }
+    public String getAccount(String id) throws SQLException {
+        String idClient = DBHandler.getInstance().getFirst(new PaymentM(id).addJoin(OrderM.TABLE_NAME, OrderM.ID_DEF, PaymentM.ID_ORDER_DEF).addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.ID_CLIENT_DEF).addSelector(ClientM.TABLE_NAME, ClientM.ID_DEF).addCondition(PaymentM.ID_DEF, id, true));
+
+        return idClient;
+    }
 }
