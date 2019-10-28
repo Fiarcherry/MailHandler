@@ -54,12 +54,10 @@ public abstract class Model <T extends Model>{
     }
     public T addSelector(String tableName, String columnName){
         selectors.add(new Selector(tableName, columnName));
-        System.out.println("add selector: "+tableName+"->"+columnName);
         return null;
     }
     public T addSelector(Selector selector){
         selectors.add(selector);
-        System.out.println("add selector: "+selector.toString());
         return null;
     }
     public T addSelector(String tableName, String columnName, String columnMask){

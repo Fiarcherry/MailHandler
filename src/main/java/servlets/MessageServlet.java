@@ -30,6 +30,7 @@ public class MessageServlet extends HttpServlet {
         HttpSession session = req.getSession();
 
         try (PrintWriter out = resp.getWriter()) {
+            MessageHandler messageHandler = new MessageHandler();
             switch (action == null ? "create" : action) {
                 case "json":
                     if (session.getAttribute("login") != null) {
@@ -47,13 +48,14 @@ public class MessageServlet extends HttpServlet {
                 case "show":
                     req.getRequestDispatcher("/Views/AllPayments.html").forward(req, resp);
                     break;
+                case "readNew":
+                    messageHandler.readEmail("new");
+                    resp.sendRedirect("http://localhost:8080/MailHandler/message?action=show");
+                    break;
+                case "readAll":
+                    messageHandler.readEmail("all");
                 case "showErrors":
                     req.getRequestDispatcher("/Views/Errors.html").forward(req, resp);
-                    break;
-                case "read":
-                    MessageHandler messageHandler = new MessageHandler();
-                    messageHandler.readEmail();
-                    resp.sendRedirect("http://localhost:8080/MailHandler/message?action=show");
                     break;
                 case "create":
                 default:
