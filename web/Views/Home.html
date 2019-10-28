@@ -6,12 +6,11 @@
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<div id="divReferences">
+<div id="divReferences" style="padding: 3%">
     <h1 id="headerGreetings">Welcome home,</h1>
-    <a href="message?action=create">Write new message</a>
-    <a href="message?action=read">Read message</a>
-    <a href="message?action=show">DB List</a>
-    <a href="auth?action=login">Login</a>
+    <a href="message?action=create">Write new message</a><br>
+    <a href="message?action=read">Read message</a><br>
+    <a href="message?action=show">DB List</a><br>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -20,11 +19,14 @@
             type: "POST",
             dataType: 'json',
             success: function(data){
-                if (data == "NULLLOGIN")
+                if (data == "NULLLOGIN") {
                     $("#headerGreetings").append(" Commander");
+                    $("#divReferences").append("<a href=\"auth?action=login\">Login</a><br>")
+                }
                 else {
                     $("#headerGreetings").append(" " + data);
-                    $("#divReferences").append("<a href=\"auth?action=registration\">Registration</a>")
+                    $("#divReferences").append("<a href=\"auth?action=registration\">Registration</a><br>");
+                    $("#divReferences").append("<a href=\"auth?action=logout\">Logout("+data+")</a><br>");
                 }
             },
             error: function(error){

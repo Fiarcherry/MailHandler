@@ -1,8 +1,8 @@
 package servlets;
 
+import controllers.LoginController;
 import database.controllers.DBHandler;
 import database.models.*;
-import database.query.Selector;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,8 +12,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 public class LoginServlet extends HttpServlet {
 
@@ -33,6 +31,7 @@ public class LoginServlet extends HttpServlet {
                     if (session.getAttribute("name") != null) {
                         req.getSession().removeAttribute("login");
                         req.getSession().removeAttribute("name");
+                        resp.sendRedirect("http://localhost:8080/MailHandler/");
                     }
                     break;
                 case "login":
@@ -51,41 +50,17 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try (PrintWriter out = resp.getWriter()) {
             String action = req.getParameter("action");
+            resp.setContentType("text/html;charset=utf-8");
 
             DBHandler db = DBHandler.getInstance();
-            String login = req.getParameter("login");
-            String password = req.getParameter("password");
-            HttpSession session = req.getSession();
+            LoginController loginController = new LoginController(req.getSession(), req);
 
             switch(action){
                 case "registrationResult":
-                    if (login.length() > 0 && password.length() > 0) {
-                        if (session.getAttribute("name") != null) {
-                            UserM user = new UserM(login, password);
-                            db.insert(user);
-                            session.setAttribute("login", user.getLogin());
-                            session.setAttribute("name", user.getName());
-                            out.write(req.getContextPath() + "/home");
-                        } else {
-                            resp.setContentType("text/html;charset=utf-8");
-                            out.write("You need to authorize");
-                        }
-                    }
+                    out.write(loginController.register(new UserM(req.getParameter("nick"), req.getParameter("login"), req.getParameter("password"), req.getParameter("email"))));
                     break;
                 case "loginResult":
-                    if (login.length() > 0 && password.length() > 0) {
-                        UserM user = db.getObject(new UserM(login, password)
-                                .addCondition(UserM.LOGIN_DEF, Model.toText(login))
-                                .addCondition(UserM.PASSWORD_DEF, Model.toText(password)))  ;
-                        if (user != null) {
-                            session.setAttribute("login", user.getLogin());
-                            session.setAttribute("name", user.getName());
-                            out.write(req.getContextPath() + "/home");
-                        } else {
-                            resp.setContentType("text/html;charset=utf-8");
-                            out.write("Invalid login or password");
-                        }
-                    }
+                    out.write(loginController.login(req.getParameter("login"), req.getParameter("password")));
                     break;
                 default:
                     break;
