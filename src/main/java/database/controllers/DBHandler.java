@@ -3,9 +3,7 @@ package database.controllers;
 import database.models.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import database.query.Selector;
 import org.sqlite.SQLiteDataSource;
-
 import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,8 +11,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +37,7 @@ public class DBHandler {
     }
 
     private DBHandler() throws SQLException {
+        int tableCount = 5;
 
         Path dbPath = Paths.get("").toAbsolutePath().resolve(DB_FILE_NAME);
         SQLiteDataSource ds = new SQLiteDataSource();
@@ -49,16 +46,28 @@ public class DBHandler {
         ds.setUrl(dbURL);
         this.connection = ds.getConnection();
         ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
-        boolean isDbEmpty = true;
-        while (rs.next()) {
-            if (PaymentM.TABLE_NAME.equals(rs.getString("TABLE_NAME"))
-                    || UserM.TABLE_NAME.equals(rs.getString("TABLE_NAME"))
-                    || ClientM.TABLE_NAME.equals(rs.getString("TABLE_NAME"))
-                    || OrderM.TABLE_NAME.equals(rs.getString("TABLE_NAME")))
-                isDbEmpty = false;
-        }
-        if (isDbEmpty)
-            createTables();
+        boolean[] exists = new boolean[tableCount];
+        while (rs.next())
+            switch (rs.getString("TABLE_NAME")){
+                case ClientM.TABLE_NAME:
+                    exists[0] = true;
+                    break;
+                case OrderM.TABLE_NAME:
+                    exists[1] = true;
+                    break;
+                case PaymentM.TABLE_NAME:
+                    exists[2] = true;
+                    break;
+                case UserM.TABLE_NAME:
+                    exists[3] = true;
+                    break;
+                case ErrorM.TABLE_NAME:
+                    exists[4] = true;
+                    break;
+                default:
+                    break;
+            }
+        createTables(exists);
     }
 
 
@@ -81,11 +90,15 @@ public class DBHandler {
      * @return
      * @throws SQLException
      */
-    public void insert(Model model) throws SQLException {
+    public int insert(Model model) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             int affectedRows = statement.executeUpdate(model.getInsertQuery());
-            if (affectedRows == 0)
+            if (affectedRows == 0){
                 throw new SQLException("Insert failed, no rows affected.");
+            }
+            else{
+                return affectedRows;
+            }
         }
     }
 
@@ -95,11 +108,15 @@ public class DBHandler {
      * @param model
      * @throws SQLException
      */
-    public void update(Model model) throws SQLException {
+    public int update(Model model) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             int affectedRows = statement.executeUpdate(model.getUpdateQuery());
-            if (affectedRows == 0)
+            if (affectedRows == 0){
                 throw new SQLException("Update failed, no rows affected.");
+            }
+            else{
+                return affectedRows;
+            }
         }
     }
 
@@ -168,21 +185,39 @@ public class DBHandler {
      *
      * @throws SQLException
      */
-    private void createTables() throws SQLException {
-        PaymentM firstPayment = new PaymentM("r6lpoptgkeki9l14zu24hiapw", "order1", "2019-09-25T00:18:59", 70478.14f, 204.39f, false);
-        UserM firstUser = new UserM("AAAAAAdmin", "admin", "admin", "p_a.s.nosach@mtp.ru");
-        OrderM firstOrder = new OrderM("order1", "client1", "2019-09-25T00:18:59", 70478.14f, 204.39f, "bjhwbfkqwhffhjksdjhfgwjhdfugw");
-        ClientM firstClient = new ClientM("client1", "eryu", "kowjf", "p_a.s.nosach@mpt.ru");
-
-        createTable(firstUser);
-        insert(firstUser);
-        createTable(firstClient);
-        insert(firstClient);
-        createTable(firstOrder);
-        insert(firstOrder);
-        createTable(firstPayment);
-        insert(firstPayment);
-
+    private void createTables(boolean[] exists) throws SQLException {
+        if (!exists[0]){
+            ClientM firstClient = new ClientM("client1", "eryu", "kowjf", "p_a.s.nosach@mpt.ru");
+            createTable(firstClient);
+            insert(firstClient);
+            System.out.println("Создана таблица клиентов.");
+        }
+        if (!exists[1]){
+            OrderM firstOrder = new OrderM("order1", "client1", "2019-09-25T00:18:59"
+                    , 70478.14f, 204.39f, "bjhwbfkqwhffhjksdjhfgwjhdfugw");
+            createTable(firstOrder);
+            insert(firstOrder);
+            System.out.println("Создана таблица заказов.");
+        }
+        if (!exists[2]){
+            PaymentM firstPayment = new PaymentM("r6lpoptgkeki9l14zu24hiapw", "order1", "2019-09-25T00:18:59"
+                    , 70478.14f, 204.39f, false);
+            createTable(firstPayment);
+            insert(firstPayment);
+            System.out.println("Создана таблица платежей.");
+        }
+        if (!exists[3]){
+            UserM firstUser = new UserM("AAAAAAdmin", "admin", "admin", "p_a.s.nosach@mtp.ru");
+            createTable(firstUser);
+            insert(firstUser);
+            System.out.println("Создана таблица пользователей.");
+        }
+        if (!exists[4]){
+            ErrorM firstError= new ErrorM("Test Error");
+            createTable(firstError);
+            insert(firstError);
+            System.out.println("Создана таблица ошибок.");
+        }
     }
 
     /**

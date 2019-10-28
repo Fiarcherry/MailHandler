@@ -4,6 +4,8 @@ import database.query.Selector;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +17,11 @@ public class ErrorM extends Model {
     public static final String MESSAGE_DEF = "Message";
     public static final String DATE_DEF = "Date";
 
-    private String id;
+    private Integer id;
     private String message;
     private String date;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -31,11 +33,18 @@ public class ErrorM extends Model {
         return date;
     }
 
+    public String getCurrentDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return sdf.format(timestamp);
+    }
+
     public ErrorM() {
     }
 
     public ErrorM(String message) {
         this.message = message;
+        this.date = getCurrentDate();
     }
 
     public ErrorM(String message, String date) {
@@ -43,14 +52,14 @@ public class ErrorM extends Model {
         this.date = date;
     }
 
-    public ErrorM(String id, String message, String date) {
+    public ErrorM(Integer id, String message, String date) {
         this.id = id;
         this.message = message;
         this.date = date;
     }
 
     public ErrorM(ResultSet resultSet) throws SQLException{
-        this(resultSet.getString(ErrorM.ID_DEF), resultSet.getString(ErrorM.MESSAGE_DEF), resultSet.getString(ErrorM.DATE_DEF));
+        this(resultSet.getInt(ErrorM.ID_DEF), resultSet.getString(ErrorM.MESSAGE_DEF), resultSet.getString(ErrorM.DATE_DEF));
     }
 
     @Override
@@ -58,10 +67,8 @@ public class ErrorM extends Model {
         String query = String.format("INSERT INTO `%s` (`%s`, `%s`) " +
                         "VALUES (\"%s\", \"%s\")",
                 ErrorM.TABLE_NAME,
-                ErrorM.ID_DEF,
                 ErrorM.MESSAGE_DEF,
                 ErrorM.DATE_DEF,
-                this.getId(),
                 this.getMessage(),
                 this.getDate());
 
@@ -71,7 +78,7 @@ public class ErrorM extends Model {
     @Override
     public String getCreateTableQuery() {
         String query = String.format("CREATE TABLE if not exists `%s` (" +
-                        "`%s` TEXT PRIMARY KEY, " +
+                        "`%s` INTEGER PRIMARY KEY, " +
                         "`%s` TEXT, " +
                         "`%s` TEXT);",
                 ErrorM.TABLE_NAME,
@@ -87,13 +94,14 @@ public class ErrorM extends Model {
         String query = String.format("update `%s` set " +
                         "`%s` = \"%s\", " +
                         "`%s` = \"%s\" " +
-                        "where `%s` = \"%s\"",
+                        "where `%s` = %s",
+                ErrorM.TABLE_NAME,
                 ErrorM.MESSAGE_DEF,
                 this.getMessage(),
                 ErrorM.DATE_DEF,
                 this.getDate(),
                 ErrorM.ID_DEF,
-                this.getId());
+                this.getId().toString());
 
         System.out.println(query);
         return query;
@@ -106,7 +114,7 @@ public class ErrorM extends Model {
     }
     @Override
     public String getPrimaryKey() {
-        return this.id;
+        return this.id.toString();
     }
 
 
@@ -120,7 +128,7 @@ public class ErrorM extends Model {
     }
     @Override
     public ErrorM getResult(ResultSet resultSet) throws SQLException {
-        this.id = resultSet.getString(ErrorM.ID_DEF);
+        this.id = resultSet.getInt(ErrorM.ID_DEF);
         this.message = resultSet.getString(ErrorM.MESSAGE_DEF);
         this.date = resultSet.getString(ErrorM.DATE_DEF);
         return this;
