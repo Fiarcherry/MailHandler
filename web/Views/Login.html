@@ -6,12 +6,15 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Title</title>
 </head>
-<body>
-<div style="padding: 3%">
-    <h1>Login</h1>
-        <input type="text" name="login" placeholder="Login"/>
-        <input type="password" name="password" placeholder="Password"/>
-        <input type="submit" name="submit" onclick="login()"/>
+<body class="text-center">
+<div class="mx-auto mt-5" style="width: 300px;">
+    <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+        <label for="inputLogin" class="sr-only">Email address</label>
+        <input type="text" id="inputLogin" name="login" class="form-control" placeholder="Login" required="" autofocus=""/>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required=""/>
+        <input type="submit" name="submit" class="mt-3 btn btn-lg btn-primary btn-block" onclick="login()"/>
+        <p class="mt-4 mb-3 text-muted">Payment Receive Send System© 2019</p>
     <h2 id="result"></h2>
 </div>
     <script type="text/javascript">
