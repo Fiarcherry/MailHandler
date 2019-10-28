@@ -2,6 +2,7 @@ package servlets;
 
 import database.controllers.DBHandler;
 import database.models.ClientM;
+import database.models.ErrorM;
 import database.models.OrderM;
 import database.models.PaymentM;
 import mail.controllers.MessageHandler;
@@ -13,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -25,19 +27,28 @@ public class MessageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String action = req.getParameter("action");
+        HttpSession session = req.getSession();
 
         try (PrintWriter out = resp.getWriter()) {
             switch (action == null ? "create" : action) {
                 case "json":
-                    resp.setContentType("application/json;charset=utf-8");
-                    DBHandler db = DBHandler.getInstance();
-                    String json = getPaymentsJson();
-                    System.out.println(json);
-                    out.println(json);
+                    if (session.getAttribute("login") != null) {
+                        resp.setContentType("application/json;charset=utf-8");
+                        out.println(getPaymentsJson());
+                    }
+                    break;
+                case "jsonError":
+                    if (session.getAttribute("login") != null) {
+                        resp.setContentType("application/json;charset=utf-8");
+                        System.out.println(getErrorsJson());
+                        out.println(getErrorsJson());
+                    }
                     break;
                 case "show":
-                    resp.setContentType("text/html;charset=utf-8");
                     req.getRequestDispatcher("/Views/AllPayments.html").forward(req, resp);
+                    break;
+                case "showErrors":
+                    req.getRequestDispatcher("/Views/Errors.html").forward(req, resp);
                     break;
                 case "read":
                     MessageHandler messageHandler = new MessageHandler();
@@ -46,7 +57,6 @@ public class MessageServlet extends HttpServlet {
                     break;
                 case "create":
                 default:
-                    resp.setContentType("text/html;charset=utf-8");
                     req.getRequestDispatcher("/Views/NewMessage.html").forward(req, resp);
                     break;
             }
@@ -87,6 +97,10 @@ public class MessageServlet extends HttpServlet {
                 .addSelector(PaymentM.TABLE_NAME, PaymentM.DATE_DEF)
                 .addSelector(PaymentM.TABLE_NAME, PaymentM.AMOUNT_DEF)
                 .addSelector(PaymentM.TABLE_NAME, PaymentM.IS_PROCESSED_DEF)));
+    }
+
+    private String getErrorsJson() throws SQLException{
+        return new Gson().toJson(DBHandler.getInstance().getObjects(new ErrorM()));
     }
 
     private List<Map<String, String>> getSendPayments() throws SQLException {

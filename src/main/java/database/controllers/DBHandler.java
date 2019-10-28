@@ -1,5 +1,6 @@
 package database.controllers;
 
+import common.Config;
 import database.models.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,10 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 public class DBHandler {
-
-    private static final String DB_FILE_NAME = "mail_handler.db";
-
-
     private static DBHandler instance;
 
     private Connection connection;
@@ -39,7 +36,8 @@ public class DBHandler {
     private DBHandler() throws SQLException {
         int tableCount = 5;
 
-        Path dbPath = Paths.get("").toAbsolutePath().resolve(DB_FILE_NAME);
+        Path dbPath = Paths.get("").toAbsolutePath().resolve(Config.getDbFileName());
+        System.out.println(dbPath);
         SQLiteDataSource ds = new SQLiteDataSource();
         String dbURL = "jdbc:sqlite:"+dbPath;
 

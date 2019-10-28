@@ -27,6 +27,7 @@ public class LoginController {
             if (user != null) {
                 session.setAttribute("login", user.getLogin());
                 session.setAttribute("name", user.getName());
+                session.setAttribute("email", user.getEmail());
                 return  req.getContextPath() + "/home";
             } else {
                 return"Invalid login or password";

@@ -1,21 +1,12 @@
 package mail.controllers;
 
+import common.Config;
 import mail.models.EmailAuthenticator;
 
 import javax.mail.*;
 import java.util.Properties;
 
 public class MailConnect {
-
-    private final static String HOST_IMAP= "imap.gmail.com";
-    private final static String HOST_SMTP= "smtp.gmail.com";
-
-    private final static String USERNAME = "kubikiid";
-    private final static String PASSWORD = "rrcyjyfayqtpdysk";
-
-    private final static String PORT_IMAP = "993";
-    private final static String PORT_STMP = "465";
-
     private static volatile MailConnect instance;
 
     private Session sessionIMAP;
@@ -52,7 +43,7 @@ public class MailConnect {
     }
 
     private MailConnect() throws MessagingException {
-        this.auth = new EmailAuthenticator(USERNAME, PASSWORD);
+        this.auth = new EmailAuthenticator(Config.getMailUsername(), Config.getMailPassword());
         ConnectIMAP();
         ConnectSMTP();
     }
@@ -60,8 +51,8 @@ public class MailConnect {
 
     private void ConnectSMTP(){
         Properties properties = new Properties();
-        properties.setProperty("mail.smtp.host", HOST_SMTP);
-        properties.setProperty("mail.smtp.port", PORT_STMP);
+        properties.setProperty("mail.smtp.host", Config.getMailHostSmtp());
+        properties.setProperty("mail.smtp.port", Config.getMailPortSmtp());
         properties.setProperty("mail.smtp.ssl.enable", "true");
         properties.setProperty("mail.smtp.auth", "true");
 
@@ -73,11 +64,11 @@ public class MailConnect {
         properties.setProperty("mail.debug", "false");
         properties.setProperty("mail.store.protocol", "imaps");
         properties.setProperty("mail.imap.ssl.enable", "true");
-        properties.setProperty("mail.imap.port", PORT_IMAP);
+        properties.setProperty("mail.imap.port", Config.getMailPortImap());
 
         sessionIMAP = Session.getInstance(properties, auth);
 
         store = sessionIMAP.getStore();
-        store.connect(HOST_IMAP, USERNAME, PASSWORD);
+        store.connect(Config.getMailHostImap(), Config.getMailUsername(), Config.getMailPassword());
     }
 }

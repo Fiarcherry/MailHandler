@@ -11,6 +11,7 @@
     <a href="message?action=create">Write new message</a><br>
     <a href="message?action=read">Read message</a><br>
     <a href="message?action=show">DB List</a><br>
+
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -25,6 +26,7 @@
                 }
                 else {
                     $("#headerGreetings").append(" " + data);
+                    $("#divReferences").append("<a href=\"message?action=showErrors\">Errors List</a><br>");
                     $("#divReferences").append("<a href=\"auth?action=registration\">Registration</a><br>");
                     $("#divReferences").append("<a href=\"auth?action=logout\">Logout("+data+")</a><br>");
                 }
