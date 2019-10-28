@@ -41,8 +41,22 @@ public class MessageServlet extends HttpServlet {
                 case "jsonError":
                     if (session.getAttribute("login") != null) {
                         resp.setContentType("application/json;charset=utf-8");
-                        System.out.println(getErrorsJson());
-                        out.println(getErrorsJson());
+                        System.out.println(getJsonErrors());
+                        out.println(getJsonErrors());
+                    }
+                    break;
+                case "jsonOrder":
+                    if (session.getAttribute("login") != null) {
+                        resp.setContentType("application/json;charset=utf-8");
+                        System.out.println(getJsonOrders());
+                        out.println(getJsonOrders());
+                    }
+                    break;
+                case "jsonClient":
+                    if (session.getAttribute("login") != null) {
+                        resp.setContentType("application/json;charset=utf-8");
+                        System.out.println(getJsonClients());
+                        out.println(getJsonClients());
                     }
                     break;
                 case "show":
@@ -58,6 +72,12 @@ public class MessageServlet extends HttpServlet {
                     break;
                 case "showErrors":
                     req.getRequestDispatcher("/Views/Errors.html").forward(req, resp);
+                    break;
+                case "showOrders":
+                    req.getRequestDispatcher("/Views/Orders.html").forward(req, resp);
+                    break;
+                case "showClients":
+                    req.getRequestDispatcher("/Views/Clients.html").forward(req, resp);
                     break;
                 case "create":
                 default:
@@ -103,8 +123,16 @@ public class MessageServlet extends HttpServlet {
                 .addSelector(PaymentM.TABLE_NAME, PaymentM.IS_PROCESSED_DEF)));
     }
 
-    private String getErrorsJson() throws SQLException{
+    private String getJsonErrors() throws SQLException{
         return new Gson().toJson(DBHandler.getInstance().getObjects(new ErrorM()));
+    }
+
+    private String getJsonOrders() throws SQLException{
+        return new Gson().toJson(DBHandler.getInstance().getObjects(new OrderM()));
+    }
+
+    private String getJsonClients() throws SQLException{
+        return new Gson().toJson(DBHandler.getInstance().getObjects(new ClientM()));
     }
 
     private List<Map<String, String>> getSendPayments() throws SQLException {

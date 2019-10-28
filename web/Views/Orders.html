@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order list</title>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="Views/Scripts/tableUpdate.js"></script>
+<div style="padding: 3%">
+    <table id="table" border="1">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>IdClient</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>OurCommission</th>
+            <th>Data</th>
+        </tr>
+        </thead>
+        <tbody id='tableBody'>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.getJSON("message?action=jsonOrder", function (data) {
+                    var $tBody = $("#tableBody");
+                    $.each(data, function (index, order) {
+                        $("<tr class='drawable'>").appendTo($tBody)
+                            .append($("<td>").text(order.id))
+                            .append($("<td>").text(order.idClient))
+                            .append($("<td>").text(order.date))
+                            .append($("<td>").text(order.amount))
+                            .append($("<td>").text(order.ourCommission))
+                            .append($("<td>").text(order.data))
+                    });
+                });
+            });
+        </script>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
