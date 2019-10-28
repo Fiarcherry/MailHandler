@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Client list</title>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="Views/Scripts/tableUpdate.js"></script>
+<div style="padding: 3%">
+    <table id="table" border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>FirstName</th>
+            <th>SecondName</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody id='tableBody'>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.getJSON("message?action=jsonClient", function (data) {
+                    var $tBody = $("#tableBody");
+                    $.each(data, function (index, client) {
+                        $("<tr class='drawable'>").appendTo($tBody)
+                            .append($("<td>").text(client.id))
+                            .append($("<td>").text(client.firstName))
+                            .append($("<td>").text(client.secondName))
+                            .append($("<td>").text(client.email))
+                    });
+                });
+            });
+        </script>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -25,7 +25,9 @@
                 else {
                     $("#headerGreetings").append(" " + data);
                     $("#divReferences").append("<a href=\"message?action=show\">DB List</a><br>");
-                    $("#divReferences").append("<a href=\"message?action=showErrors\">Errors List</a><br>");
+                    $("#divReferences").append("<a href=\"message?action=showErrors\">Error List</a><br>");
+                    $("#divReferences").append("<a href=\"message?action=showOrders\">Order List</a><br>");
+                    $("#divReferences").append("<a href=\"message?action=showClients\">Client List</a><br>");
                     $("#divReferences").append("<a href=\"auth?action=registration\">Registration</a><br>");
                     $("#divReferences").append("<a href=\"auth?action=logout\">Logout("+data+")</a><br>");
                 }
