@@ -1,5 +1,6 @@
 package database.models;
 
+import database.controllers.DBHandler;
 import database.query.Selector;
 
 import java.sql.ResultSet;
@@ -7,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ErrorM extends Model {
@@ -202,4 +204,10 @@ public class ErrorM extends Model {
         super.removeAllSelectors();
         return this;
     }
+
+    public static void errorAdd(String message) throws SQLException {
+        Date date = new Date();
+        ErrorM error = new ErrorM(message, date.toString());
+        DBHandler.getInstance().insert(error);
+    };
 }
