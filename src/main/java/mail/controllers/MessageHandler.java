@@ -4,6 +4,7 @@ import database.controllers.DBHandler;
 import database.controllers.XMLParser;
 import database.models.ClientM;
 import database.models.ErrorM;
+import database.models.OrderM;
 import database.models.PaymentM;
 import mail.models.EMessage;
 
@@ -64,7 +65,7 @@ public class MessageHandler {
         Folder inbox = MailConnect.getInstance().getStore().getFolder("INBOX");
         inbox.open(Folder.READ_WRITE);
 
-        System.out.println("Количество сообщений на почте: " + inbox.getMessageCount());
+        System.out.println("Messages count: " + inbox.getMessageCount());
         if (inbox.getMessageCount() == 0)
             return;
 
@@ -73,17 +74,22 @@ public class MessageHandler {
         for (int i = 0; i < inbox.getMessageCount(); i++){
             Object content = messages[i].getContent();
 
-            System.out.println("Номер сообщения: " + i);
-
-            if(messages[i].getSubject() == "PRSS"){
+            System.out.println("Message number: " + i);
+            String subj = messages[i].getSubject();
+            if(subj.equals("PRSS")){
                 if (flag == "new"){
                     if (!messages[i].getFlags().contains(Flags.Flag.SEEN)){
                         multipartCheck(content);
                         messages[i].setFlag(Flags.Flag.SEEN, true);
+                    } else {
+                        System.out.println("Message has been already seen");
                     }
                 } else {
                     multipartCheck(content);
                 }
+            } else {
+                System.out.println("Wrong message theme");
+                ErrorM.errorAdd("Wrong message theme");
             }
         }
         inbox.close();
@@ -109,26 +115,41 @@ public class MessageHandler {
                         }
 
                         PaymentM currentPayment = XMLParser.parsePayment(savefile);
-                        boolean repeatPayment = false;
-                        List<PaymentM> payments = DBHandler.getInstance().getObjects(new PaymentM());
+                        if (currentPayment == null){
+                            System.out.println("Wrong XML-file structure");
+                            ErrorM.errorAdd("Wrong XML-file structure");
+                        } else {
+                            OrderM order = DBHandler.getInstance().getObject(new OrderM().addCondition(OrderM.ID_DEF, currentPayment.getIdOrder(), true));
+                            if (order != null) {
+                                List<PaymentM> payments = DBHandler.getInstance().getObjects(new PaymentM());
 
-                        for (PaymentM payment : payments) {
-                            if (payment.getId().equals(currentPayment.getId())){
-                                repeatPayment = true;
+                                boolean correctPayment = true;
+
+                                for (PaymentM payment : payments) {
+                                    if (payment.getId().equals(currentPayment.getId())){
+                                        correctPayment = false;
+                                        System.out.println("Payment already exists");
+                                        ErrorM.errorAdd("Payment already exists");
+                                    }
+                                }
+
+                                if (correctPayment){
+                                    DBHandler.getInstance().insert(currentPayment);
+                                    System.out.println("Message has been add to database");
+                                }
+                                savefile.delete();
+                            } else {
+                                System.out.println("Wrong order number");
+                                ErrorM.errorAdd("Wrong order number");
                             }
                         }
-
-                        if (!repeatPayment){
-                                DBHandler.getInstance().insert(currentPayment);
-                        }
-                        savefile.delete();
                     }
                 }
             }
         }
     }
 
-protected int saveFile(File saveFile, Part part) throws Exception {
+    protected int saveFile(File saveFile, Part part) throws Exception {
 
         BufferedOutputStream bos = new BufferedOutputStream( new FileOutputStream(saveFile) );
 
