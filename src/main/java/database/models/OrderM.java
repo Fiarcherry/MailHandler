@@ -166,13 +166,12 @@ public class OrderM extends Model {
     }
     @Override
     public OrderM getResult(ResultSet resultSet) throws SQLException {
-        this.id = resultSet.getString(OrderM.ID_DEF);
-        this.idClient = resultSet.getString(OrderM.ID_CLIENT_DEF);
-        this.date = resultSet.getString(OrderM.DATE_DEF);
-        this.amount = resultSet.getFloat(OrderM.AMOUNT_DEF);
-        this.ourCommission = resultSet.getFloat(OrderM.OUR_COMMISSION_DEF);
-        this.data = resultSet.getString(OrderM.DATA_DEF);
-        return this;
+        return new OrderM(resultSet.getString(OrderM.ID_DEF),
+        resultSet.getString(OrderM.ID_CLIENT_DEF),
+        resultSet.getString(OrderM.DATE_DEF),
+        resultSet.getFloat(OrderM.AMOUNT_DEF),
+        resultSet.getFloat(OrderM.OUR_COMMISSION_DEF),
+        resultSet.getString(OrderM.DATA_DEF));
     }
 
     @Override
