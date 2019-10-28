@@ -54,6 +54,8 @@ public class MessageServlet extends HttpServlet {
                     break;
                 case "readAll":
                     messageHandler.readEmail("all");
+                    resp.sendRedirect("http://localhost:8080/MailHandler/message?action=show");
+                    break;
                 case "showErrors":
                     req.getRequestDispatcher("/Views/Errors.html").forward(req, resp);
                     break;
