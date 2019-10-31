@@ -1,10 +1,5 @@
 package servlets;
-
-import database.controllers.DBHandler;
-import database.models.ClientM;
-import database.models.ErrorM;
-import database.models.OrderM;
-import database.models.PaymentM;
+import common.Queries;
 import mail.controllers.MessageHandler;
 import mail.models.EMessage;
 import com.google.gson.Gson;
@@ -18,8 +13,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 public class MessageServlet extends HttpServlet {
 
@@ -35,28 +28,31 @@ public class MessageServlet extends HttpServlet {
                 case "json":
                     if (session.getAttribute("login") != null) {
                         resp.setContentType("application/json;charset=utf-8");
-                        out.println(getPaymentsJson());
+                        out.println(new Gson().toJson(Queries.getPaymentsJson()));
                     }
                     break;
                 case "jsonError":
                     if (session.getAttribute("login") != null) {
                         resp.setContentType("application/json;charset=utf-8");
-                        System.out.println(getJsonErrors());
-                        out.println(getJsonErrors());
+                        String jsonErrors = new Gson().toJson(Queries.getJsonErrors());
+                        System.out.println(jsonErrors);
+                        out.println(jsonErrors);
                     }
                     break;
                 case "jsonOrder":
                     if (session.getAttribute("login") != null) {
                         resp.setContentType("application/json;charset=utf-8");
-                        System.out.println(getJsonOrders());
-                        out.println(getJsonOrders());
+                        String jsonOrders = new Gson().toJson(Queries.getJsonOrders());
+                        System.out.println(jsonOrders);
+                        out.println(jsonOrders);
                     }
                     break;
                 case "jsonClient":
                     if (session.getAttribute("login") != null) {
                         resp.setContentType("application/json;charset=utf-8");
-                        System.out.println(getJsonClients());
-                        out.println(getJsonClients());
+                        String jsonClients = new Gson().toJson(Queries.getJsonClients());
+                        System.out.println(jsonClients);
+                        out.println(jsonClients);
                     }
                     break;
                 case "show":
@@ -109,50 +105,15 @@ public class MessageServlet extends HttpServlet {
                 out.println(messageHandler.sendMessage(message));
             } else if ("show".equalsIgnoreCase(action) || "json".equalsIgnoreCase(action)) {
                 MessageHandler mh = new MessageHandler();
-                mh.sendPayments(getSendPayments());
-                String json = getPaymentsJson();
-                System.out.println(json);
-                out.println(json);
+                mh.sendPayments(Queries.getSendPayments());
+                String jsonPayments = new Gson().toJson(Queries.getPaymentsJson());
+                System.out.println(jsonPayments);
+                out.println(jsonPayments);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private String getPaymentsJson() throws SQLException{
-        return new Gson().toJson(DBHandler.getInstance().get(new PaymentM()
-                .addJoin(OrderM.TABLE_NAME, OrderM.ID_DEF, PaymentM.TABLE_NAME, PaymentM.ID_ORDER_DEF)
-                .addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.TABLE_NAME, OrderM.ID_CLIENT_DEF)
-                .addSelector(ClientM.TABLE_NAME, ClientM.FIRST_NAME_DEF)
-                .addSelector(ClientM.TABLE_NAME, ClientM.SECOND_NAME_DEF)
-                .addSelector(ClientM.TABLE_NAME, ClientM.EMAIL_DEF)
-                .addSelector(PaymentM.TABLE_NAME, PaymentM.DATE_DEF)
-                .addSelector(PaymentM.TABLE_NAME, PaymentM.AMOUNT_DEF)
-                .addSelector(PaymentM.TABLE_NAME, PaymentM.IS_PROCESSED_DEF)));
-    }
 
-    private String getJsonErrors() throws SQLException{
-        return new Gson().toJson(DBHandler.getInstance().getObjects(new ErrorM()));
-    }
-
-    private String getJsonOrders() throws SQLException{
-        return new Gson().toJson(DBHandler.getInstance().getObjects(new OrderM()));
-    }
-
-    private String getJsonClients() throws SQLException{
-        return new Gson().toJson(DBHandler.getInstance().getObjects(new ClientM()));
-    }
-
-    private List<Map<String, String>> getSendPayments() throws SQLException {
-        return DBHandler.getInstance().get(new PaymentM()
-                .addJoin(OrderM.TABLE_NAME, OrderM.ID_DEF, PaymentM.TABLE_NAME, PaymentM.ID_ORDER_DEF)
-                .addJoin(ClientM.TABLE_NAME, ClientM.ID_DEF, OrderM.TABLE_NAME, OrderM.ID_CLIENT_DEF)
-                .addSelector(ClientM.TABLE_NAME, ClientM.ID_DEF)
-                .addSelector(ClientM.TABLE_NAME, ClientM.EMAIL_DEF)
-                .addSelector(PaymentM.TABLE_NAME, PaymentM.DATE_DEF)
-                .addSelector(PaymentM.TABLE_NAME, PaymentM.AMOUNT_DEF)
-                .addSelector(PaymentM.TABLE_NAME, PaymentM.BANK_COMMISSION_DEF)
-                .addSelector(PaymentM.TABLE_NAME, PaymentM.ID_DEF, "paymentID"));
-
-    }
 }
