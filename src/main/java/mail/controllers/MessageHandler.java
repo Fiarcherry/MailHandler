@@ -7,6 +7,7 @@ import database.models.ErrorM;
 import database.models.OrderM;
 import database.models.PaymentM;
 import mail.models.EMessage;
+import mail.models.ReadResult;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -14,11 +15,12 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class MessageHandler {
+
+    ReadResult readResult = new ReadResult();
 
     public String sendMessage(EMessage messageData){
 
@@ -61,91 +63,111 @@ public class MessageHandler {
         }
     }
 
-    public void readEmail(String flag) throws MessagingException, SQLException, IOException {
+    public ReadResult readEmail(String flag) throws MessagingException, SQLException, IOException {
         Folder inbox = MailConnect.getInstance().getStore().getFolder("INBOX");
         inbox.open(Folder.READ_WRITE);
 
         System.out.println("Messages count: " + inbox.getMessageCount());
+        readResult.setMessagesCountAll(inbox.getMessageCount());
+
         if (inbox.getMessageCount() == 0)
-            return;
+            return readResult;
 
         Message[] messages = inbox.getMessages();
 
         for (int i = 0; i < inbox.getMessageCount(); i++){
-            Object content = messages[i].getContent();
 
             System.out.println("Message number: " + i);
-            String subj = messages[i].getSubject();
-            if(subj.equals("PRSS")){
-                if (flag == "new"){
-                    if (!messages[i].getFlags().contains(Flags.Flag.SEEN)){
-                        multipartCheck(content);
-                        messages[i].setFlag(Flags.Flag.SEEN, true);
-                    } else {
-                        System.out.println("Message has been already seen");
-                    }
+
+            if (flag == "new"){
+                if (!messages[i].getFlags().contains(Flags.Flag.SEEN)){
+                    errorsCheck(messages[i].getContent(), messages[i].getSubject());
+                    messages[i].setFlag(Flags.Flag.SEEN, true);
+                    readResult.incMessagesCountNew();
                 } else {
-                    multipartCheck(content);
+                    System.out.println("Message has been already seen");
+                    readResult.incMessagesAlreadySeen();
                 }
             } else {
-                System.out.println("Wrong message theme");
-                ErrorM.errorAdd("Wrong message theme");
+                errorsCheck(messages[i].getContent(), messages[i].getSubject());
+                if (messages[i].getFlags().contains(Flags.Flag.SEEN)){
+                    readResult.incMessagesAlreadySeen();
+                } else {
+                    messages[i].setFlag(Flags.Flag.SEEN, true);
+                    readResult.incMessagesCountNew();
+                }
             }
         }
         inbox.close();
+        return readResult;
     }
-    private void multipartCheck(Object content) throws SQLException, IOException, MessagingException {
-        if (content instanceof Multipart){
-            Multipart mp = (Multipart) content;
+    private void errorsCheck(Object content, String subject) throws SQLException, IOException, MessagingException {
+        if(subject.equals("PRSS")){
+            if (content instanceof Multipart){
+                Multipart mp = (Multipart) content;
 
-            for (int j = 0; j < mp.getCount(); j++){
-                Part part = mp.getBodyPart(j);
+                for (int j = 0; j < mp.getCount(); j++){
+                    Part part = mp.getBodyPart(j);
 
-                String disp = part.getDisposition();
-                if (disp != null) {
-                    MimeBodyPart mbp = (MimeBodyPart)part;
-                    if (!mbp.isMimeType("text/plain")) {
-                        File savedir = new File(System.getProperty("user.home")+"/MessageTemp");
-                        savedir.mkdirs();
-                        File savefile = File.createTempFile("emailattach", ".atch", savedir );
-                        try {
-                            int path = saveFile(savefile, part);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    String disp = part.getDisposition();
+                    if (disp != null) {
+                        MimeBodyPart mbp = (MimeBodyPart)part;
+                        if (!mbp.isMimeType("text/plain")) {
+                            File savedir = new File(System.getProperty("user.home")+"/MessageTemp");
+                            savedir.mkdirs();
+                            File savefile = File.createTempFile("emailattach", ".atch", savedir );
+                            try {
+                                int path = saveFile(savefile, part);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
-                        PaymentM currentPayment = XMLParser.parsePayment(savefile);
-                        if (currentPayment == null){
-                            System.out.println("Wrong XML-file structure");
-                            ErrorM.errorAdd("Wrong XML-file structure");
-                        } else {
-                            OrderM order = DBHandler.getInstance().getObject(new OrderM().addCondition(OrderM.ID_DEF, currentPayment.getIdOrder(), true));
-                            if (order != null) {
-                                List<PaymentM> payments = DBHandler.getInstance().getObjects(new PaymentM());
+                            PaymentM currentPayment = XMLParser.parsePayment(savefile);
+                            if (currentPayment == null){
+                                System.out.println("Wrong XML-file structure");
+                                ErrorM.errorAdd("Wrong XML-file structure");
+                                readResult.incMessagesCountErrors();
+                                readResult.incMessagesWrongStructure();
 
-                                boolean correctPayment = true;
-
-                                for (PaymentM payment : payments) {
-                                    if (payment.getId().equals(currentPayment.getId())){
-                                        correctPayment = false;
-                                        System.out.println("Payment already exists");
-                                        ErrorM.errorAdd("Payment already exists");
-                                    }
-                                }
-
-                                if (correctPayment){
-                                    DBHandler.getInstance().insert(currentPayment);
-                                    System.out.println("Message has been add to database");
-                                }
-                                savefile.delete();
                             } else {
-                                System.out.println("Wrong order number");
-                                ErrorM.errorAdd("Wrong order number");
+                                OrderM order = DBHandler.getInstance().getObject(new OrderM().addCondition(OrderM.ID_DEF, currentPayment.getIdOrder(), true));
+                                if (order != null) {
+                                    List<PaymentM> payments = DBHandler.getInstance().getObjects(new PaymentM());
+
+                                    boolean correctPayment = true;
+
+                                    for (PaymentM payment : payments) {
+                                        if (payment.getId().equals(currentPayment.getId())){
+                                            correctPayment = false;
+                                            System.out.println("Payment already exists");
+                                            ErrorM.errorAdd("Payment already exists");
+                                            readResult.incMessagesCountErrors();
+                                            readResult.incMessagesPaymentExist();
+                                        }
+                                    }
+
+                                    if (correctPayment){
+                                        DBHandler.getInstance().insert(currentPayment);
+                                        System.out.println("Message has been add to database");
+                                        readResult.incMessagesCountSuccessful();
+                                    }
+                                    savefile.delete();
+                                } else {
+                                    System.out.println("Wrong order number");
+                                    ErrorM.errorAdd("Wrong order number");
+                                    readResult.incMessagesCountErrors();
+                                    readResult.incMessagesWrongOrderNumber();
+                                }
                             }
                         }
                     }
                 }
             }
+        } else {
+            System.out.println("Wrong message theme");
+            ErrorM.errorAdd("Wrong message theme");
+            readResult.incMessagesCountErrors();
+            readResult.incMessagesWrongTheme();
         }
     }
 

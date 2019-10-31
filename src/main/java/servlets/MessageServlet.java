@@ -24,7 +24,7 @@ import java.util.Map;
 public class MessageServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
 
         String action = req.getParameter("action");
         HttpSession session = req.getSession();
@@ -67,12 +67,16 @@ public class MessageServlet extends HttpServlet {
                     resp.sendRedirect("http://localhost:8080/MailHandler/message?action=show");
                     break;
                 case "readAll":
-                    //messageHandler.readEmail("all");
                     req.getRequestDispatcher("/Views/ReadResult.html").forward(req, resp);
                     break;
                 case "readResult":
                     resp.setContentType("application/json;charset=utf-8");
-                    //out.write(new Gson().toJson(messageHandler.readEmail("all")));
+                    if (action == "readNew"){
+                        out.write(new Gson().toJson(messageHandler.readEmail("new")));
+                    } else {
+                        out.write(new Gson().toJson(messageHandler.readEmail("all")));
+                    }
+                    //req.getRequestDispatcher("/Views/ReadResult.html").forward(req, resp);
                     break;
                 case "showErrors":
                     req.getRequestDispatcher("/Views/Errors.html").forward(req, resp);
