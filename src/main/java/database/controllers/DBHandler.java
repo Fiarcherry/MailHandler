@@ -4,6 +4,7 @@ import common.Config;
 import database.models.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import mail.controllers.Log;
 import org.sqlite.SQLiteDataSource;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
@@ -37,7 +38,6 @@ public class DBHandler {
         int tableCount = 5;
 
         Path dbPath = Paths.get("").toAbsolutePath().resolve(Config.getDbFileName());
-        System.out.println(dbPath);
         SQLiteDataSource ds = new SQLiteDataSource();
         String dbURL = "jdbc:sqlite:"+dbPath;
 

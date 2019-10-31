@@ -52,7 +52,6 @@ public class LoginServlet extends HttpServlet {
             String action = req.getParameter("action");
             resp.setContentType("text/html;charset=utf-8");
 
-            DBHandler db = DBHandler.getInstance();
             LoginController loginController = new LoginController(req.getSession(), req);
 
             switch(action){

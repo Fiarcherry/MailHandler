@@ -19,6 +19,8 @@ public class Config {
     private final static String PORT_IMAP = "mail.port_imap";
     private final static String PORT_STMP = "mail.port_smtp";
 
+    private final static String LOG_FILE_NAME = "log.file_name";
+
     private static Properties config = new Properties();
 
     static{
@@ -51,5 +53,8 @@ public class Config {
     }
     public static String getMailPassword(){
         return config.getProperty(PASSWORD);
+    }
+    public static String getLogFileName(){
+        return config.getProperty(LOG_FILE_NAME);
     }
 }

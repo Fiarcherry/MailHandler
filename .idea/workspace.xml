@@ -9,29 +9,18 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1385ff7-f1ee-40ec-982f-72414b23a591" name="Default Changelist" comment="Изменение архитектуры класса для работы с БД. Создание и работа с таблицей User.">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/jstl_jstl_1_2.xml" beforeDir="false" />
+    <list default="true" id="d1385ff7-f1ee-40ec-982f-72414b23a591" name="Default Changelist" comment="Исправлено создание таблиц при отсутствии. Добавлено создание таблицы ошибок">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/controllers/MessageHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/models/EMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/models/EmailAuthenticator.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/servlets/MainServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/servlets/MainServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/servlets/MessageServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/servlets/MessageServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/views/Home.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/views/NewMessage.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/common/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/common/Config.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/database/controllers/DBHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/controllers/DBHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/database/models/UserM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/models/UserM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mail/controllers/MessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mail/controllers/MessageHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlets/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/LoginServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/MainServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/MainServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controllers/MessageHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/EMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/EmailAuthenticator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/MessageServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/MessageServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/servlets/MainServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/servlets/MainServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/servlets/MessageServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/servlets/MessageServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/Views/Home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/Views/Home.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,38 +42,45 @@
     <expand>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="mail_handler.db" type="feb32156:DbDataSourceImpl" />
+        <item name="intellij" type="feb32156:DbDataSourceImpl" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="mail_handler.db" type="feb32156:DbDataSourceImpl" />
+        <item name="intellij" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="mail_handler.db" type="feb32156:DbDataSourceImpl" />
+        <item name="intellij" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="mail_handler.db" type="feb32156:DbDataSourceImpl" />
+        <item name="intellij" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
+        <item name="Payment: table" type="3d80ac25:SqliteImplModel$Table" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="tomcat" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="tomcat" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="tomcat" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="tomcat" type="feb32156:DbDataSourceImpl" />
         <item name="collations" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="mail_handler.db [2]" type="feb32156:DbDataSourceImpl" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="mail_handler.db [2]" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="mail_handler.db [2]" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
       </path>
     </expand>
     <select />
@@ -135,11 +131,11 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/web" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.22330096" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -247,7 +243,12 @@
     <option name="allServicesViewState">
       <serviceView>
         <treeState>
-          <expand />
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@4f3e6f89" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+          </expand>
           <select />
         </treeState>
       </serviceView>
@@ -274,7 +275,15 @@
       <workItem from="1571050053933" duration="2785000" />
       <workItem from="1571042050713" duration="17954000" />
       <workItem from="1571397438685" duration="447000" />
-      <workItem from="1571641181593" duration="6266000" />
+      <workItem from="1571641181593" duration="24652000" />
+      <workItem from="1571728306236" duration="1112000" />
+      <workItem from="1571814779645" duration="1527000" />
+      <workItem from="1571901235409" duration="22843000" />
+      <workItem from="1572247587033" duration="15985000" />
+      <workItem from="1572270604789" duration="318000" />
+      <workItem from="1572340557246" duration="151000" />
+      <workItem from="1572340737546" duration="24000" />
+      <workItem from="1572506209471" duration="6367000" />
     </task>
     <task id="LOCAL-00001" summary="Начало MVC">
       <created>1569231552170</created>
@@ -479,7 +488,133 @@
       <option name="project" value="LOCAL" />
       <updated>1571643828620</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Вход в систему и приветствие.">
+      <created>1571647496860</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1571647496860</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Система Join`ов, доделал логин, кнопка регистрации">
+      <created>1571657548632</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1571657548632</updated>
+    </task>
+    <task id="LOCAL-00032" summary="система условий, вхождений и выборки">
+      <created>1571662821009</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1571662821009</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Получение данных при использовании селекторов. Не доделано">
+      <created>1571728531852</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1571728531852</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Фикс создания таблиц">
+      <created>1571902595965</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1571902595965</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Класс селекторов.">
+      <created>1571905172349</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1571905172349</updated>
+    </task>
+    <task id="LOCAL-00036" summary="tjhwq">
+      <created>1571905796415</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1571905796415</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Починили запросы к бд">
+      <created>1571913182180</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1571913182180</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Новое отображение платежей. Вроде финальные фиксы обращений к бд">
+      <created>1571919803367</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1571919803367</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Починена рассылка писем.">
+      <created>1571922960570</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1571922960570</updated>
+    </task>
+    <task id="LOCAL-00040" summary="PRSSError. Создание модели для ошибки.">
+      <created>1571926310261</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1571926310261</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Исправлено создание таблиц при отсутствии. Добавлено создание таблицы ошибок">
+      <created>1572249877304</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1572249877304</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Доделана регистрация. Исправлены ссылки на регистрацию, вход и выход.">
+      <created>1572252697089</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1572252697089</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Properties файлы. Вынесение конфиденциальных данных в отдельный файл. Вывод списка ошибок на сайте. Разграничение прав доступа на просмотр платежей, ошибок и регистрацию">
+      <created>1572262356135</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1572262356135</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Убраны лишние поля на главной странице">
+      <created>1572267283562</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1572267283562</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Фикс ссылок">
+      <created>1572267692764</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1572267692764</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Отображение списка клиентов и заказов.">
+      <created>1572269707384</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1572269707384</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Начало вывода результатов импорта">
+      <created>1572507333069</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1572507333069</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -499,22 +634,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Начало MVC" />
-    <MESSAGE value="Отправка сообщений" />
-    <MESSAGE value="очередная попытка пофиксить зависимости" />
-    <MESSAGE value="ВОЗМОЖНО, заработает" />
-    <MESSAGE value="Отправка писем. Вынесение почтовых сессий в синглтоны." />
-    <MESSAGE value="Работа с базой данных sqlite" />
-    <MESSAGE value="Слияние + загрузка библиотеки JDBC" />
-    <MESSAGE value="Слияние синглтонов почтовых сессий" />
-    <MESSAGE value="Недоделаный вывод из БД" />
-    <MESSAGE value="Вывод данных из БД." />
-    <MESSAGE value="Выбор посем из бд для отправки" />
-    <MESSAGE value="Готово изменение статуса писем" />
-    <MESSAGE value="Вот теперь точно готово изменение статуса писем. Доделал работу с бд." />
-    <MESSAGE value="Отправка писем при изменении статуса." />
-    <MESSAGE value="Изменение архитектуры класса для работы с БД. Создание и работа с таблицей User." />
-    <MESSAGE value="Немного почистил код и оптимизировал try-catch." />
     <MESSAGE value="Фикс возвращаемых типов данных при запросе к БД. Возможность проверки логина." />
     <MESSAGE value="Перевод получаемых данных на обобщенные типы." />
     <MESSAGE value="Слияние версий" />
@@ -522,6 +641,24 @@
     <MESSAGE value="Переход на лист условий при запросах к бд." />
     <MESSAGE value="попытка пуша" />
     <MESSAGE value="Debug login" />
-    <option name="LAST_COMMIT_MESSAGE" value="Debug login" />
+    <MESSAGE value="Вход в систему и приветствие." />
+    <MESSAGE value="Система Join`ов, доделал логин, кнопка регистрации" />
+    <MESSAGE value="система условий, вхождений и выборки" />
+    <MESSAGE value="Получение данных при использовании селекторов. Не доделано" />
+    <MESSAGE value="Фикс создания таблиц" />
+    <MESSAGE value="Класс селекторов." />
+    <MESSAGE value="tjhwq" />
+    <MESSAGE value="Починили запросы к бд" />
+    <MESSAGE value="Новое отображение платежей. Вроде финальные фиксы обращений к бд" />
+    <MESSAGE value="Починена рассылка писем." />
+    <MESSAGE value="PRSSError. Создание модели для ошибки." />
+    <MESSAGE value="Исправлено создание таблиц при отсутствии. Добавлено создание таблицы ошибок" />
+    <MESSAGE value="Доделана регистрация. Исправлены ссылки на регистрацию, вход и выход." />
+    <MESSAGE value="Properties файлы. Вынесение конфиденциальных данных в отдельный файл. Вывод списка ошибок на сайте. Разграничение прав доступа на просмотр платежей, ошибок и регистрацию" />
+    <MESSAGE value="Убраны лишние поля на главной странице" />
+    <MESSAGE value="Фикс ссылок" />
+    <MESSAGE value="Отображение списка клиентов и заказов." />
+    <MESSAGE value="Начало вывода результатов импорта" />
+    <option name="LAST_COMMIT_MESSAGE" value="Начало вывода результатов импорта" />
   </component>
 </project>

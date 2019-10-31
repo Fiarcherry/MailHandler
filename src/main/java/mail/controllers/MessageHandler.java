@@ -14,6 +14,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -48,17 +50,27 @@ public class MessageHandler {
         }
     }
 
-    public void sendPayments(List<Map<String, String>> payments) throws SQLException{
+    public String[] sendPayments(List<Map<String, String>> payments) throws SQLException{
+        String[] result = new String[payments.size()];
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        String currentDate = sdf.format(timestamp);
+
         for (Map<String, String> paymentData: payments){
             StringBuilder text = new StringBuilder();
             text.append("Сообщаем вам об удачном платеже.")
                     .append("\nНомер аккаунта: ").append(paymentData.get(ClientM.ID_DEF))
                     .append("\nДата проведения операции: ").append(paymentData.get(PaymentM.DATE_DEF))
                     .append("\nСумма платежа: ").append(paymentData.get(PaymentM.AMOUNT_DEF))
-                    .append("\nВ том числе комиссия: ").append(paymentData.get(PaymentM.BANK_COMMISSION_DEF));
-            sendMessage(new EMessage(paymentData.get(ClientM.EMAIL_DEF), "Payments", text.toString()));
+                    .append("\nВ том числе комиссия: ").append(paymentData.get(PaymentM.BANK_COMMISSION_DEF))
+                    .append("\nДата обработки платежа: ").append(currentDate);
+            //sendMessage(new EMessage(paymentData.get(ClientM.EMAIL_DEF), "Payments", text.toString()));
             PaymentM.updateChecked(PaymentM.getPayment(paymentData.get("paymentID")));
+            result[payments.indexOf(paymentData)] = text.toString();
         }
+        return result;
     }
 
     public void readEmail(String flag) throws MessagingException, SQLException, IOException {
