@@ -2,15 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Messages read result</title>
 </head>
 <body>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $.getJSON("message?action=readResult", function (data) {
-
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="Views/Scripts/tableUpdate.js"></script>
+<div style="padding: 3%">
+    <p id="allMessages">All messages count: </p><br>
+    <p id="newMessages">New messages count: </p>
+    <p id="alreadySeenMessages">Already seen messages count: </p><br>
+    <p id="successfulMessages">Successful messages count: </p>
+    <p id="errorMessages">Error messages count: </p><br>
+    <p id="wrongThemeMessages">Messages with wrong theme: </p>
+    <p id="wrongStructureMessages">Messages with wrong structure: </p>
+    <p id="paymentExistMessages">Messages with payment that already exist: </p>
+    <p id="wrongOrderNumberMessages">Messages with wrong number: </p>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.getJSON("message?action=readResult", function (data) {
+                alert(JSON.stringify(data))
+                document.getElementById("allMessages").innerHTML += data.messagesCountAll;
+                document.getElementById("newMessages").innerHTML += data.messagesCountNew;
+                document.getElementById("alreadySeenMessages").innerHTML += data.messagesAlreadySeen;
+                document.getElementById("successfulMessages").innerHTML += data.messagesCountSuccessful;
+                document.getElementById("errorMessages").innerHTML += data.messagesCountErrors;
+                document.getElementById("wrongThemeMessages").innerHTML += data.messagesWrongTheme;
+                document.getElementById("wrongStructureMessages").innerHTML += data.messagesWrongStructure;
+                document.getElementById("paymentExistMessages").innerHTML += data.messagesPaymentExist;
+                document.getElementById("wrongOrderNumberMessages").innerHTML += data.messagesWrongOrderNumber;
+            });
         });
-    });
-</script>
+    </script>
+</div>
 </body>
 </html>
