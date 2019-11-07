@@ -2,37 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="Views/Scripts/navGen.js"></script>
     <title>Messages read result</title>
 </head>
-<body>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="Views/Scripts/tableUpdate.js"></script>
-<div style="padding: 3%">
-    <p id="allMessages">All messages count: </p><br>
-    <p id="newMessages">New messages count: </p>
-    <p id="alreadySeenMessages">Already seen messages count: </p><br>
-    <p id="successfulMessages">Successful messages count: </p>
-    <p id="errorMessages">Error messages count: </p><br>
-    <p id="wrongThemeMessages">Messages with wrong theme: </p>
-    <p id="wrongStructureMessages">Messages with wrong structure: </p>
-    <p id="paymentExistMessages">Messages with payment that already exist: </p>
-    <p id="wrongOrderNumberMessages">Messages with wrong number: </p>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $.getJSON("message?action=readResult", function (data) {
-                alert(JSON.stringify(data))
-                document.getElementById("allMessages").innerHTML += data.messagesCountAll;
-                document.getElementById("newMessages").innerHTML += data.messagesCountNew;
-                document.getElementById("alreadySeenMessages").innerHTML += data.messagesAlreadySeen;
-                document.getElementById("successfulMessages").innerHTML += data.messagesCountSuccessful;
-                document.getElementById("errorMessages").innerHTML += data.messagesCountErrors;
-                document.getElementById("wrongThemeMessages").innerHTML += data.messagesWrongTheme;
-                document.getElementById("wrongStructureMessages").innerHTML += data.messagesWrongStructure;
-                document.getElementById("paymentExistMessages").innerHTML += data.messagesPaymentExist;
-                document.getElementById("wrongOrderNumberMessages").innerHTML += data.messagesWrongOrderNumber;
-            });
-        });
-    </script>
-</div>
+<body class="text-center">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-md-center">
+            <ul class="navbar-nav" id="menu">
+                <li class="nav-item active">
+                    <a class="nav-link" href="home">PRSS</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div id="divResult" class="align-middle">
+            <button id="loading" class="btn btn-dark" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
+        </div>
+    </main>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small" id="footer">
+        <p class="mb-1">© Payment Receive Send System© 2019</p>
+    </footer>
 </body>
 </html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON("message?action=readResult", function (data) {
+            $('#loading').hide();
+            $("<p class='text-primary'>All messages count: </p>").appendTo("#divResult").append(data.messagesCountAll);
+            if (data.messagesCountNew != 0){
+                $("<p class='text-info'>New messages count: </p>").appendTo("#divResult").append(data.messagesCountNew);
+            } else {
+                $("<p class='text-info'>No new messages found</p>").appendTo("#divResult");
+            }
+            if (data.messagesAlreadySeen != 0){
+                $("<p class='text-info'>Already seen messages count: </p>").appendTo("#divResult").append(data.messagesAlreadySeen);
+            }
+            if (data.messagesCountSuccessful != 0){
+                $("<p class='text-success'>Successful messages count: </p>").appendTo("#divResult").append(data.messagesCountSuccessful);
+            } else {
+                $("<p class='text-info'>No successful messages found</p>").appendTo("#divResult");
+            }
+            if (data.messagesCountErrors != 0){
+                $("<p class='text-danger'>Error messages count: </p>").appendTo("#divResult").append(data.messagesCountErrors);
+                if (data.messagesWrongTheme != 0){
+                    $("<p class='text-danger'>Messages with wrong theme: </p>").appendTo("#divResult").append(data.messagesWrongTheme);
+                }
+                if (data.messagesWrongStructure){
+                    $("<p class='text-danger'>Messages with wrong structure: </p>").appendTo("#divResult").append(data.messagesWrongStructure);
+                }
+                if (data.messagesPaymentExist){
+                    $("<p class='text-danger'>Messages with payment that already exist: </p>").appendTo("#divResult").append(data.messagesPaymentExist);
+                }
+                if (data.messagesWrongOrderNumber){
+                    $("<p class='text-danger'>Messages with wrong number: </p>").appendTo("#divResult").append(data.messagesWrongOrderNumber);
+                }
+            }
+
+        });
+    });
+</script>

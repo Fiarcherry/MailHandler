@@ -1,45 +1,94 @@
 <!DOCTYPE html>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="Scripts/jquery.simple-checkbox-table.js"></script>
-<script src="Views/Scripts/tableUpdate.js"></script>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="Views/Scripts/navGen.js"></script>
+    <script src="Views/Scripts/tableUpdate.js"></script>
+    <script src="Views/Scripts/jquery.simple-checkbox-table.js"></script>
     <title>Payments</title>
 </head>
 <body>
-<table id="table" border="1">
-    <thead>
-    <tr>
-        <th><input type="checkbox" id="checkBoxMaster"></th>
-        <th>State</th>
-        <th>Email</th>
-        <th>First Name</th>
-        <th>Second Name</th>
-        <th>Date</th>
-        <th>Amount</th>
-    </tr>
-    </thead>
-    <tbody id='tableBody'>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $.getJSON("message?action=json", function (data) {
-                drawTBody(data);
-            });
-        });
-    </script>
-    <script>
-        $('#checkBoxMaster').click(function () {
-            if ($(this).is(':checked')) {
-                $('#table input:checkbox').prop('checked', true);
-            } else {
-                $('#table input:checkbox').prop('checked', false);
-            }
-        });
-    </script>
-    </tbody>
-</table>
-<button onclick="callAjax()">Send</button>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-md-center">
+            <ul class="navbar-nav" id="menu">
+                <li class="nav-item active">
+                    <a class="nav-link" href="home">PRSS</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h2 class="text-center mt-3">Payments</h2>
+        <div class="mx-5 mt-3">
+            <table id="table" class="table table-sm table-striped table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col"><input type="checkbox" id="checkBoxMaster"></th>
+                    <th scope="col">State</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Second Name</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                </tr>
+                </thead>
+                <tbody id='tableBody'>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $.getJSON("message?action=json", function (data) {
+                            drawTBody(data);
+                        });
+                    });
+                </script>
+                <script>
+                    $('#checkBoxMaster').click(function () {
+                        if ($(this).is(':checked')) {
+                            $('#table input:checkbox').prop('checked', true);
+                        } else {
+                            $('#table input:checkbox').prop('checked', false);
+                        }
+                    });
+                </script>
+                </tbody>
+            </table>
+        </div>
+        <button onclick="callAjax()">Send</button>
+    </main>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small" id="footer">
+        <p class="mb-1">Payment Receive Send System © 2019</p>
+    </footer>
 </body>
 </html>
+
+<script type="text/javascript">
+    function registration () {
+        $.ajax({
+            type: "POST",
+            url: "auth?action=registrationResult",
+            data: {
+                login: $("input[name=login]").val(),
+                password: $("input[name=password]").val(),
+                email: $("input[name=email]").val(),
+                nick: $("input[name=nickname]").val()},
+            success: function (data) {
+                if (data.includes("MailHandler"))
+                    window.location.replace(data);
+                else
+                    $('#result').append(JSON.stringify(data));
+            },
+            error: function (data) {
+                $('#result').append("Error: "+data);
+            }
+        })
+    };
+</script>
+

@@ -44,10 +44,10 @@ function drawTBody(data) {
     });
     $("#table td").each(function() {
         if ($(this).text() == 'false') {
-            $(this).css('background-color', 'red');
+            $(this).addClass("table-danger");
         }
         if ($(this).text() == 'true') {
-            $(this).css('background-color', 'green');
+            $(this).addClass("table-success");
         }
     });
 }
