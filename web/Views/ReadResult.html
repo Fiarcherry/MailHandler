@@ -9,7 +9,7 @@
     <script src="Views/Scripts/navGen.js"></script>
     <title>Messages read result</title>
 </head>
-<body class="text-center">
+<body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,8 +22,10 @@
             </ul>
         </div>
     </nav>
+
     <main>
-        <div id="divResult" class="align-middle">
+        <h2 class="mt-3 text-center">Read Results</h2>
+        <div id="divResult" class="mx-5 mt-3 text-center">
             <button id="loading" class="btn btn-dark" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Loading...
@@ -31,8 +33,10 @@
         </div>
     </main>
 
-    <footer class="my-5 pt-5 text-muted text-center text-small" id="footer">
-        <p class="mb-1">© Payment Receive Send System© 2019</p>
+    <footer class="text-muted d-flex">
+        <div class="container">
+            <span>© Payment Receive Send System - 2019</span>
+        </div>
     </footer>
 </body>
 </html>

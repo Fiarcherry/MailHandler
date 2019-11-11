@@ -35,7 +35,7 @@ function drawTBody(data) {
         var isProcessed = payment.IsProcessed == "0";
         $("<tr class='drawable'>").appendTo($tBody)
             .append($("<td>").append(isProcessed?"<input type=\"checkbox\" id=\""+payment.id+"\">":""))
-            .append($("<td>").text(payment.IsProcessed == "1"? "true" : "false"))
+            .append($("<td>").text(payment.IsProcessed == "1"? "Sent" : "Not Sent"))
             .append($("<td>").text(payment.Email))
             .append($("<td>").text(payment.FirstName))
             .append($("<td>").text(payment.SecondName))
@@ -43,10 +43,10 @@ function drawTBody(data) {
             .append($("<td>").text(payment.AmountPayment))
     });
     $("#table td").each(function() {
-        if ($(this).text() == 'false') {
+        if ($(this).text() == 'Not Sent') {
             $(this).addClass("table-danger");
         }
-        if ($(this).text() == 'true') {
+        if ($(this).text() == 'Sent') {
             $(this).addClass("table-success");
         }
     });

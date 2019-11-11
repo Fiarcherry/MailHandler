@@ -2,36 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="Views/Scripts/navGen.js"></script>
     <title>Errors list</title>
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="Views/Scripts/tableUpdate.js"></script>
-<div style="padding: 3%">
-    <table id="table" border="1">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Date</th>
-            <th>Message</th>
-        </tr>
-        </thead>
-        <tbody id='tableBody'>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $.getJSON("message?action=jsonError", function (data) {
-                    var $tBody = $("#tableBody");
-                    $.each(data, function (index, error) {
-                        $("<tr class='drawable'>").appendTo($tBody)
-                            .append($("<td>").text(error.id))
-                            .append($("<td>").text(error.message))
-                            .append($("<td>").text(error.date))
-                    });
-                });
-            });
-        </script>
-        </tbody>
-    </table>
-</div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-md-center">
+            <ul class="navbar-nav" id="menu">
+                <li class="nav-item active">
+                    <a class="nav-link" href="home">PRSS</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h2 class="mt-3 text-center">Errors</h2>
+        <div class="mx-5 mt-3 text-center">
+            <table id="table" class="table table-sm table-striped table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Message</th>
+                </tr>
+                </thead>
+                <tbody id='tableBody'></tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer class="text-muted d-flex">
+        <div class="container">
+            <span>© Payment Receive Send System - 2019</span>
+        </div>
+    </footer>
 </body>
 </html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON("message?action=jsonError", function (data) {
+            var $tBody = $("#tableBody");
+            $.each(data, function (index, error) {
+                $("<tr class='drawable'>").appendTo($tBody)
+                    .append($("<td>").text(error.id))
+                    .append($("<td>").text(error.date))
+                    .append($("<td>").text(error.message))
+            });
+        });
+    });
+</script>

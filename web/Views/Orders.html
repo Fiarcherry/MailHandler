@@ -24,37 +24,47 @@
             </ul>
         </div>
     </nav>
-<div style="padding: 3%">
-    <table id="table" border="1">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>IdClient</th>
-            <th>Date</th>
-            <th>Amount</th>
-            <th>OurCommission</th>
-            <th>Data</th>
-        </tr>
-        </thead>
-        <tbody id='tableBody'>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $.getJSON("message?action=jsonOrder", function (data) {
-                    var $tBody = $("#tableBody");
-                    $.each(data, function (index, order) {
-                        $("<tr class='drawable'>").appendTo($tBody)
-                            .append($("<td>").text(order.id))
-                            .append($("<td>").text(order.idClient))
-                            .append($("<td>").text(order.date))
-                            .append($("<td>").text(order.amount))
-                            .append($("<td>").text(order.ourCommission))
-                            .append($("<td>").text(order.data))
-                    });
-                });
-            });
-        </script>
-        </tbody>
-    </table>
-</div>
+
+    <main>
+        <h2 class="mt-3 text-center">Orders</h2>
+        <div class="mx-5 mt-3 text-center">
+            <table id="table" class="table table-sm table-striped table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>IdClient</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>OurCommission</th>
+                    <th>Data</th>
+                </tr>
+                </thead>
+                <tbody id='tableBody'></tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer class="text-muted d-flex">
+        <div class="container">
+            <span>© Payment Receive Send System - 2019</span>
+        </div>
+    </footer>
 </body>
 </html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON("message?action=jsonOrder", function (data) {
+            var $tBody = $("#tableBody");
+            $.each(data, function (index, order) {
+                $("<tr class='drawable'>").appendTo($tBody)
+                    .append($("<td>").text(order.id))
+                    .append($("<td>").text(order.idClient))
+                    .append($("<td>").text(order.date))
+                    .append($("<td>").text(order.amount))
+                    .append($("<td>").text(order.ourCommission))
+                    .append($("<td>").text(order.data))
+            });
+        });
+    });
+</script>

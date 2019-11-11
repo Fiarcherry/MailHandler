@@ -7,7 +7,7 @@ $(document).ready(function () {
             if (data == "NULLLOGIN") {
                 $("#headerGreetings").append(" Commander");
 
-                $("#menu").append("<li class=\"nav-item\"><a class=\"nav-link\" href=\"auth?action=login\">Login</a></li>");
+                $("#menu").append("<li class=\"nav-item\"><a class=\"nav-link\" href=\"auth?action=login\">Sign in</a></li>");
             }
             else {
                 $("#headerGreetings").append(" " + data);
@@ -30,7 +30,7 @@ $(document).ready(function () {
                     "                    </div>\n" +
                     "                </li>");
 
-                $("#menu").append("<li class=\"nav-item\"><a class=\"nav-link\" href=\"auth?action=registration\">Registration</a></li>");
+                $("#menu").append("<li class=\"nav-item\"><a class=\"nav-link\" href=\"auth?action=registration\">Sign up</a></li>");
 
                 $("#menu").append("<li class=\"nav-item\"><a class=\"nav-link\" href=\"auth?action=logout\">Logout("+data+")</a></li>");
             }
