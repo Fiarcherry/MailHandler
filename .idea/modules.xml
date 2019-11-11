@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Bot_Sender/Bot_Sender.iml" filepath="$PROJECT_DIR$/Bot_Sender/Bot_Sender.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataBaseHandler/DataBaseHandler.iml" filepath="$PROJECT_DIR$/DataBaseHandler/DataBaseHandler.iml" />
+    </modules>
+  </component>
+</project>

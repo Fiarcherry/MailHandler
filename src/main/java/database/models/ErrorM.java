@@ -1,7 +1,7 @@
 package database.models;
 
-import database.controllers.DBHandler;
-import database.query.Selector;
+import com.mpt.databasehandler.*;
+import com.mpt.databasehandler.Model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -136,78 +136,93 @@ public class ErrorM extends Model {
         return this;
     }
 
-
-    @Override
-    public ErrorM removeCondition(String key) {
-        super.removeCondition(key);
-        return this;
-    }
-    @Override
-    public ErrorM addCondition(String key, String value) {
-        super.addCondition(key, value);
-        return this;
-    }
-    @Override
-    public ErrorM addCondition(String key, String value, boolean isText) {
-        super.addCondition(key, value, isText);
-        return this;
-    }
-    @Override
-    public ErrorM removeAllConditions() {
-        super.removeAllConditions();
-        return this;
-    }
-
-    @Override
-    public ErrorM removeJoin(String key) {
-        super.removeJoin(key);
-        return this;
-    }
-    @Override
-    public ErrorM addJoin(String tableDef, String primaryKey, String foreignTableName, String foreignKey) {
-        super.addJoin(tableDef, primaryKey, foreignTableName, foreignKey);
-        return this;
-    }
-    @Override
-    public ErrorM addJoin(String connectableTableName, String primaryKey, String foreignKey) {
-        super.addJoin(connectableTableName, primaryKey, foreignKey);
-        return this;
-    }
-    @Override
-    public ErrorM removeAllJoins() {
-        super.removeAllJoins();
-        return this;
-    }
-
-    @Override
-    public ErrorM removeSelector(String tableName, String columnName) {
-        super.removeSelector(tableName, columnName);
-        return this;
-    }
-    @Override
-    public ErrorM addSelector(Selector selector) {
-        super.addSelector(selector);
-        return this;
-    }
-    @Override
-    public ErrorM addSelector(String tableName, String columnName) {
-        super.addSelector(tableName, columnName);
-        return this;
-    }
-    @Override
-    public ErrorM addSelector(String tableName, String columnName, String columnMask) {
-        super.addSelector(tableName, columnName, columnMask);
-        return this;
-    }
-    @Override
-    public ErrorM removeAllSelectors() {
-        super.removeAllSelectors();
-        return this;
-    }
-
     public static void errorAdd(String message) throws SQLException {
         Date date = new Date();
         ErrorM error = new ErrorM(message, date.toString());
-        DBHandler.getInstance().insert(error);
+        DataBaseHandler.getInstance().insert(error);
     };
+
+    //region Conditions
+    @Override
+    public Model removeCondition(String key) {
+        super.removeCondition(key);
+        return this;
+    }
+
+    @Override
+    public Model addCondition(String key, String value) {
+        super.addCondition(key, value);
+        return this;
+    }
+
+    @Override
+    public Model addCondition(String key, String value, boolean isText) {
+        super.addCondition(key, value, isText);
+        return this;
+    }
+
+    @Override
+    public Model removeAllConditions() {
+        super.removeAllConditions();
+        return this;
+    }
+    //endregion
+
+    //region Joins
+    @Override
+    public Model removeJoin(String key) {
+        super.removeJoin(key);
+        return this;
+    }
+
+    @Override
+    public Model addJoin(JoinType joinType, String foreignTable, String primaryKey, String primaryTable, String foreignKey) {
+        super.addJoin(joinType, foreignTable, primaryKey, primaryTable, foreignKey);
+        return this;
+    }
+
+    @Override
+    public Model addJoin(JoinType joinType, String foreignTable, String primaryKey, String foreignKey) {
+        super.addJoin(joinType, foreignTable, primaryKey, foreignKey);
+        return this;
+    }
+
+    @Override
+    public Model removeAllJoins() {
+        super.removeAllJoins();
+        return this;
+    }
+    //endregion
+
+    //region Selectors
+    @Override
+    public Model removeSelector(String tableName, String columnName) {
+        super.removeSelector(tableName, columnName);
+        return this;
+    }
+
+    @Override
+    public Model addSelector(String tableName, String columnName) {
+        super.addSelector(tableName, columnName);
+        return this;
+    }
+
+    @Override
+    public Model addSelector(Selector selector) {
+        super.addSelector(selector);
+        return this;
+    }
+
+    @Override
+    public Model addSelector(String tableName, String columnName, String columnMask) {
+        super.addSelector(tableName, columnName, columnMask);
+        return this;
+    }
+
+    @Override
+    public Model removeAllSelectors() {
+        super.removeAllSelectors();
+        return this;
+    }
+    //endregion
 }

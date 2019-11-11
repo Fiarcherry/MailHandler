@@ -1,6 +1,8 @@
 package servlets;
 
 import com.google.gson.Gson;
+import com.mpt.databasehandler.DataBaseHandler;
+import common.Config;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +14,17 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 public class MainServlet extends HttpServlet {
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try{
+            DataBaseHandler.getInstance().initialize(Config.config);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

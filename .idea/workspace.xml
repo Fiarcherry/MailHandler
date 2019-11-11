@@ -10,17 +10,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1385ff7-f1ee-40ec-982f-72414b23a591" name="Default Changelist" comment="Исправлено создание таблиц при отсутствии. Добавлено создание таблицы ошибок">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataBaseHandler/DataBaseHandler.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataBaseSQLite/DataBaseSQLite.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/META-INF/MailHandler.kotlin_module" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/servlets/MainServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/servlets/MainServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/servlets/MessageServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF/classes/servlets/MessageServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/SenderBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/SenderBot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/common/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/common/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/database/controllers/DBHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/controllers/DBHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/common/Queries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/common/Queries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/database/controllers/DBHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/database/controllers/XMLParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/controllers/XMLParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/database/models/ClientM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/models/ClientM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/database/models/ErrorM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/models/ErrorM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/database/models/Model.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/database/models/OrderM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/models/OrderM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/database/models/PaymentM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/models/PaymentM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/database/models/UserM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/models/UserM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/database/query/Selector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mail/controllers/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mail/controllers/Log.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mail/controllers/MailConnect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mail/controllers/MailConnect.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/mail/controllers/MessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mail/controllers/MessageHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlets/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/MainServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/MainServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlets/MessageServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/MessageServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/MailHandler-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/MailHandler-1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MailHandler.kotlin_module" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/servlets/MainServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/servlets/MainServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/servlets/MessageServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/servlets/MessageServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -91,9 +114,11 @@
         <option value="jsf" />
         <option value="Jsp File" />
         <option value="JavaScript File" />
-        <option value="Interface" />
         <option value="HTML File" />
+        <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -129,21 +154,20 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/web" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="create.test.in.the.same.root" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/out/artifacts/DataBaseHandler_jar/DataBaseHandler.jar!/" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.22330096" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/web" />
-      <recent name="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF" />
-      <recent name="$PROJECT_DIR$/web/WEB-INF" />
-      <recent name="$PROJECT_DIR$/src/lib" />
-      <recent name="$PROJECT_DIR$" />
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="database" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/web/views/Scripts" />
@@ -151,6 +175,16 @@
       <recent name="$PROJECT_DIR$/web/WEB-INF" />
       <recent name="$PROJECT_DIR$/web/WEB-INF/lib" />
       <recent name="$PROJECT_DIR$/web/views" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/DataBaseSQLite/src" />
+      <recent name="$PROJECT_DIR$/web" />
+      <recent name="$PROJECT_DIR$/out/artifacts/MailHandler_war_exploded/WEB-INF" />
+      <recent name="$PROJECT_DIR$/web/WEB-INF" />
+      <recent name="$PROJECT_DIR$/src/lib" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -234,6 +268,9 @@
       <method v="2">
         <option name="Make" enabled="true" />
         <option name="BuildArtifacts" enabled="true">
+          <artifact name="DataBaseHandler:jar" />
+        </option>
+        <option name="BuildArtifacts" enabled="true">
           <artifact name="MailHandler:war exploded" />
         </option>
       </method>
@@ -283,7 +320,11 @@
       <workItem from="1572270604789" duration="318000" />
       <workItem from="1572340557246" duration="151000" />
       <workItem from="1572340737546" duration="24000" />
-      <workItem from="1572506209471" duration="6367000" />
+      <workItem from="1572506209471" duration="22045000" />
+      <workItem from="1572941355010" duration="436000" />
+      <workItem from="1573111041895" duration="13771000" />
+      <workItem from="1573127134962" duration="5854000" />
+      <workItem from="1573458814424" duration="3283000" />
     </task>
     <task id="LOCAL-00001" summary="Начало MVC">
       <created>1569231552170</created>
@@ -614,7 +655,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572507333069</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Бэкап перед попыткой разделить приложение на несколько">
+      <created>1572513064452</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1572513064452</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -634,7 +682,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Фикс возвращаемых типов данных при запросе к БД. Возможность проверки логина." />
     <MESSAGE value="Перевод получаемых данных на обобщенные типы." />
     <MESSAGE value="Слияние версий" />
     <MESSAGE value="Фикс чтения писем" />
@@ -659,6 +706,7 @@
     <MESSAGE value="Фикс ссылок" />
     <MESSAGE value="Отображение списка клиентов и заказов." />
     <MESSAGE value="Начало вывода результатов импорта" />
-    <option name="LAST_COMMIT_MESSAGE" value="Начало вывода результатов импорта" />
+    <MESSAGE value="Бэкап перед попыткой разделить приложение на несколько" />
+    <option name="LAST_COMMIT_MESSAGE" value="Бэкап перед попыткой разделить приложение на несколько" />
   </component>
 </project>

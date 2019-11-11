@@ -1,7 +1,8 @@
 package controllers;
 
-import database.controllers.DBHandler;
-import database.models.Model;
+import com.mpt.databasehandler.DataBaseHandler;
+import com.mpt.databasehandler.Model;
+import common.Config;
 import database.models.UserM;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,20 +11,21 @@ import java.sql.SQLException;
 
 public class LoginController {
     private HttpSession session;
-    private DBHandler db;
+    private DataBaseHandler db;
     private HttpServletRequest req;
 
-    public LoginController(HttpSession session, HttpServletRequest req) throws SQLException{
+    public LoginController(HttpSession session, HttpServletRequest req){
         this.session = session;
-        this.db = DBHandler.getInstance();
+        this.db = DataBaseHandler.getInstance();
         this.req = req;
     }
 
-    public String login(String login, String password) throws SQLException{
+    public String login(String login, String password){
         if (login.length() > 0 && password.length() > 0) {
-            UserM user = db.getObject(new UserM(login, password)
+            UserM user = (UserM) db.getObject(new UserM(login, password)
                     .addCondition(UserM.LOGIN_DEF, Model.toText(login))
-                    .addCondition(UserM.PASSWORD_DEF, Model.toText(password)))  ;
+                    .addCondition(UserM.PASSWORD_DEF, Model.toText(password)));
+            System.out.println(user);
             if (user != null) {
                 session.setAttribute("login", user.getLogin());
                 session.setAttribute("name", user.getName());

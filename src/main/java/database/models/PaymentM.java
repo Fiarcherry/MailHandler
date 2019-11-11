@@ -1,7 +1,11 @@
 package database.models;
 
-import database.controllers.DBHandler;
-import database.query.Selector;
+
+
+import com.mpt.databasehandler.DataBaseHandler;
+import com.mpt.databasehandler.JoinType;
+import com.mpt.databasehandler.Model;
+import com.mpt.databasehandler.Selector;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -185,92 +189,14 @@ public class PaymentM extends Model {
     }
 
 
-    @Override
-    public PaymentM removeCondition(String key) {
-        super.removeCondition(key);
-        return this;
-    }
-
-    @Override
-    public PaymentM addCondition(String key, String value) {
-        super.addCondition(key, value);
-        return this;
-    }
-
-    @Override
-    public PaymentM addCondition(String key, String value, boolean isText) {
-        super.addCondition(key, value, isText);
-        return this;
-    }
-
-    @Override
-    public PaymentM removeAllConditions() {
-        super.removeAllConditions();
-        return this;
-    }
-
-    @Override
-    public PaymentM removeJoin(String key) {
-        super.removeJoin(key);
-        return this;
-    }
-
-    @Override
-    public PaymentM addJoin(String tableDef, String primaryKey, String foreignTableName, String foreignKey) {
-        super.addJoin(tableDef, primaryKey, foreignTableName, foreignKey);
-        return this;
-    }
-
-    @Override
-    public PaymentM addJoin(String connectableTableName, String primaryKey, String foreignKey) {
-        super.addJoin(connectableTableName, primaryKey, foreignKey);
-        return this;
-    }
-
-    @Override
-    public PaymentM removeAllJoins() {
-        super.removeAllJoins();
-        return this;
-    }
-
-    @Override
-    public PaymentM removeSelector(String tableName, String columnName) {
-        super.removeSelector(tableName, columnName);
-        return this;
-    }
-
-    @Override
-    public PaymentM addSelector(Selector selector) {
-        super.addSelector(selector);
-        return this;
-    }
-
-    @Override
-    public PaymentM addSelector(String tableName, String columnName) {
-        super.addSelector(tableName, columnName);
-        return this;
-    }
-
-    @Override
-    public PaymentM addSelector(String tableName, String columnName, String columnMask) {
-        super.addSelector(tableName, columnName, columnMask);
-        return this;
-    }
-
-    @Override
-    public PaymentM removeAllSelectors() {
-        super.removeAllSelectors();
-        return this;
-    }
-
-    public static PaymentM getPayment(String uni) throws SQLException {
-        return DBHandler.getInstance().getObject(new PaymentM().addCondition(PaymentM.ID_DEF, uni, true));
+    public static PaymentM getPayment(String uni) {
+        return (PaymentM) DataBaseHandler.getInstance().getObject(new PaymentM().addCondition(PaymentM.ID_DEF, uni, true));
 
     }
 
-    public static void updateChecked(PaymentM payment) throws SQLException {
+    public static void updateChecked(PaymentM payment) throws SQLException{
         payment.setProcessedTrue();
-        DBHandler.getInstance().update(payment);
+        DataBaseHandler.getInstance().update(payment);
     }
 
     public void setProcessedTrue() {
@@ -281,4 +207,88 @@ public class PaymentM extends Model {
     public String toString() {
         return id + isProcessed.toString();
     }
+
+    //region Conditions
+    @Override
+    public Model removeCondition(String key) {
+        super.removeCondition(key);
+        return this;
+    }
+
+    @Override
+    public Model addCondition(String key, String value) {
+        super.addCondition(key, value);
+        return this;
+    }
+
+    @Override
+    public Model addCondition(String key, String value, boolean isText) {
+        super.addCondition(key, value, isText);
+        return this;
+    }
+
+    @Override
+    public Model removeAllConditions() {
+        super.removeAllConditions();
+        return this;
+    }
+    //endregion
+
+    //region Joins
+    @Override
+    public Model removeJoin(String key) {
+        super.removeJoin(key);
+        return this;
+    }
+
+    @Override
+    public Model addJoin(JoinType joinType, String foreignTable, String primaryKey, String primaryTable, String foreignKey) {
+        super.addJoin(joinType, foreignTable, primaryKey, primaryTable, foreignKey);
+        return this;
+    }
+
+    @Override
+    public Model addJoin(JoinType joinType, String foreignTable, String primaryKey, String foreignKey) {
+        super.addJoin(joinType, foreignTable, primaryKey, foreignKey);
+        return this;
+    }
+
+    @Override
+    public Model removeAllJoins() {
+        super.removeAllJoins();
+        return this;
+    }
+    //endregion
+
+    //region Selectors
+    @Override
+    public Model removeSelector(String tableName, String columnName) {
+        super.removeSelector(tableName, columnName);
+        return this;
+    }
+
+    @Override
+    public Model addSelector(String tableName, String columnName) {
+        super.addSelector(tableName, columnName);
+        return this;
+    }
+
+    @Override
+    public Model addSelector(Selector selector) {
+        super.addSelector(selector);
+        return this;
+    }
+
+    @Override
+    public Model addSelector(String tableName, String columnName, String columnMask) {
+        super.addSelector(tableName, columnName, columnMask);
+        return this;
+    }
+
+    @Override
+    public Model removeAllSelectors() {
+        super.removeAllSelectors();
+        return this;
+    }
+    //endregion
 }
