@@ -116,30 +116,13 @@ public class MessageServlet extends HttpServlet {
             MessageHandler messageHandler = new MessageHandler();
             String action = req.getParameter("action");
             if ("send".equalsIgnoreCase(action)) {
-                EMessage message = new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"));
-                out.println(messageHandler.sendMessage(message));
+                out.println(messageHandler.sendMessage(new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"))));
             } else if ("show".equalsIgnoreCase(action) || "json".equalsIgnoreCase(action)) {
-
-                String json = req.getParameter("json");
-
-                Type type = new TypeToken<List<String>>() {}.getType();
-                List<String> paymentsID = new Gson().fromJson(json, type);
-                System.out.println("LIST: "+paymentsID);
-
-                MessageHandler mh = new MessageHandler();
+                List<String> paymentsID = new Gson().fromJson(req.getParameter("json"), new TypeToken<List<String>>() {}.getType());
                 List<Map<String, String>> payments = new ArrayList<>();
-                Stream<String> paymentStream = paymentsID.stream();
-                paymentStream.forEach(id -> {
-                    Map<String, String> payment = Queries.getSendPayments(id);
-                    System.out.println("PAYMENT: "+payment);
-                    payments.add(payment);
-                });
-
-                System.out.println("PAYMENTS: " + payments);
-                mh.sendPayments(payments);
-                String jsonPayments = new Gson().toJson(Queries.getPaymentsJson());
-                System.out.println(jsonPayments);
-                out.println(jsonPayments);
+                paymentsID.forEach(id -> payments.add(Queries.getSendPayments(id)));
+                new MessageHandler().sendPayments(payments);
+                out.println(new Gson().toJson(Queries.getPaymentsJson()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
