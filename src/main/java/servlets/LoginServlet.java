@@ -1,7 +1,8 @@
 package servlets;
 
+import com.mpt.databasehandler.DataBaseHandler;
+import common.Config;
 import controllers.LoginController;
-import database.controllers.DBHandler;
 import database.models.*;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,18 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 public class LoginServlet extends HttpServlet {
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try{
+            DataBaseHandler.getInstance().initialize(Config.config);
+        }
+        catch (SQLException | NullPointerException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,12 +49,13 @@ public class LoginServlet extends HttpServlet {
                     break;
                 case "login":
                 default:
+                    System.out.println(DataBaseHandler.getInstance().getFirst((UserM)new UserM().addCondition("login", "admin", true).addCondition("password", "admin", true)));
                     resp.setContentType("text/html;charset=utf-8");
                     req.getRequestDispatcher("/Views/Login.html").forward(req, resp);
                     break;
             }
         }
-        catch (IOException e){
+        catch (IOException  e){
             e.printStackTrace();
         }
     }
@@ -59,12 +73,16 @@ public class LoginServlet extends HttpServlet {
                     out.write(loginController.register(new UserM(req.getParameter("nick"), req.getParameter("login"), req.getParameter("password"), req.getParameter("email"))));
                     break;
                 case "loginResult":
-                    out.write(loginController.login(req.getParameter("login"), req.getParameter("password")));
+                    String login = req.getParameter("login");
+                    String password = req.getParameter("password");
+                    String loginResult = loginController.login(login, password);
+                    out.write(loginResult);
                     break;
                 default:
                     break;
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }

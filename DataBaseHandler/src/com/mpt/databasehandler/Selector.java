@@ -1,4 +1,4 @@
-package database.query;
+package com.mpt.databasehandler;
 
 public class Selector {
     private String tableTitle;
@@ -29,33 +29,21 @@ public class Selector {
         return mask;
     }
 
-
-    String getSelectorWithMask(){
-        return '\"'+tableTitle+"\".\""+columnTitle+"\" AS \""+mask+'\"';
+    private String getSelectorWithMask(){
+        return Model.quotes+tableTitle+Model.quotes+'.'+Model.quotes+columnTitle+Model.quotes+" AS "+Model.quotes+mask+Model.quotes;
     }
-    String getSelectorWithOutMask(){
-        return '\"'+tableTitle+"\".\""+columnTitle+'\"';
+    private String getSelectorWithOutMask(){
+        return Model.quotes+tableTitle+Model.quotes+'.'+Model.quotes+columnTitle+Model.quotes;
     }
 
-    public String getSelector(){
+    String getSelector(){
         return hasMask()?getSelectorWithMask():getSelectorWithOutMask();
     }
-    public String getColumnName(){
+    String getColumnName(){
         return !hasMask()?getColumnTitle():getMask();
     }
 
-
-
     boolean hasMask(){
         return mask != null;
-    }
-
-    @Override
-    public String toString() {
-        return "Selector{" +
-                "tableTitle='" + tableTitle + '\'' +
-                ", columnTitle='" + columnTitle + '\'' +
-                ", mask='" + mask + '\'' +
-                '}';
     }
 }

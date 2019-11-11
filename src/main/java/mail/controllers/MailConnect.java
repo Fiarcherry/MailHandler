@@ -3,7 +3,10 @@ package mail.controllers;
 import common.Config;
 import mail.models.EmailAuthenticator;
 
-import javax.mail.*;
+import javax.mail.Authenticator;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Store;
 import java.util.Properties;
 
 public class MailConnect {
@@ -16,7 +19,7 @@ public class MailConnect {
     private Authenticator auth;
 
 
-    public Store getStore(){
+    public Store getStore() {
         return store;
     }
 
@@ -31,10 +34,10 @@ public class MailConnect {
 
     public static MailConnect getInstance() throws MessagingException {
         MailConnect localInstnce = instance;
-        if (localInstnce == null){
-            synchronized (MailConnect.class){
+        if (localInstnce == null) {
+            synchronized (MailConnect.class) {
                 localInstnce = instance;
-                if (localInstnce == null){
+                if (localInstnce == null) {
                     instance = localInstnce = new MailConnect();
                 }
             }
@@ -49,7 +52,7 @@ public class MailConnect {
     }
 
 
-    private void ConnectSMTP(){
+    private void ConnectSMTP() {
         Properties properties = new Properties();
         properties.setProperty("mail.smtp.host", Config.getMailHostSmtp());
         properties.setProperty("mail.smtp.port", Config.getMailPortSmtp());
@@ -59,7 +62,7 @@ public class MailConnect {
         sessionSMTP = Session.getInstance(properties, auth);
     }
 
-    private void ConnectIMAP() throws MessagingException{
+    private void ConnectIMAP() throws MessagingException {
         Properties properties = new Properties();
         properties.setProperty("mail.debug", "false");
         properties.setProperty("mail.store.protocol", "imaps");

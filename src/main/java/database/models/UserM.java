@@ -1,13 +1,15 @@
 package database.models;
 
-import database.query.Selector;
+import com.mpt.databasehandler.JoinType;
+import com.mpt.databasehandler.Model;
+import com.mpt.databasehandler.Selector;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserM extends Model{
+public class UserM extends Model {
 
     public static final String TABLE_NAME = "User";
 
@@ -63,11 +65,6 @@ public class UserM extends Model{
         this.id = id;
     }
 
-    /**
-     *
-     * @param login login
-     * @param password password
-     */
     public UserM(String login, String password) {
         this.login = login;
         this.password = password;
@@ -182,76 +179,88 @@ public class UserM extends Model{
         return this;
     }
 
+
+    //region Conditions
     @Override
-    public UserM removeCondition(String key) {
+    public Model removeCondition(String key) {
         super.removeCondition(key);
         return this;
     }
+
     @Override
-    public UserM addCondition(String key, String value) {
+    public Model addCondition(String key, String value) {
         super.addCondition(key, value);
         return this;
     }
+
     @Override
-    public UserM addCondition(String key, String value, boolean isText) {
+    public Model addCondition(String key, String value, boolean isText) {
         super.addCondition(key, value, isText);
         return this;
     }
+
     @Override
-    public UserM removeAllConditions() {
+    public Model removeAllConditions() {
         super.removeAllConditions();
         return this;
     }
+    //endregion
 
+    //region Joins
     @Override
-    public UserM removeJoin(String key) {
+    public Model removeJoin(String key) {
         super.removeJoin(key);
         return this;
     }
+
     @Override
-    public UserM addJoin(String tableDef, String primaryKey, String foreignTableName, String foreignKey) {
-        super.addJoin(tableDef, primaryKey, foreignTableName, foreignKey);
+    public Model addJoin(JoinType joinType, String foreignTable, String primaryKey, String primaryTable, String foreignKey) {
+        super.addJoin(joinType, foreignTable, primaryKey, primaryTable, foreignKey);
         return this;
     }
+
     @Override
-    public UserM addJoin(String connectableTableName, String primaryKey, String foreignKey) {
-        super.addJoin(connectableTableName, primaryKey, foreignKey);
+    public Model addJoin(JoinType joinType, String foreignTable, String primaryKey, String foreignKey) {
+        super.addJoin(joinType, foreignTable, primaryKey, foreignKey);
         return this;
     }
+
     @Override
-    public UserM removeAllJoins() {
+    public Model removeAllJoins() {
         super.removeAllJoins();
         return this;
     }
+    //endregion
 
+    //region Selectors
     @Override
-    public UserM removeSelector(String tableName, String columnName) {
+    public Model removeSelector(String tableName, String columnName) {
         super.removeSelector(tableName, columnName);
         return this;
     }
+
     @Override
-    public UserM addSelector(Selector selector) {
-        super.addSelector(selector);
-        return this;
-    }
-    @Override
-    public UserM addSelector(String tableName, String columnName) {
+    public Model addSelector(String tableName, String columnName) {
         super.addSelector(tableName, columnName);
         return this;
     }
+
     @Override
-    public UserM addSelector(String tableName, String columnName, String columnMask) {
+    public Model addSelector(Selector selector) {
+        super.addSelector(selector);
+        return this;
+    }
+
+    @Override
+    public Model addSelector(String tableName, String columnName, String columnMask) {
         super.addSelector(tableName, columnName, columnMask);
         return this;
     }
+
     @Override
-    public UserM removeAllSelectors() {
+    public Model removeAllSelectors() {
         super.removeAllSelectors();
         return this;
     }
-
-
-
-
-
+    //endregion
 }

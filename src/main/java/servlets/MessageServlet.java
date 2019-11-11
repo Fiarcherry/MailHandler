@@ -1,4 +1,6 @@
 package servlets;
+import com.mpt.databasehandler.DataBaseHandler;
+import common.Config;
 import common.Queries;
 import mail.controllers.MessageHandler;
 import mail.models.EMessage;
@@ -15,6 +17,17 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 public class MessageServlet extends HttpServlet {
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try{
+            DataBaseHandler.getInstance().initialize(Config.config);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {

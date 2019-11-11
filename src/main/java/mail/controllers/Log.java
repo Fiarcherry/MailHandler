@@ -4,8 +4,11 @@ import common.Config;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
@@ -22,7 +25,7 @@ public class Log {
     }
 
     public static void write(String message) {
-        try (BufferedWriter out = Files.newBufferedWriter(logFilePath, Charset.forName("UTF-8"), StandardOpenOption.APPEND, StandardOpenOption.CREATE)) {
+        try (BufferedWriter out = Files.newBufferedWriter(logFilePath, StandardCharsets.UTF_8, StandardOpenOption.APPEND, StandardOpenOption.CREATE)) {
             out.write(message);
             out.newLine();
         } catch (IOException e) {

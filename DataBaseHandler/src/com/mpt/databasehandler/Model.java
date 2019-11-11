@@ -1,14 +1,14 @@
-package database.models;
-
-import database.query.Selector;
+package com.mpt.databasehandler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
 public abstract class Model <T extends Model>{
+    static char quotes = DataBaseHandler.getInstance().isDBHaveConfig()?DataBaseHandler.getInstance().getQuotes():' ';
+
     private NavigableMap<String, String> conditions = new TreeMap<>();
-    private Map<String, String> joins = new HashMap<>();
+    private List<Join> joins = new ArrayList<>();
     private List<Selector> selectors = new ArrayList<>();
 
     public T removeCondition(String key){
@@ -35,12 +35,12 @@ public abstract class Model <T extends Model>{
         conditions.remove(key);
         return null;
     }
-    public T addJoin(String connectableTableName, String primaryKey, String foreignTableName, String foreignKey){
-        joins.put('\"'+ connectableTableName +"\" `"+ connectableTableName+"`", "\""+ connectableTableName +"\".\""+primaryKey+"\" = \""+foreignTableName+"\".\""+foreignKey+'\"');
+    public T addJoin(JoinType joinType, String foreignTable, String primaryKey, String primaryTable, String foreignKey){
+        joins.add(new Join(joinType, foreignTable, primaryKey, primaryTable, foreignKey, quotes));
         return null;
     }
-    public T addJoin(String connectableTableName, String primaryKey, String foreignKey){
-        joins.put('\"'+ connectableTableName +"\" "+ connectableTableName, '\"'+ connectableTableName +"\".\""+primaryKey+"\" = \""+getTableName()+"\".\""+foreignKey+'\"');
+    public T addJoin(JoinType joinType, String foreignTable, String primaryKey, String foreignKey){
+        joins.add(new Join(joinType, foreignTable, primaryKey, getTableName(), foreignKey, quotes));
         return null;
     }
     public T removeAllJoins(){
@@ -72,8 +72,11 @@ public abstract class Model <T extends Model>{
     public static String toText(String value){
         return "\""+value+"\"";
     }
+    private static String inQuotes(String value){
+        return quotes+value+quotes;
+    }
 
-    public final String getSelectors(){
+    final String getSelectors(){
         StringBuilder query = new StringBuilder();
         if (selectors.isEmpty())
             return " * ";
@@ -86,26 +89,26 @@ public abstract class Model <T extends Model>{
         }
         return query.toString();
     }
-    public final String getWhere(String AndOr) {
+    final String getWhere(String AndOr) {
         StringBuilder query = new StringBuilder();
         if (conditions.isEmpty())
-            return ";";
+            return "";
         query.append(" WHERE ");
         Map.Entry lastEntry = conditions.lastEntry();
         for (Map.Entry<String, String> entry: conditions.entrySet()) {
-            query.append(entry.getKey()).append(" = ").append(entry.getValue());
+            query.append(inQuotes(entry.getKey())).append(" = ").append(entry.getValue());
             if (!lastEntry.equals(entry)){
                 query.append(" "+AndOr+" ");
             }
         }
-        return query.toString()+';';
+        return query.toString();
     }
-    public final String getJoin(){
+    final String getJoin(){
         StringBuilder query = new StringBuilder();
         if (joins.isEmpty())
             return "";
-        for (Map.Entry<String, String> entry: joins.entrySet()) {
-            query.append(" INNER JOIN ").append(entry.getKey()).append(" ON ").append(entry.getValue());
+        for (Join join: joins) {
+            query.append(join.toString());
         }
         return query.toString();
     }
@@ -117,7 +120,7 @@ public abstract class Model <T extends Model>{
     public abstract String getPrimaryKey();
     public abstract String getTableName();
     public String getTableNameFix(){
-        return '\"'+getTableName()+'\"';
+        return inQuotes(getTableName());
     }
 
     public abstract List<T> getResultList(ResultSet resultSet) throws SQLException;

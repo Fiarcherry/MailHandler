@@ -1,6 +1,6 @@
 package mail.controllers;
 
-import database.controllers.DBHandler;
+import com.mpt.databasehandler.DataBaseHandler;
 import database.controllers.XMLParser;
 import database.models.ClientM;
 import database.models.ErrorM;
@@ -143,9 +143,9 @@ public class MessageHandler {
                                 readResult.incMessagesWrongStructure();
 
                             } else {
-                                OrderM order = DBHandler.getInstance().getObject(new OrderM().addCondition(OrderM.ID_DEF, currentPayment.getIdOrder(), true));
+                                OrderM order = (OrderM)DataBaseHandler.getInstance().getObject(new OrderM().addCondition(OrderM.ID_DEF, currentPayment.getIdOrder(), true));
                                 if (order != null) {
-                                    List<PaymentM> payments = DBHandler.getInstance().getObjects(new PaymentM());
+                                    List<PaymentM> payments = DataBaseHandler.getInstance().getObjects(new PaymentM());
 
                                     boolean correctPayment = true;
 
@@ -160,7 +160,7 @@ public class MessageHandler {
                                     }
 
                                     if (correctPayment){
-                                        DBHandler.getInstance().insert(currentPayment);
+                                        DataBaseHandler.getInstance().insert(currentPayment);
                                         System.out.println("Message has been add to database");
                                         readResult.incMessagesCountSuccessful();
                                     }

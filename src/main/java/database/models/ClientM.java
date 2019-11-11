@@ -1,6 +1,8 @@
 package database.models;
 
-import database.query.Selector;
+import com.mpt.databasehandler.JoinType;
+import com.mpt.databasehandler.Model;
+import com.mpt.databasehandler.Selector;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -142,72 +144,89 @@ public class ClientM extends Model {
         return this;
     }
 
-
+    //region Conditions
     @Override
-    public ClientM removeCondition(String key) {
+    public Model removeCondition(String key) {
         super.removeCondition(key);
         return this;
     }
+
     @Override
-    public ClientM addCondition(String key, String value) {
+    public Model addCondition(String key, String value) {
         super.addCondition(key, value);
         return this;
     }
+
     @Override
-    public ClientM addCondition(String key, String value, boolean isText) {
+    public Model addCondition(String key, String value, boolean isText) {
         super.addCondition(key, value, isText);
         return this;
     }
+
     @Override
-    public ClientM removeAllConditions() {
+    public Model removeAllConditions() {
         super.removeAllConditions();
         return this;
     }
+    //endregion
 
+    //region Joins
     @Override
-    public ClientM removeJoin(String key) {
+    public Model removeJoin(String key) {
         super.removeJoin(key);
         return this;
     }
+
     @Override
-    public ClientM addJoin(String tableDef, String primaryKey, String foreignTableName, String foreignKey) {
-        super.addJoin(tableDef, primaryKey, foreignTableName, foreignKey);
-        return this;
-    }
-    @Override
-    public ClientM addJoin(String connectableTableName, String primaryKey, String foreignKey) {
-        super.addJoin(connectableTableName, primaryKey, foreignKey);
-        return this;
-    }
-    @Override
-    public ClientM removeAllJoins() {
-        super.removeAllJoins();
+    public Model addJoin(JoinType joinType, String foreignTable, String primaryKey, String primaryTable, String foreignKey) {
+        super.addJoin(joinType, foreignTable, primaryKey, primaryTable, foreignKey);
         return this;
     }
 
     @Override
-    public ClientM removeSelector(String tableName, String columnName) {
+    public Model addJoin(JoinType joinType, String foreignTable, String primaryKey, String foreignKey) {
+        super.addJoin(joinType, foreignTable, primaryKey, foreignKey);
+        return this;
+    }
+
+    @Override
+    public Model removeAllJoins() {
+        super.removeAllJoins();
+        return this;
+    }
+    //endregion
+
+    //region Selectors
+    @Override
+    public Model removeSelector(String tableName, String columnName) {
         super.removeSelector(tableName, columnName);
         return this;
     }
+
     @Override
-    public ClientM addSelector(Selector selector) {
-        super.addSelector(selector);
-        return this;
-    }
-    @Override
-    public ClientM addSelector(String tableName, String columnName) {
+    public Model addSelector(String tableName, String columnName) {
         super.addSelector(tableName, columnName);
         return this;
     }
+
     @Override
-    public ClientM addSelector(String tableName, String columnName, String columnMask) {
+    public Model addSelector(Selector selector) {
+        super.addSelector(selector);
+        return this;
+    }
+
+    @Override
+    public Model addSelector(String tableName, String columnName, String columnMask) {
         super.addSelector(tableName, columnName, columnMask);
         return this;
     }
+
     @Override
-    public ClientM removeAllSelectors() {
+    public Model removeAllSelectors() {
         super.removeAllSelectors();
         return this;
     }
+    //endregion
+
+
 }
