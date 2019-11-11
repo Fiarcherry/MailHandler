@@ -92,7 +92,7 @@ public class MessageHandler {
 
             System.out.println("Message number: " + i);
 
-            if (flag == "new"){
+            if (flag.equalsIgnoreCase("new")){
                 if (!messages[i].getFlags().contains(Flags.Flag.SEEN)){
                     errorsCheck(messages[i].getContent(), messages[i].getSubject());
                     messages[i].setFlag(Flags.Flag.SEEN, true);

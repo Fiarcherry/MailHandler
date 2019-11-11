@@ -15,8 +15,8 @@ $(document).ready(function () {
                 $("#menu").append("<li class=\"nav-item dropdown\">\n" +
                     "                    <a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Read Messages</a>\n" +
                     "                    <div class=\"dropdown-menu\" aria-labelledby=\"readMessages\">\n" +
-                    "                        <a class=\"dropdown-item\" href=\"message?action=readNew\">Read New Messages</a>\n" +
-                    "                        <a class=\"dropdown-item\" href=\"message?action=readAll\">Read All Messages</a>\n" +
+                    "                        <a class=\"dropdown-item\" href=\"message?action=readMail&readType=new\">Read New Messages</a>\n" +
+                    "                        <a class=\"dropdown-item\" href=\"message?action=readMail&readType=all\">Read All Messages</a>\n" +
                     "                    </div>\n" +
                     "                </li>");
 

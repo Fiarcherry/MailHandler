@@ -40,24 +40,7 @@
                     <th scope="col">Amount</th>
                 </tr>
                 </thead>
-                <tbody id='tableBody'>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $.getJSON("message?action=json", function (data) {
-                            drawTBody(data);
-                        });
-                    });
-                </script>
-                <script>
-                    $('#checkBoxMaster').click(function () {
-                        if ($(this).is(':checked')) {
-                            $('#table input:checkbox').prop('checked', true);
-                        } else {
-                            $('#table input:checkbox').prop('checked', false);
-                        }
-                    });
-                </script>
-                </tbody>
+                <tbody id='tableBody'></tbody>
             </table>
         </div>
         <button onclick="callAjax()">Send</button>
@@ -70,25 +53,18 @@
 </html>
 
 <script type="text/javascript">
-    function registration () {
-        $.ajax({
-            type: "POST",
-            url: "auth?action=registrationResult",
-            data: {
-                login: $("input[name=login]").val(),
-                password: $("input[name=password]").val(),
-                email: $("input[name=email]").val(),
-                nick: $("input[name=nickname]").val()},
-            success: function (data) {
-                if (data.includes("MailHandler"))
-                    window.location.replace(data);
-                else
-                    $('#result').append(JSON.stringify(data));
-            },
-            error: function (data) {
-                $('#result').append("Error: "+data);
-            }
-        })
-    };
+    $(document).ready(function () {
+        $.getJSON("message?action=json", function (data) {
+            drawTBody(data);
+        });
+    });
+
+    $('#checkBoxMaster').click(function () {
+        if ($(this).is(':checked')) {
+            $('#table input:checkbox').prop('checked', true);
+        } else {
+            $('#table input:checkbox').prop('checked', false);
+        }
+    });
 </script>
 

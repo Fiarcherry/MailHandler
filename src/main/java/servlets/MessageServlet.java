@@ -71,21 +71,17 @@ public class MessageServlet extends HttpServlet {
                 case "show":
                     req.getRequestDispatcher("/Views/AllPayments.html").forward(req, resp);
                     break;
-                case "readNew":
-                    messageHandler.readEmail("new");
-                    resp.sendRedirect("http://localhost:8080/MailHandler/message?action=show");
-                    break;
-                case "readAll":
+                case "readMail":
                     req.getRequestDispatcher("/Views/ReadResult.html").forward(req, resp);
+
                     break;
-                case "readResult":
+                case "readResultNew":
                     resp.setContentType("application/json;charset=utf-8");
-                    if (action == "readNew"){
                         out.write(new Gson().toJson(messageHandler.readEmail("new")));
-                    } else {
-                        out.write(new Gson().toJson(messageHandler.readEmail("all")));
-                    }
-                    //req.getRequestDispatcher("/Views/ReadResult.html").forward(req, resp);
+                    break;
+                case "readResultAll":
+                    resp.setContentType("application/json;charset=utf-8");
+                    out.write(new Gson().toJson(messageHandler.readEmail("all")));
                     break;
                 case "showErrors":
                     req.getRequestDispatcher("/Views/Errors.html").forward(req, resp);
