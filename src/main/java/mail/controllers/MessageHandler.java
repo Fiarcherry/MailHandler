@@ -69,7 +69,7 @@ public class MessageHandler {
                     .append("\nСумма платежа: ").append(paymentData.get(PaymentM.AMOUNT_DEF))
                     .append("\nВ том числе комиссия: ").append(paymentData.get(PaymentM.BANK_COMMISSION_DEF))
                     .append("\nДата обработки платежа: ").append(currentDate);
-            //sendMessage(new EMessage(paymentData.get(ClientM.EMAIL_DEF), "Payments", text.toString()));
+            sendMessage(new EMessage(paymentData.get(ClientM.EMAIL_DEF), "Payments", text.toString()));
             PaymentM.updateChecked(PaymentM.getPayment(paymentData.get("paymentID")));
             result[payments.indexOf(paymentData)] = text.toString();
         }

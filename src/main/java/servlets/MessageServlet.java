@@ -1,4 +1,6 @@
 package servlets;
+
+import com.google.gson.reflect.TypeToken;
 import com.mpt.databasehandler.DataBaseHandler;
 import common.Config;
 import common.Queries;
@@ -14,17 +16,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class MessageServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try{
+        try {
             DataBaseHandler.getInstance().initialize(Config.config);
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -77,7 +83,7 @@ public class MessageServlet extends HttpServlet {
                     break;
                 case "readResultNew":
                     resp.setContentType("application/json;charset=utf-8");
-                        out.write(new Gson().toJson(messageHandler.readEmail("new")));
+                    out.write(new Gson().toJson(messageHandler.readEmail("new")));
                     break;
                 case "readResultAll":
                     resp.setContentType("application/json;charset=utf-8");
@@ -113,8 +119,24 @@ public class MessageServlet extends HttpServlet {
                 EMessage message = new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"));
                 out.println(messageHandler.sendMessage(message));
             } else if ("show".equalsIgnoreCase(action) || "json".equalsIgnoreCase(action)) {
+
+                String json = req.getParameter("json");
+
+                Type type = new TypeToken<List<String>>() {}.getType();
+                List<String> paymentsID = new Gson().fromJson(json, type);
+                System.out.println("LIST: "+paymentsID);
+
                 MessageHandler mh = new MessageHandler();
-                mh.sendPayments(Queries.getSendPayments());
+                List<Map<String, String>> payments = new ArrayList<>();
+                Stream<String> paymentStream = paymentsID.stream();
+                paymentStream.forEach(id -> {
+                    Map<String, String> payment = Queries.getSendPayments(id);
+                    System.out.println("PAYMENT: "+payment);
+                    payments.add(payment);
+                });
+
+                System.out.println("PAYMENTS: " + payments);
+                mh.sendPayments(payments);
                 String jsonPayments = new Gson().toJson(Queries.getPaymentsJson());
                 System.out.println(jsonPayments);
                 out.println(jsonPayments);
