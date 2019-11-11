@@ -49,7 +49,6 @@ public class LoginServlet extends HttpServlet {
                     break;
                 case "login":
                 default:
-                    System.out.println(DataBaseHandler.getInstance().getFirst((UserM)new UserM().addCondition("login", "admin", true).addCondition("password", "admin", true)));
                     resp.setContentType("text/html;charset=utf-8");
                     req.getRequestDispatcher("/Views/Login.html").forward(req, resp);
                     break;
