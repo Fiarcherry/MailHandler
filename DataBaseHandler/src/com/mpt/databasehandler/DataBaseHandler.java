@@ -138,7 +138,7 @@ public class DataBaseHandler {
     public <T extends Model> Map<String, String> getFirst(T t) {
         try (Statement statement = connection.createStatement()) {
             String query = "SELECT " + t.getSelectors() + " FROM " + t.getTableNameFix() + t.getJoin() + t.getWhere("AND");
-            System.out.println(query);
+            System.out.println("get first query: "+query);
             ResultSet resultSet = statement.executeQuery(query);
             if (resultSet.next())
                 return t.getResultMap(resultSet);

@@ -16,14 +16,21 @@ public abstract class Model <T extends Model>{
         return null;
     }
     public T addCondition(String key, String value){
-        conditions.put(key, value);
+        conditions.put(inQuotes(key), value);
         return null;
     }
     public T addCondition(String key, String value, boolean isText){
         if (isText)
-            conditions.put(key, Model.toText(value));
+            conditions.put(inQuotes(key), Model.toText(value));
         else
-            conditions.put(key,value);
+            conditions.put(inQuotes(key),value);
+        return null;
+    }
+    public T addCondition(String table, String column, String value, boolean isText){
+        if (isText)
+            conditions.put(inQuotes(table)+'.'+inQuotes(column), toText(value));
+        else
+            conditions.put(inQuotes(table)+'.'+inQuotes(column), value);
         return null;
     }
     public T removeAllConditions(){
@@ -96,7 +103,7 @@ public abstract class Model <T extends Model>{
         query.append(" WHERE ");
         Map.Entry lastEntry = conditions.lastEntry();
         for (Map.Entry<String, String> entry: conditions.entrySet()) {
-            query.append(inQuotes(entry.getKey())).append(" = ").append(entry.getValue());
+            query.append(entry.getKey()).append(" = ").append(entry.getValue());
             if (!lastEntry.equals(entry)){
                 query.append(" "+AndOr+" ");
             }

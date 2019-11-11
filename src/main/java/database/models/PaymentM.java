@@ -228,6 +228,12 @@ public class PaymentM extends Model {
     }
 
     @Override
+    public Model addCondition(String table, String column, String value, boolean isText) {
+        super.addCondition(table, column, value, isText);
+        return this;
+    }
+
+    @Override
     public Model removeAllConditions() {
         super.removeAllConditions();
         return this;

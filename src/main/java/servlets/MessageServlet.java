@@ -1,4 +1,6 @@
 package servlets;
+
+import com.google.gson.reflect.TypeToken;
 import com.mpt.databasehandler.DataBaseHandler;
 import common.Config;
 import common.Queries;
@@ -14,17 +16,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class MessageServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try{
+        try {
             DataBaseHandler.getInstance().initialize(Config.config);
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -77,7 +83,7 @@ public class MessageServlet extends HttpServlet {
                     break;
                 case "readResultNew":
                     resp.setContentType("application/json;charset=utf-8");
-                        out.write(new Gson().toJson(messageHandler.readEmail("new")));
+                    out.write(new Gson().toJson(messageHandler.readEmail("new")));
                     break;
                 case "readResultAll":
                     resp.setContentType("application/json;charset=utf-8");
@@ -110,14 +116,13 @@ public class MessageServlet extends HttpServlet {
             MessageHandler messageHandler = new MessageHandler();
             String action = req.getParameter("action");
             if ("send".equalsIgnoreCase(action)) {
-                EMessage message = new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"));
-                out.println(messageHandler.sendMessage(message));
+                out.println(messageHandler.sendMessage(new EMessage(req.getParameter("to"), "Payment", req.getParameter("message"))));
             } else if ("show".equalsIgnoreCase(action) || "json".equalsIgnoreCase(action)) {
-                MessageHandler mh = new MessageHandler();
-                mh.sendPayments(Queries.getSendPayments());
-                String jsonPayments = new Gson().toJson(Queries.getPaymentsJson());
-                System.out.println(jsonPayments);
-                out.println(jsonPayments);
+                List<String> paymentsID = new Gson().fromJson(req.getParameter("json"), new TypeToken<List<String>>() {}.getType());
+                List<Map<String, String>> payments = new ArrayList<>();
+                paymentsID.forEach(id -> payments.add(Queries.getSendPayments(id)));
+                new MessageHandler().sendPayments(payments);
+                out.println(new Gson().toJson(Queries.getPaymentsJson()));
             }
         } catch (SQLException e) {
             e.printStackTrace();

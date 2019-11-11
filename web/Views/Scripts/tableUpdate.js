@@ -19,7 +19,7 @@ function callAjax(){
             drawTBody(data);
         },
         error: function(error){
-            alert(JSON.stringify(error));
+            alert(error);
         },
         data: {json: JSON.stringify(checked)}
     });
@@ -34,7 +34,7 @@ function drawTBody(data) {
     $.each(data, function (index, payment) {
         var isProcessed = payment.IsProcessed == "0";
         $("<tr class='drawable'>").appendTo($tBody)
-            .append($("<td>").append(isProcessed?"<input type=\"checkbox\" id=\""+payment.id+"\">":""))
+            .append($("<td>").append(isProcessed?"<input type=\"checkbox\" id=\""+payment.paymentID+"\">":""))
             .append($("<td>").text(payment.IsProcessed == "1"? "Sent" : "Not Sent"))
             .append($("<td>").text(payment.Email))
             .append($("<td>").text(payment.FirstName))
