@@ -5,7 +5,7 @@ $(document).ready(function () {
         dataType: 'json',
         success: function(data){
             if (data == "NULLLOGIN") {
-                $("#headerGreetings").append(" Commander");
+                $("#headerGreetings").append(" Unknown");
 
                 $("#menu").append("<li class=\"nav-item\"><a class=\"nav-link\" href=\"auth?action=login\">Sign in</a></li>");
             }
