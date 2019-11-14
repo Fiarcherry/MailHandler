@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -137,8 +139,7 @@ public class ErrorM extends Model {
     }
 
     public static void errorAdd(String message) throws SQLException {
-        Date date = new Date();
-        ErrorM error = new ErrorM(message, date.toString());
+        ErrorM error = new ErrorM(message, LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm:ss")));
         DataBaseHandler.getInstance().insert(error);
     };
 
