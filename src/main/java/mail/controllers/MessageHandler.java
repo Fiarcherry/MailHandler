@@ -102,13 +102,13 @@ public class MessageHandler {
                     readResult.incMessagesAlreadySeen();
                 }
             } else {
-                errorsCheck(messages[i].getContent(), messages[i].getSubject());
                 if (messages[i].getFlags().contains(Flags.Flag.SEEN)){
                     readResult.incMessagesAlreadySeen();
                 } else {
                     messages[i].setFlag(Flags.Flag.SEEN, true);
                     readResult.incMessagesCountNew();
                 }
+                errorsCheck(messages[i].getContent(), messages[i].getSubject());
             }
         }
         inbox.close();
