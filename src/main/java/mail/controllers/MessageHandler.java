@@ -103,6 +103,7 @@ public class MessageHandler {
                 }
             } else {
                 if (messages[i].getFlags().contains(Flags.Flag.SEEN)){
+                    System.out.println("Message has been already seen");
                     readResult.incMessagesAlreadySeen();
                 } else {
                     messages[i].setFlag(Flags.Flag.SEEN, true);
