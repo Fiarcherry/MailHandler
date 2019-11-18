@@ -1,5 +1,8 @@
 package com.mpt.databasehandler;
 
+/**
+ * Интерфейс конфигурации базы данных
+ */
 public interface ConfigDB {
 
     public String get_DB_Driver();

@@ -10,8 +10,17 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Обработчик XML-файлов
+ */
 public class XMLParser {
 
+    /**
+     * Обработка сохранённого файла
+     *
+     * @param savefile Сохранённый файл
+     * @return платёж на добавление в базу данных или ничего
+     */
     public static PaymentM parsePayment(File savefile) {
 
         try {

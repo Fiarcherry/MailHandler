@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Модель для заказов
+ */
 public class OrderM extends Model {
 
     public static final String TABLE_NAME = "Order";
@@ -27,39 +30,78 @@ public class OrderM extends Model {
     private Float ourCommission;
     private String data;
 
+    /**
+     * Чтение ключа
+     * @return Ключ
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Чтение ключа клиента
+     * @return Ключ клиента
+     */
     public String getIdClient() {
         return idClient;
     }
 
+    /**
+     * Чтение даты
+     * @return Дата
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * Чтение стоимости
+     * @return Стоимость
+     */
     public Float getAmount() {
         return amount;
     }
 
+    /**
+     * Чтение комиссии
+     * @return Комиссия
+     */
     public Float getOurCommission() {
         return ourCommission;
     }
 
+    /**
+     * Чтение данных
+     * @return Данные
+     */
     public String getData() {
         return data;
     }
 
-
+    /**
+     * Конструктор модели заказа
+     */
     public OrderM(){
 
     }
 
+    /**
+     * Конструктор модели заказа
+     * @param id Ключ
+     */
     public OrderM(String id){
         this.id = id;
     }
 
+    /**
+     * Конструктор модели заказа
+     * @param id Ключ
+     * @param idClient Ключ клиента
+     * @param date Дата
+     * @param amount Стоимость
+     * @param ourCommission Комиссия
+     * @param data Данные
+     */
     public OrderM(String id, String idClient, String date, Float amount, Float ourCommission, String data) {
         this.id = id;
         this.idClient = idClient;
@@ -69,6 +111,11 @@ public class OrderM extends Model {
         this.data = data;
     }
 
+    /**
+     * Конструктор модели заказа
+     * @param resultSet Данные из базы данных
+     * @throws SQLException
+     */
     public OrderM(ResultSet resultSet) throws SQLException {
         this(resultSet.getString(OrderM.ID_DEF),
                 resultSet.getString(OrderM.ID_CLIENT_DEF),

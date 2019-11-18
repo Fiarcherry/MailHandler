@@ -21,10 +21,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Обработчик сообщений
+ */
 public class MessageHandler {
 
     ReadResult readResult = new ReadResult();
 
+    /**
+     * Отправка сообщения
+     * @param messageData Данные сообщения
+     * @return Ошибка или успех отправки
+     */
     public String sendMessage(EMessage messageData){
 
         try {
@@ -41,6 +49,11 @@ public class MessageHandler {
         }
     }
 
+    /**
+     * Отправка сообщений
+     * @param messages Сообщения
+     * @throws MessagingException
+     */
     public void sendMessages(EMessage[] messages) throws MessagingException{
         Session session = MailConnect.getInstance().getSessionSMTP();
         for (EMessage eMessage : messages){
@@ -53,6 +66,12 @@ public class MessageHandler {
         }
     }
 
+    /**
+     * Отправка платежей
+     * @param payments Платежи
+     * @return Текст сообщений
+     * @throws SQLException
+     */
     public String[] sendPayments(List<Map<String, String>> payments) throws SQLException{
         String[] result = new String[payments.size()];
 
@@ -76,6 +95,14 @@ public class MessageHandler {
         return result;
     }
 
+    /**
+     * Чтение сообщений
+     * @param flag Новые или все сообщения для чтения
+     * @return Результат чтения сообщений
+     * @throws MessagingException
+     * @throws SQLException
+     * @throws IOException
+     */
     public ReadResult readEmail(String flag) throws MessagingException, SQLException, IOException {
         Folder inbox = MailConnect.getInstance().getStore().getFolder("INBOX");
         inbox.open(Folder.READ_WRITE);
@@ -115,6 +142,15 @@ public class MessageHandler {
         inbox.close();
         return readResult;
     }
+
+    /**
+     * Проверка сообщения на ошибки
+     * @param content Содержание сообщения
+     * @param subject Тема сообщения
+     * @throws SQLException
+     * @throws IOException
+     * @throws MessagingException
+     */
     private void errorsCheck(Object content, String subject) throws SQLException, IOException, MessagingException {
         if(subject.equals("PRSS")){
             if (content instanceof Multipart){
@@ -185,6 +221,13 @@ public class MessageHandler {
         }
     }
 
+    /**
+     * Сохранение файла
+     * @param saveFile Файл для сохранения
+     * @param part Часть сообщения с файлом
+     * @return
+     * @throws Exception
+     */
     protected int saveFile(File saveFile, Part part) throws Exception {
 
         BufferedOutputStream bos = new BufferedOutputStream( new FileOutputStream(saveFile) );

@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
+/**
+ * Сервлет главной страницы
+ */
 public class MainServlet extends HttpServlet {
 
     @Override

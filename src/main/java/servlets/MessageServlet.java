@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * Сервлет работы с сообщениями
+ */
 public class MessageServlet extends HttpServlet {
 
     @Override

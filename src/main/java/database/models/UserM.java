@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Модель для пользователей
+ */
 public class UserM extends Model {
 
     public static final String TABLE_NAME = "User";
@@ -27,49 +30,95 @@ public class UserM extends Model {
     private String email;
     private Boolean active;
 
+    /**
+     * Чтение ключа
+     * @return Ключ
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Чтение имени
+     * @return Имя
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Чтение логина
+     * @return Логин
+     */
     public String getLogin() {
         return login;
     }
 
+    /**
+     * Чтение пароля
+     * @return Пароль
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Чтение почты
+     * @return Почта
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Чтение статуса
+     * @return Текущий ли пользователь
+     */
     public Boolean isActive() {
         return active;
     }
 
-
+    /**
+     * Запись ключа
+     * @param id Ключ
+     */
     public void setId(Integer id){
         this.id = id;
     }
 
-
-
+    /**
+     * Конструктор модели пользователя
+     */
     public UserM() {
     }
 
+    /**
+     * Конструктор модели пользователя
+     * @param id Ключ
+     */
     public UserM(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Конструктор модели пользователя
+     * @param login Логин
+     * @param password Пароль
+     */
     public UserM(String login, String password) {
         this.login = login;
         this.password = password;
     }
 
+    /**
+     * Конструктор модели пользователя
+     * @param id КЛюч
+     * @param name Имя
+     * @param login Логин
+     * @param password Пароль
+     * @param email Почта
+     * @param active Статус
+     */
     public UserM(Integer id, String name, String login, String password, String email, Boolean active) {
         this.id = id;
         this.name = name;
@@ -79,6 +128,13 @@ public class UserM extends Model {
         this.active = active;
     }
 
+    /**
+     * Конструктор модели пользователя
+     * @param name Имя
+     * @param login Логин
+     * @param password Пароль
+     * @param email Почта
+     */
     public UserM(String name, String login, String password, String email) {
         this.name = name;
         this.login = login;
@@ -87,6 +143,11 @@ public class UserM extends Model {
         this.active = false;
     }
 
+    /**
+     * Конструктор модели пользователя
+     * @param resultSet Данные из базы данных
+     * @throws SQLException
+     */
     public UserM(ResultSet resultSet)  throws SQLException {
         this(resultSet.getInt(ID_DEF),
                 resultSet.getString(NAME_DEF),

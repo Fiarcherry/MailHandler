@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Модель для ошибок
+ */
 public class ErrorM extends Model {
 
     public static final String TABLE_NAME = "Error";
@@ -25,43 +28,83 @@ public class ErrorM extends Model {
     private String message;
     private String date;
 
+    /**
+     * Чтение ключа
+     *
+     * @return Ключ
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Чтение сообщения
+     * @return Сообщение
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Чтение даты
+     * @return Дата
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * Получение системного времени
+     * @return Системное время
+     */
     public String getCurrentDate(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         return sdf.format(timestamp);
     }
 
+    /**
+     * Конструктор модели ошибок
+     */
     public ErrorM() {
     }
 
+    /**
+     * Конструктор модели ошибок
+     * @param message Сообщение
+     */
     public ErrorM(String message) {
         this.message = message;
         this.date = getCurrentDate();
     }
 
+    /**
+     * Конструктор модели ошибок
+     * @param message Сообщение
+     * @param date Дата
+     */
     public ErrorM(String message, String date) {
         this.message = message;
         this.date = date;
     }
 
+    /**
+     * Конструктор модели ошибок
+     * @param id Ключ
+     * @param message Сообщение
+     * @param date Дата
+     */
     public ErrorM(Integer id, String message, String date) {
         this.id = id;
         this.message = message;
         this.date = date;
     }
 
+    /**
+     * Конструктор модели ошибок
+     * @param resultSet Данные из базы данных
+     * @throws SQLException
+     */
     public ErrorM(ResultSet resultSet) throws SQLException{
         this(resultSet.getInt(ErrorM.ID_DEF), resultSet.getString(ErrorM.MESSAGE_DEF), resultSet.getString(ErrorM.DATE_DEF));
     }

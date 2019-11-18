@@ -9,6 +9,9 @@ import javax.mail.Session;
 import javax.mail.Store;
 import java.util.Properties;
 
+/**
+ * Класс подключения к почтовому ящику
+ */
 public class MailConnect {
     private static volatile MailConnect instance;
 
@@ -18,20 +21,35 @@ public class MailConnect {
     private Store store;
     private Authenticator auth;
 
-
+    /**
+     * Получение хранилища с письмами
+     * @return хранилище с письмами
+     */
     public Store getStore() {
         return store;
     }
 
+    /**
+     * Получение IMAP сессии
+     * @returnIMAP сессия
+     */
     public Session getSessionIMAP() {
         return sessionIMAP;
     }
 
+    /**
+     * Получение SMTP сессии
+     * @returnSMTP сессия
+     */
     public Session getSessionSMTP() {
         return sessionSMTP;
     }
 
-
+    /**
+     * Получение экземпляра класса
+     * @return Экземпляр класса
+     * @throws MessagingException
+     */
     public static MailConnect getInstance() throws MessagingException {
         MailConnect localInstnce = instance;
         if (localInstnce == null) {
@@ -45,13 +63,19 @@ public class MailConnect {
         return localInstnce;
     }
 
+    /**
+     * Подключение к почте
+     * @throws MessagingException
+     */
     private MailConnect() throws MessagingException {
         this.auth = new EmailAuthenticator(Config.getMailUsername(), Config.getMailPassword());
         ConnectIMAP();
         ConnectSMTP();
     }
 
-
+    /**
+     * Подключение к SMTP
+     */
     private void ConnectSMTP() {
         Properties properties = new Properties();
         properties.setProperty("mail.smtp.host", Config.getMailHostSmtp());
@@ -62,6 +86,10 @@ public class MailConnect {
         sessionSMTP = Session.getInstance(properties, auth);
     }
 
+    /**
+     * Подключение к IMAP
+     * @throws MessagingException
+     */
     private void ConnectIMAP() throws MessagingException {
         Properties properties = new Properties();
         properties.setProperty("mail.debug", "false");

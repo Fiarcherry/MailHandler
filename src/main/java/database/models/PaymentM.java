@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Модель для платежей
+ */
 public class PaymentM extends Model {
 
     public static final String TABLE_NAME = "Payment";
@@ -30,38 +33,77 @@ public class PaymentM extends Model {
     private Float bankCommission;
     private Boolean isProcessed;
 
+    /**
+     * Чтение ключа
+     * @return Ключ
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Чтение ключа заказа
+     * @return Ключ заказа
+     */
     public String getIdOrder() {
         return idOrder;
     }
 
+    /**
+     * Чтение даты
+     * @return Дата
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * Чтение стоимости
+     * @return
+     */
     public Float getAmount() {
         return amount;
     }
 
+    /**
+     * Чтение комиссии банка
+     * @return
+     */
     public Float getBankCommission() {
         return bankCommission;
     }
 
+    /**
+     * Чтение статуса платежа
+     * @return Отправлен ли платёж
+     */
     public Boolean getProcessed() {
         return isProcessed;
     }
 
-
+    /**
+     * Конструктор модели платежа
+     */
     public PaymentM() {
     }
 
+    /**
+     * Конструктор модели платежа
+     * @param id Ключ
+     */
     public PaymentM(String id) {
         this.id = id;
     }
 
+    /**
+     * Конструктор модели платежа
+     * @param id Ключ
+     * @param idOrder Ключ заказа
+     * @param date Дата
+     * @param amount Стоимость
+     * @param bankCommission Комиссия банка
+     * @param isProcessed Статус платежа
+     */
     public PaymentM(String id, String idOrder, String date, Float amount, Float bankCommission, Boolean isProcessed) {
         this.id = id;
         this.idOrder = idOrder;
@@ -71,6 +113,14 @@ public class PaymentM extends Model {
         this.isProcessed = isProcessed;
     }
 
+    /**
+     * Конструктор модели платежа
+     * @param id Ключ
+     * @param idOrder Ключь заказа
+     * @param date Дата
+     * @param amount Стоимость
+     * @param bankCommission Комиссия банка
+     */
     public PaymentM(String id, String idOrder, String date, Float amount, Float bankCommission) {
         this.id = id;
         this.idOrder = idOrder;
@@ -80,6 +130,11 @@ public class PaymentM extends Model {
         this.isProcessed = false;
     }
 
+    /**
+     * Конструктор модели платежа
+     * @param resultSet Данные из базы данных
+     * @throws SQLException
+     */
     public PaymentM(ResultSet resultSet) throws SQLException {
         this(resultSet.getString(PaymentM.ID_DEF),
                 resultSet.getString(PaymentM.ID_ORDER_DEF),
